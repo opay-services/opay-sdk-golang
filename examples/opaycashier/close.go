@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/opay-services/opay-sdk-golang/conf"
 	"github.com/opay-services/opay-sdk-golang/sdk/cashier"
+	"github.com/opay-services/opay-sdk-golang/sdk/conf"
 	"math/rand"
 	"time"
 )

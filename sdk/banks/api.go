@@ -2,15 +2,15 @@ package banks
 
 import (
 	"encoding/json"
-	"github.com/opay-services/opay-sdk-golang/conf"
-	"github.com/opay-services/opay-sdk-golang/sdk"
+	"github.com/opay-services/opay-sdk-golang/sdk/conf"
+	"github.com/opay-services/opay-sdk-golang/sdk/util"
 	"io/ioutil"
 	"net/http"
 	"strings"
 )
 
-func ApiGetBankList(countryCode string, opts ...sdk.HttpOption) (ret BankSupportResp, err error){
-	httpClient := sdk.NewHttpClient(opts...)
+func ApiGetBankList(countryCode string, opts ...util.HttpOption) (ret BankSupportResp, err error){
+	httpClient := util.NewHttpClient(opts...)
 
 	req := BankSupportReq{CountryCode:countryCode}
 

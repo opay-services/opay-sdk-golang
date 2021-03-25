@@ -2,19 +2,19 @@ package cashier
 
 import (
 	"encoding/json"
-	"github.com/opay-services/opay-sdk-golang/conf"
-	"github.com/opay-services/opay-sdk-golang/sdk"
+	"github.com/opay-services/opay-sdk-golang/sdk/conf"
+	"github.com/opay-services/opay-sdk-golang/sdk/util"
 	"io/ioutil"
 	"net/http"
 	"strings"
 )
 
-func ApiCashierInitializeReq(req CashierInitializeReq, opts ...sdk.HttpOption) (ret CashierInitializeResp, err error) {
+func ApiCashierInitializeReq(req CashierInitializeReq, opts ...util.HttpOption) (ret CashierInitializeResp, err error) {
 	if len(req.Currency) == 0 {
 		req.Currency = "NGN"
 	}
 
-	httpClient := sdk.NewHttpClient(opts...)
+	httpClient := util.NewHttpClient(opts...)
 
 	jsonReq, err := json.Marshal(&req)
 	if err != nil {
@@ -58,15 +58,15 @@ func ApiCashierInitializeReq(req CashierInitializeReq, opts ...sdk.HttpOption) (
 	return
 }
 
-func ApiCashierStatusReq(req CashierStatusReq, opts ...sdk.HttpOption) (ret CashierStatusResp, err error) {
-	httpClient := sdk.NewHttpClient(opts...)
+func ApiCashierStatusReq(req CashierStatusReq, opts ...util.HttpOption) (ret CashierStatusResp, err error) {
+	httpClient := util.NewHttpClient(opts...)
 
 	jsonReq, err := json.Marshal(&req)
 	if err != nil {
 		return
 	}
 
-	signStr := sdk.Signature(jsonReq)
+	signStr := util.Signature(jsonReq)
 
 	request, err := http.NewRequest(
 		"POST",
@@ -105,15 +105,15 @@ func ApiCashierStatusReq(req CashierStatusReq, opts ...sdk.HttpOption) (ret Cash
 	return
 }
 
-func ApiCashierCloseReq(req CashierCloseReq, opts ...sdk.HttpOption) (ret CashierCloseResp, err error) {
-	httpClient := sdk.NewHttpClient(opts...)
+func ApiCashierCloseReq(req CashierCloseReq, opts ...util.HttpOption) (ret CashierCloseResp, err error) {
+	httpClient := util.NewHttpClient(opts...)
 
 	jsonReq, err := json.Marshal(&req)
 	if err != nil {
 		return
 	}
 
-	signStr := sdk.Signature(jsonReq)
+	signStr := util.Signature(jsonReq)
 
 	request, err := http.NewRequest(
 		"POST",
@@ -153,16 +153,16 @@ func ApiCashierCloseReq(req CashierCloseReq, opts ...sdk.HttpOption) (ret Cashie
 }
 
 func ApiCashierRefundByBankAccountReq(req CashierRefundByBankAccountReq,
-	opts ...sdk.HttpOption) (ret CashierRefundStatusResp, err error) {
+	opts ...util.HttpOption) (ret CashierRefundStatusResp, err error) {
 
-	httpClient := sdk.NewHttpClient(opts...)
+	httpClient := util.NewHttpClient(opts...)
 
 	jsonReq, err := json.Marshal(&req)
 	if err != nil {
 		return
 	}
 
-	signStr := sdk.Signature(jsonReq)
+	signStr := util.Signature(jsonReq)
 
 	request, err := http.NewRequest(
 		"POST",
@@ -202,16 +202,16 @@ func ApiCashierRefundByBankAccountReq(req CashierRefundByBankAccountReq,
 }
 
 func ApiCashierRefundByOriginReq(req CashierRefundByOriginReq,
-	opts ...sdk.HttpOption) (ret CashierRefundStatusResp, err error) {
+	opts ...util.HttpOption) (ret CashierRefundStatusResp, err error) {
 
-	httpClient := sdk.NewHttpClient(opts...)
+	httpClient := util.NewHttpClient(opts...)
 
 	jsonReq, err := json.Marshal(&req)
 	if err != nil {
 		return
 	}
 
-	signStr := sdk.Signature(jsonReq)
+	signStr := util.Signature(jsonReq)
 
 	request, err := http.NewRequest(
 		"POST",
@@ -251,16 +251,16 @@ func ApiCashierRefundByOriginReq(req CashierRefundByOriginReq,
 }
 
 func ApiCashierRefundByOpayMerchantAccountReq(req CashierRefundByOpayMerchantAccountReq,
-	opts ...sdk.HttpOption) (ret CashierRefundStatusResp, err error) {
+	opts ...util.HttpOption) (ret CashierRefundStatusResp, err error) {
 
-	httpClient := sdk.NewHttpClient(opts...)
+	httpClient := util.NewHttpClient(opts...)
 
 	jsonReq, err := json.Marshal(&req)
 	if err != nil {
 		return
 	}
 
-	signStr := sdk.Signature(jsonReq)
+	signStr := util.Signature(jsonReq)
 
 	request, err := http.NewRequest(
 		"POST",
@@ -300,16 +300,16 @@ func ApiCashierRefundByOpayMerchantAccountReq(req CashierRefundByOpayMerchantAcc
 }
 
 func ApiCashierRefundByOpayUserAccountReq(req CashierRefundByOpayUserAccountReq,
-	opts ...sdk.HttpOption) (ret CashierRefundStatusResp, err error) {
+	opts ...util.HttpOption) (ret CashierRefundStatusResp, err error) {
 
-	httpClient := sdk.NewHttpClient(opts...)
+	httpClient := util.NewHttpClient(opts...)
 
 	jsonReq, err := json.Marshal(&req)
 	if err != nil {
 		return
 	}
 
-	signStr := sdk.Signature(jsonReq)
+	signStr := util.Signature(jsonReq)
 
 	request, err := http.NewRequest(
 		"POST",
@@ -349,9 +349,9 @@ func ApiCashierRefundByOpayUserAccountReq(req CashierRefundByOpayUserAccountReq,
 }
 
 func ApiCashierRefundStatusReq(req CashierRefundStatusReq,
-	opts ...sdk.HttpOption) (ret CashierRefundStatusResp, err error) {
+	opts ...util.HttpOption) (ret CashierRefundStatusResp, err error) {
 
-	httpClient := sdk.NewHttpClient(opts...)
+	httpClient := util.NewHttpClient(opts...)
 
 	jsonReq, err := json.Marshal(&req)
 	if err != nil {
@@ -360,7 +360,7 @@ func ApiCashierRefundStatusReq(req CashierRefundStatusReq,
 
 
 
-	signStr := sdk.Signature(jsonReq)
+	signStr := util.Signature(jsonReq)
 
 	request, err := http.NewRequest(
 		"POST",

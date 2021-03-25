@@ -2,14 +2,14 @@ package countries
 
 import (
 	"encoding/json"
-	"github.com/opay-services/opay-sdk-golang/conf"
-	"github.com/opay-services/opay-sdk-golang/sdk"
+	"github.com/opay-services/opay-sdk-golang/sdk/conf"
+	"github.com/opay-services/opay-sdk-golang/sdk/util"
 	"io/ioutil"
 	"net/http"
 )
 
-func ApiGetContriesSupport(opts ...sdk.HttpOption) (ret CountriesSupportResp, err error) {
-	httpClient := sdk.NewHttpClient(opts...)
+func ApiGetContriesSupport(opts ...util.HttpOption) (ret CountriesSupportResp, err error) {
+	httpClient := util.NewHttpClient(opts...)
 	request, err := http.NewRequest("POST", conf.GetApiHost()+"/api/v3/countries",  nil)
 	if err != nil{
 		return
