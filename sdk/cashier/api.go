@@ -14,6 +14,7 @@ func ApiCashierInitializeReq(req CashierInitializeReq, opts ...util.HttpOption) 
 		req.Currency = "NGN"
 	}
 
+	logf := conf.GetLog()
 	httpClient := util.NewHttpClient(opts...)
 
 	jsonReq, err := json.Marshal(&req)
@@ -34,9 +35,9 @@ func ApiCashierInitializeReq(req CashierInitializeReq, opts ...util.HttpOption) 
 	request.Header.Add("Authorization", "Bearer "+conf.GetPublicKey())
 	request.Header.Add("Content-Type", "application/json")
 
-	if conf.GetLog() != nil {
-		conf.GetLog()("req", request)
-		conf.GetLog()("req json:", string(jsonReq))
+	if logf != nil {
+		logf("req", request)
+		logf("req json:", string(jsonReq))
 	}
 
 	resp, err := httpClient.Do(request)
@@ -51,8 +52,8 @@ func ApiCashierInitializeReq(req CashierInitializeReq, opts ...util.HttpOption) 
 		return
 	}
 
-	if conf.GetLog() != nil {
-		conf.GetLog()(string(body))
+	if logf != nil {
+		logf(string(body))
 	}
 	err = json.Unmarshal(body, &ret)
 	return
@@ -60,6 +61,7 @@ func ApiCashierInitializeReq(req CashierInitializeReq, opts ...util.HttpOption) 
 
 func ApiCashierStatusReq(req CashierStatusReq, opts ...util.HttpOption) (ret CashierStatusResp, err error) {
 	httpClient := util.NewHttpClient(opts...)
+	logf := conf.GetLog()
 
 	jsonReq, err := json.Marshal(&req)
 	if err != nil {
@@ -81,9 +83,9 @@ func ApiCashierStatusReq(req CashierStatusReq, opts ...util.HttpOption) (ret Cas
 	request.Header.Add("Authorization", "Bearer "+signStr)
 	request.Header.Add("Content-Type", "application/json")
 
-	if conf.GetLog() != nil {
-		conf.GetLog()("req", request)
-		conf.GetLog()("req json:", string(jsonReq))
+	if logf != nil {
+		logf("req", request)
+		logf("req json:", string(jsonReq))
 	}
 
 	resp, err := httpClient.Do(request)
@@ -98,8 +100,8 @@ func ApiCashierStatusReq(req CashierStatusReq, opts ...util.HttpOption) (ret Cas
 		return
 	}
 
-	if conf.GetLog() != nil {
-		conf.GetLog()(string(body))
+	if logf != nil {
+		logf(string(body))
 	}
 	err = json.Unmarshal(body, &ret)
 	return
@@ -107,6 +109,7 @@ func ApiCashierStatusReq(req CashierStatusReq, opts ...util.HttpOption) (ret Cas
 
 func ApiCashierCloseReq(req CashierCloseReq, opts ...util.HttpOption) (ret CashierCloseResp, err error) {
 	httpClient := util.NewHttpClient(opts...)
+	logf := conf.GetLog()
 
 	jsonReq, err := json.Marshal(&req)
 	if err != nil {
@@ -128,9 +131,9 @@ func ApiCashierCloseReq(req CashierCloseReq, opts ...util.HttpOption) (ret Cashi
 	request.Header.Add("Authorization", "Bearer "+signStr)
 	request.Header.Add("Content-Type", "application/json")
 
-	if conf.GetLog() != nil {
-		conf.GetLog()("req", request)
-		conf.GetLog()("req json:", string(jsonReq))
+	if logf != nil {
+		logf("req", request)
+		logf("req json:", string(jsonReq))
 	}
 
 	resp, err := httpClient.Do(request)
@@ -145,8 +148,8 @@ func ApiCashierCloseReq(req CashierCloseReq, opts ...util.HttpOption) (ret Cashi
 		return
 	}
 
-	if conf.GetLog() != nil {
-		conf.GetLog()(string(body))
+	if logf != nil {
+		logf(string(body))
 	}
 	err = json.Unmarshal(body, &ret)
 	return
@@ -156,6 +159,7 @@ func ApiCashierRefundByBankAccountReq(req CashierRefundByBankAccountReq,
 	opts ...util.HttpOption) (ret CashierRefundStatusResp, err error) {
 
 	httpClient := util.NewHttpClient(opts...)
+	logf := conf.GetLog()
 
 	jsonReq, err := json.Marshal(&req)
 	if err != nil {
@@ -177,9 +181,9 @@ func ApiCashierRefundByBankAccountReq(req CashierRefundByBankAccountReq,
 	request.Header.Add("Authorization", "Bearer "+signStr)
 	request.Header.Add("Content-Type", "application/json")
 
-	if conf.GetLog() != nil {
-		conf.GetLog()("req", request)
-		conf.GetLog()("req json:", string(jsonReq))
+	if logf != nil {
+		logf("req", request)
+		logf("req json:", string(jsonReq))
 	}
 
 	resp, err := httpClient.Do(request)
@@ -194,8 +198,8 @@ func ApiCashierRefundByBankAccountReq(req CashierRefundByBankAccountReq,
 		return
 	}
 
-	if conf.GetLog() != nil {
-		conf.GetLog()(string(body))
+	if logf != nil {
+		logf(string(body))
 	}
 	err = json.Unmarshal(body, &ret)
 	return
@@ -205,6 +209,7 @@ func ApiCashierRefundByOriginReq(req CashierRefundByOriginReq,
 	opts ...util.HttpOption) (ret CashierRefundStatusResp, err error) {
 
 	httpClient := util.NewHttpClient(opts...)
+	logf := conf.GetLog()
 
 	jsonReq, err := json.Marshal(&req)
 	if err != nil {
@@ -226,9 +231,9 @@ func ApiCashierRefundByOriginReq(req CashierRefundByOriginReq,
 	request.Header.Add("Authorization", "Bearer "+signStr)
 	request.Header.Add("Content-Type", "application/json")
 
-	if conf.GetLog() != nil {
-		conf.GetLog()("req", request)
-		conf.GetLog()("req json:", string(jsonReq))
+	if logf != nil {
+		logf("req", request)
+		logf("req json:", string(jsonReq))
 	}
 
 	resp, err := httpClient.Do(request)
@@ -243,8 +248,8 @@ func ApiCashierRefundByOriginReq(req CashierRefundByOriginReq,
 		return
 	}
 
-	if conf.GetLog() != nil {
-		conf.GetLog()(string(body))
+	if logf != nil {
+		logf(string(body))
 	}
 	err = json.Unmarshal(body, &ret)
 	return
@@ -254,6 +259,7 @@ func ApiCashierRefundByOpayMerchantAccountReq(req CashierRefundByOpayMerchantAcc
 	opts ...util.HttpOption) (ret CashierRefundStatusResp, err error) {
 
 	httpClient := util.NewHttpClient(opts...)
+	logf := conf.GetLog()
 
 	jsonReq, err := json.Marshal(&req)
 	if err != nil {
@@ -275,9 +281,9 @@ func ApiCashierRefundByOpayMerchantAccountReq(req CashierRefundByOpayMerchantAcc
 	request.Header.Add("Authorization", "Bearer "+signStr)
 	request.Header.Add("Content-Type", "application/json")
 
-	if conf.GetLog() != nil {
-		conf.GetLog()("req", request)
-		conf.GetLog()("req json:", string(jsonReq))
+	if logf != nil {
+		logf("req", request)
+		logf("req json:", string(jsonReq))
 	}
 
 	resp, err := httpClient.Do(request)
@@ -292,8 +298,8 @@ func ApiCashierRefundByOpayMerchantAccountReq(req CashierRefundByOpayMerchantAcc
 		return
 	}
 
-	if conf.GetLog() != nil {
-		conf.GetLog()(string(body))
+	if logf != nil {
+		logf(string(body))
 	}
 	err = json.Unmarshal(body, &ret)
 	return
@@ -303,6 +309,7 @@ func ApiCashierRefundByOpayUserAccountReq(req CashierRefundByOpayUserAccountReq,
 	opts ...util.HttpOption) (ret CashierRefundStatusResp, err error) {
 
 	httpClient := util.NewHttpClient(opts...)
+	logf := conf.GetLog()
 
 	jsonReq, err := json.Marshal(&req)
 	if err != nil {
@@ -324,9 +331,9 @@ func ApiCashierRefundByOpayUserAccountReq(req CashierRefundByOpayUserAccountReq,
 	request.Header.Add("Authorization", "Bearer "+signStr)
 	request.Header.Add("Content-Type", "application/json")
 
-	if conf.GetLog() != nil {
-		conf.GetLog()("req", request)
-		conf.GetLog()("req json:", string(jsonReq))
+	if logf != nil {
+		logf("req", request)
+		logf("req json:", string(jsonReq))
 	}
 
 	resp, err := httpClient.Do(request)
@@ -341,8 +348,8 @@ func ApiCashierRefundByOpayUserAccountReq(req CashierRefundByOpayUserAccountReq,
 		return
 	}
 
-	if conf.GetLog() != nil {
-		conf.GetLog()(string(body))
+	if logf != nil {
+		logf(string(body))
 	}
 	err = json.Unmarshal(body, &ret)
 	return
@@ -352,13 +359,12 @@ func ApiCashierRefundStatusReq(req CashierRefundStatusReq,
 	opts ...util.HttpOption) (ret CashierRefundStatusResp, err error) {
 
 	httpClient := util.NewHttpClient(opts...)
+	logf := conf.GetLog()
 
 	jsonReq, err := json.Marshal(&req)
 	if err != nil {
 		return
 	}
-
-
 
 	signStr := util.Signature(jsonReq)
 
@@ -375,9 +381,9 @@ func ApiCashierRefundStatusReq(req CashierRefundStatusReq,
 	request.Header.Add("Authorization", "Bearer "+signStr)
 	request.Header.Add("Content-Type", "application/json")
 
-	if conf.GetLog() != nil {
-		conf.GetLog()("req", request)
-		conf.GetLog()("req json:", string(jsonReq))
+	if logf != nil {
+		logf("req", request)
+		logf("req json:", string(jsonReq))
 	}
 	resp, err := httpClient.Do(request)
 	if err != nil {
@@ -391,8 +397,8 @@ func ApiCashierRefundStatusReq(req CashierRefundStatusReq,
 		return
 	}
 
-	if conf.GetLog() != nil {
-		conf.GetLog()("ApiCashierRefundStatusReq http response:", string(body))
+	if logf != nil {
+		logf("ApiCashierRefundStatusReq http response:", string(body))
 	}
 	err = json.Unmarshal(body, &ret)
 	return
