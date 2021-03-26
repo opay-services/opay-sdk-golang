@@ -36,7 +36,7 @@ func TestApiCashierInitialize(t *testing.T) {
 	req.Currency = "NGN"
 	req.PayTypes = []string{"BalancePayment", "BonusPayment", "OWealth"}
 	req.PayMethods = []string{"account", "qrcode", "bankCard", "bankAccount"}
-	req.ExpireAt = 10
+	req.ExpireAt = "10"
 	req.CallbackUrl = "http://localhost:8080"
 	req.ReturnUrl = "http://localhost:8080"
 	ApiCashierInitializeReq(req)

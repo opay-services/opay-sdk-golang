@@ -9,7 +9,7 @@ type CashierInitializeReq struct {
 	/*Currency charge should be performed in. Default is NGN*/
 	Currency string `json:"currency,omitempty"`
 	/*Transaction would be closed within specific time. Value is in minute.*/
-	ExpireAt int `json:"expireAt,omitempty"`
+	ExpireAt string `json:"expireAt,omitempty"`
 	/*The short name of a Merchant. It's displayed on the payment confirmation page.*/
 	MchShortName string `json:"mchShortName,omitempty"`
 
@@ -71,9 +71,9 @@ type CashierInitializeRespDetail struct {
 }
 
 type CashierInitializeResp struct {
-	Code    string                      `json:"code"`
-	Data    CashierInitializeRespDetail `json:"data"`
-	Message string                      `json:"message"`
+	Code    string                       `json:"code"`
+	Data    *CashierInitializeRespDetail `json:"data"`
+	Message string                       `json:"message"`
 }
 
 type CashierStatusReq struct {
@@ -99,9 +99,9 @@ type CashierStatusRespDetail struct {
 }
 
 type CashierStatusResp struct {
-	Code    string                  `json:"code"`
-	Data    CashierStatusRespDetail `json:"data"`
-	Message string                  `json:"message"`
+	Code    string                   `json:"code"`
+	Data    *CashierStatusRespDetail `json:"data"`
+	Message string                   `json:"message"`
 }
 
 type CashierCloseReq struct {
@@ -121,15 +121,15 @@ type CashierCloseRespDetail struct {
 }
 
 type CashierCloseResp struct {
-	Code    string                 `json:"code"`
-	Data    CashierCloseRespDetail `json:"data"`
-	Message string                 `json:"message"`
+	Code    string                  `json:"code"`
+	Data    *CashierCloseRespDetail `json:"data"`
+	Message string                  `json:"message"`
 }
 
 type CashierRefundByOriginReq struct {
 	/*Amount in kobo*/
-	Amount string `json:"amount,omitempty"`
-	Country  string `json:"country,omitempty"`
+	Amount  string `json:"amount,omitempty"`
+	Country string `json:"country,omitempty"`
 	/*Currency charge should be performed in. Default is NGN*/
 	Currency string `json:"currency,omitempty"`
 	/*Order number of merchant original*/
@@ -145,7 +145,7 @@ type CashierRefundByBankAccountReq struct {
 	Amount            string `json:"amount,omitempty"`
 	BankAccountNumber string `json:"bankAccountNumber"`
 	BankCode          string `json:"bankCode"`
-	Country  string `json:"country,omitempty"`
+	Country           string `json:"country,omitempty"`
 	/*Currency charge should be performed in. Default is NGN*/
 	Currency string `json:"currency,omitempty"`
 	/*Order number of merchant original*/
@@ -163,8 +163,8 @@ type MerchantReceiver struct {
 
 type CashierRefundByOpayMerchantAccountReq struct {
 	/*Amount in kobo*/
-	Amount string `json:"amount,omitempty"`
-	Country  string `json:"country,omitempty"`
+	Amount  string `json:"amount,omitempty"`
+	Country string `json:"country,omitempty"`
 	/*Currency charge should be performed in. Default is NGN*/
 	Currency string `json:"currency,omitempty"`
 	/*Order number of merchant original*/
@@ -183,8 +183,8 @@ type UserReceiver struct {
 
 type CashierRefundByOpayUserAccountReq struct {
 	/*Amount in kobo*/
-	Amount string `json:"amount,omitempty"`
-	Country  string `json:"country,omitempty"`
+	Amount  string `json:"amount,omitempty"`
+	Country string `json:"country,omitempty"`
 	/*Currency charge should be performed in. Default is NGN*/
 	Currency string `json:"currency,omitempty"`
 
@@ -205,9 +205,9 @@ type CashierRefundStatusRespDetail struct {
 }
 
 type CashierRefundStatusResp struct {
-	Code    string                        `json:"code"`
-	Data    CashierRefundStatusRespDetail `json:"data"`
-	Message string                        `json:"message"`
+	Code    string                         `json:"code"`
+	Data    *CashierRefundStatusRespDetail `json:"data"`
+	Message string                         `json:"message"`
 }
 
 type CashierRefundStatusReq struct {
