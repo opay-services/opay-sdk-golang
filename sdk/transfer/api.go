@@ -119,6 +119,7 @@ func ApiTransferToBank(req ToBankReq, opts ...util.HttpOption) (ret StatusToBank
 		return
 	}
 
+
 	request, err := http.NewRequest(
 		"POST",
 		conf.GetApiHost()+"/api/v3/transfer/toBank",

@@ -107,7 +107,7 @@ func TestApiUssdCodeReq(t *testing.T) {
 }
 
 func TestApiUssdOrderStatusReq(t *testing.T) {
-	req := UssdOrderStatusReq{Reference:"testlijian_1616751283073712000"}
+	req := UssdOrderStatusReq{Reference:"testlijian_1616753993664468000"}
 	ret, err := ApiUssdOrderStatusReq(req)
 	if err != nil{
 		fmt.Println(ret, err)
