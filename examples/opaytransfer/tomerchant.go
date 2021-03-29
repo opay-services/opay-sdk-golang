@@ -18,9 +18,9 @@ func init()  {
 	)
 
 
-	/*conf.SetLog(func(a ...interface{}) {
+	conf.SetLog(func(a ...interface{}) {
 		fmt.Println(a...)
-	})*/
+	})
 	rand.Seed(time.Now().Unix())
 }
 
@@ -38,9 +38,14 @@ func main()  {
 		Name:"Andy Lee",
 	}
 	rsp, err := transfer.ApiTransferToOWalletMerchant(req)
-	fmt.Printf("rsp:%+v, err:%v\n", rsp, err)
+	if err != nil{
+		fmt.Println(err)
+		return
+	}
+	if rsp.Code != "00000"{
+		return
+	}
 
 	//query status
 	rsp, err = transfer.ApiStatusToWalletReq(transfer.StatusToWalletReq{Reference:req.Reference})
-	fmt.Printf("rsp:%+v, err:%v\n", rsp, err)
 }

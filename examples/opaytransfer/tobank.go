@@ -18,9 +18,9 @@ func init()  {
 	)
 
 
-	/*conf.SetLog(func(a ...interface{}) {
+	conf.SetLog(func(a ...interface{}) {
 		fmt.Println(a...)
-	})*/
+	})
 	rand.Seed(time.Now().Unix())
 }
 
@@ -40,9 +40,14 @@ func main()  {
 	}
 
 	rsp, err := transfer.ApiTransferToBank(req)
-	fmt.Printf("resp:%+v and err:%v\n", rsp, err)
+	if err != nil{
+		fmt.Println(err)
+		return
+	}
+	if rsp.Code != "00000"{
+		return
+	}
 
 	//query status
 	rsp, err = transfer.ApiStatusToBankReq(transfer.StatusToBankReq{Reference:req.Reference})
-	fmt.Printf("resp:%+v and err:%v\n", rsp, err)
 }
