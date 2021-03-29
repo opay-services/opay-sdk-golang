@@ -35,7 +35,9 @@ func parseArray(value reflect.Value) string {
 				ret += "false"
 			}
 		case reflect.String:
+			ret += "\""
 			ret += v.String()
+			ret += "\""
 		case reflect.Struct:
 			ret += parseStruct(v.Interface())
 		case reflect.Array:

@@ -20,9 +20,9 @@ func init()  {
 	)
 
 
-	/*conf.SetLog(func(a ...interface{}) {
+	conf.SetLog(func(a ...interface{}) {
 		fmt.Println(a...)
-	})*/
+	})
 	rand.Seed(time.Now().Unix())
 }
 
@@ -48,7 +48,9 @@ func main()  {
 		return
 	}
 
-	fmt.Printf("ret:%+v, err:%v", rsp, err)
+	if rsp.Code != "00000" {
+		return
+	}
 	//click rsp.Data.CashierUrl, you can select opay owealth, by guild, then input pincode is:123456
 	// otp is:123456。if success,  after 5s will jump req.ReturnUrl web page
 
@@ -63,6 +65,13 @@ func main()  {
 	//query order status
 	statusReq := cashier.CashierStatusReq{Reference:req.Reference}
 	ret, err := cashier.ApiCashierStatusReq(statusReq)
-	fmt.Printf("ret:%+v, err:%v", ret, err)
+	if err != nil{
+		fmt.Println(err)
+		return
+	}
+
+	if ret.Code != "00000"{
+		return
+	}
 
 }

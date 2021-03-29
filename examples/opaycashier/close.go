@@ -18,9 +18,9 @@ func init()  {
 	)
 
 
-	/*conf.SetLog(func(a ...interface{}) {
+	conf.SetLog(func(a ...interface{}) {
 		fmt.Println(a...)
-	})*/
+	})
 	rand.Seed(time.Now().Unix())
 }
 
@@ -38,7 +38,7 @@ func main()  {
 	req.Currency = "NGN"
 	req.PayTypes = []string{"BalancePayment", "BonusPayment", "OWealth"}
 	req.PayMethods = []string{"account", "qrcode", "bankCard", "bankAccount"}
-	req.ExpireAt = 10
+	req.ExpireAt = "10"
 	req.CallbackUrl = "http://localhost:8080"
 	req.ReturnUrl = "http://localhost:8080"
 	rsp, err := cashier.ApiCashierInitializeReq(req)
@@ -46,15 +46,20 @@ func main()  {
 		fmt.Println(err)
 		return
 	}
+	if rsp.Code != "00000"{
+		return
+	}
 
-	fmt.Printf("ret:%+v, err:%v\n", rsp, err)
 
 	//query order status
 	ret, err := cashier.ApiCashierStatusReq(cashier.CashierStatusReq{Reference:req.Reference})
-	fmt.Printf("ret:%+v, err:%v\n", ret, err)
+	if ret.Code != "00000"{
 
+	}
 	//close order
 	//only init status can close
 	c, err := cashier.ApiCashierCloseReq(cashier.CashierCloseReq{Reference:req.Reference})
-	fmt.Printf("ret:%+v, err:%v\n", c, err)
+	if c.Code != "00000"{
+
+	}
 }

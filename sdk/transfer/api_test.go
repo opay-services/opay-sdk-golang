@@ -3,7 +3,6 @@ package transfer
 import (
 	"fmt"
 	"github.com/opay-services/opay-sdk-golang/sdk/conf"
-	"github.com/opay-services/opay-sdk-golang/sdk/util"
 	"math/rand"
 	"testing"
 	"time"
@@ -68,9 +67,6 @@ func TestApiTransferToBank(t *testing.T) {
 		NameCheck:"yes",
 		Name:"test",
 	}
-
-	opayJsonReq, err := util.OpayJsonMarshal(&req)
-	fmt.Println(opayJsonReq, err)
 
 	rsp, _ := ApiTransferToBank(req)
 	fmt.Println(rsp)

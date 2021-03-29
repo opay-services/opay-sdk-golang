@@ -26,5 +26,5 @@ func init()  {
 
 func TestApiGetContriesSupport(t *testing.T) {
 	ret, err := ApiGetContriesSupport()
-	fmt.Println(ret, err)
+	fmt.Printf("%+v, err:%v\n", ret, err)
 }

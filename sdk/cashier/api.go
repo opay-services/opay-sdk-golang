@@ -17,7 +17,7 @@ func ApiCashierInitializeReq(req CashierInitializeReq, opts ...util.HttpOption) 
 	logf := conf.GetLog()
 	httpClient := util.NewHttpClient(opts...)
 
-	jsonReq, err := json.Marshal(&req)
+	jsonReq, err := util.OpayJsonMarshal(&req)
 	if err != nil {
 		return
 	}
@@ -111,12 +111,12 @@ func ApiCashierCloseReq(req CashierCloseReq, opts ...util.HttpOption) (ret Cashi
 	httpClient := util.NewHttpClient(opts...)
 	logf := conf.GetLog()
 
-	jsonReq, err := json.Marshal(&req)
+	jsonReq, err := util.OpayJsonMarshal(&req)
 	if err != nil {
 		return
 	}
 
-	signStr := util.Signature(jsonReq)
+	signStr := util.Signature([]byte(jsonReq))
 
 	request, err := http.NewRequest(
 		"POST",
@@ -161,12 +161,12 @@ func ApiCashierRefundByBankAccountReq(req CashierRefundByBankAccountReq,
 	httpClient := util.NewHttpClient(opts...)
 	logf := conf.GetLog()
 
-	jsonReq, err := json.Marshal(&req)
+	jsonReq, err := util.OpayJsonMarshal(&req)
 	if err != nil {
 		return
 	}
 
-	signStr := util.Signature(jsonReq)
+	signStr := util.Signature([]byte(jsonReq))
 
 	request, err := http.NewRequest(
 		"POST",
@@ -211,12 +211,12 @@ func ApiCashierRefundByOriginReq(req CashierRefundByOriginReq,
 	httpClient := util.NewHttpClient(opts...)
 	logf := conf.GetLog()
 
-	jsonReq, err := json.Marshal(&req)
+	jsonReq, err := util.OpayJsonMarshal(&req)
 	if err != nil {
 		return
 	}
 
-	signStr := util.Signature(jsonReq)
+	signStr := util.Signature([]byte(jsonReq))
 
 	request, err := http.NewRequest(
 		"POST",
@@ -261,12 +261,12 @@ func ApiCashierRefundByOpayMerchantAccountReq(req CashierRefundByOpayMerchantAcc
 	httpClient := util.NewHttpClient(opts...)
 	logf := conf.GetLog()
 
-	jsonReq, err := json.Marshal(&req)
+	jsonReq, err := util.OpayJsonMarshal(&req)
 	if err != nil {
 		return
 	}
 
-	signStr := util.Signature(jsonReq)
+	signStr := util.Signature([]byte(jsonReq))
 
 	request, err := http.NewRequest(
 		"POST",
@@ -311,12 +311,12 @@ func ApiCashierRefundByOpayUserAccountReq(req CashierRefundByOpayUserAccountReq,
 	httpClient := util.NewHttpClient(opts...)
 	logf := conf.GetLog()
 
-	jsonReq, err := json.Marshal(&req)
+	jsonReq, err := util.OpayJsonMarshal(&req)
 	if err != nil {
 		return
 	}
 
-	signStr := util.Signature(jsonReq)
+	signStr := util.Signature([]byte(jsonReq))
 
 	request, err := http.NewRequest(
 		"POST",
@@ -361,12 +361,12 @@ func ApiCashierRefundStatusReq(req CashierRefundStatusReq,
 	httpClient := util.NewHttpClient(opts...)
 	logf := conf.GetLog()
 
-	jsonReq, err := json.Marshal(&req)
+	jsonReq, err := util.OpayJsonMarshal(&req)
 	if err != nil {
 		return
 	}
 
-	signStr := util.Signature(jsonReq)
+	signStr := util.Signature([]byte(jsonReq))
 
 	request, err := http.NewRequest(
 		"POST",

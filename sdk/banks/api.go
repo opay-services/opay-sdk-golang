@@ -14,7 +14,7 @@ func ApiGetBankList(countryCode string, opts ...util.HttpOption) (ret BankSuppor
 
 	req := BankSupportReq{CountryCode:countryCode}
 
-	jsonReq, err := json.Marshal(&req)
+	jsonReq, err := util.OpayJsonMarshal(&req)
 	if err != nil{
 		return
 	}

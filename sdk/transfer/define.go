@@ -8,14 +8,14 @@ type OWalletReceiverUser struct {
 }
 
 type ToOWalletUserReq struct {
+	/*Order number of merchant (unique order number from merchant platform)*/
+	Reference string `json:"reference"`
 	/*Amount to transfer in kobo*/
 	Amount   string              `json:"amount"`
 	Country  string              `json:"country"`
 	Currency string              `json:"currency"`
-	Reason   string              `json:"reason,omitempty"`
 	Receiver OWalletReceiverUser `json:"receiver"`
-	/*Order number of merchant (unique order number from merchant platform)*/
-	Reference string `json:"reference"`
+	Reason   string              `json:"reason,omitempty"`
 }
 
 type OWalletReceiverMerchant struct {
@@ -30,14 +30,14 @@ type OWalletReceiverMerchant struct {
 }
 
 type ToOWalletMerchantReq struct {
+	/*Order number of merchant (unique order number from merchant platform)*/
+	Reference string `json:"reference"`
 	/*Amount to transfer in kobo*/
 	Amount   string                  `json:"amount"`
 	Country  string                  `json:"country"`
 	Currency string                  `json:"currency"`
-	Reason   string                  `json:"reason,omitempty"`
 	Receiver OWalletReceiverMerchant `json:"receiver"`
-	/*Order number of merchant (unique order number from merchant platform)*/
-	Reference string `json:"reference"`
+	Reason   string                  `json:"reason,omitempty"`
 }
 
 type StatusToOWalletData struct {
@@ -74,14 +74,14 @@ type BankReceiver struct {
 }
 
 type ToBankReq struct {
+	/*Order number of merchant (unique order number from merchant platform)*/
+	Reference string `json:"reference"`
 	/*Amount to transfer in kobo*/
 	Amount   string       `json:"amount"`
 	Country  string       `json:"country"`
 	Currency string       `json:"currency"`
-	Reason   string       `json:"reason,omitempty"`
 	Receiver BankReceiver `json:"receiver"`
-	/*Order number of merchant (unique order number from merchant platform)*/
-	Reference string `json:"reference"`
+	Reason   string       `json:"reason,omitempty"`
 }
 
 type StatusToBankData struct {

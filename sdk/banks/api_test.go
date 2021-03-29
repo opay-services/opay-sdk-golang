@@ -26,5 +26,5 @@ func init()  {
 
 func TestApiGetBankList(t *testing.T) {
 	resp, err := ApiGetBankList("NG")
-	fmt.Println(resp, err)
+	fmt.Printf("%+v, err:%v\n", resp, err)
 }
