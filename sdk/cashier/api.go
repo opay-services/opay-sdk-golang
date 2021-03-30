@@ -60,6 +60,7 @@ func ApiCashierInitializeReq(req CashierInitializeReq, opts ...util.HttpOption) 
 }
 
 func ApiCashierStatusReq(req CashierStatusReq, opts ...util.HttpOption) (ret CashierStatusResp, err error) {
+
 	httpClient := util.NewHttpClient(opts...)
 	logf := conf.GetLog()
 
