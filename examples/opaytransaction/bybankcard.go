@@ -1,10 +1,12 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"github.com/opay-services/opay-sdk-golang/sdk/conf"
 	"github.com/opay-services/opay-sdk-golang/sdk/transaction"
 	"math/rand"
+	"os"
 	"time"
 )
 
@@ -23,7 +25,7 @@ func init() {
 	rand.Seed(time.Now().Unix())
 }
 
-func main() {
+func pinopt()  {
 	/*bank card transaction with pin + opt
 	1. create an order
 	2. query order status, if order status is pending,
@@ -144,4 +146,132 @@ labover:
 		}
 
 	}
+}
+
+func pin3ds()  {
+	/*bank card transaction with pin + opt
+	1. create an order
+	2. query order status, if order status is pending,
+	   You should keep querying the order status
+	   until the final status or the required
+	   input status (input-pin, input-opt, input-dob, input-phone)
+	3.if return input-status,
+	*/
+	req := transaction.ByBankCardReq{}
+	req.Amount = "100"
+	req.Reference = fmt.Sprintf("testlijian_%v", time.Now().UnixNano())
+	req.Currency = "NGN"
+	req.Country = "NG"
+	req.BankCode = "033"
+	req.Reason = "test"
+	req.CustomerEmail = "xxx@163.com"
+	req.Return3dsUrl = "http://localhost:8080"
+	req.ExpireAt = "10"
+	req.CallbackUrl = "http://localhost:8080"
+	req.FirstName = "li"
+	req.LastName = "jian"
+	req.CardCVC = "562"
+	req.CardDateYear = "22"
+	req.CardDateMonth = "12"
+	req.CardNumber = "5061460410121111106"
+
+	ret, err := transaction.ApiByBankCardReq(req)
+	if err != nil {
+		fmt.Println(ret, err)
+	}
+
+labstatus:
+	//query status
+	{
+		for i := 0; i < 10; i++ {
+			time.Sleep(2 * time.Second)
+			reqStatus := transaction.StatusReq{Reference: req.Reference}
+			ret, err := transaction.ApiStatusReq(reqStatus)
+			if err != nil {
+				//you can retry if occur  Network failure
+				fmt.Println(ret, err)
+				return
+			}
+
+			if ret.Code != "00000" {
+				return
+			}
+
+			switch ret.Data.Status {
+			case "INITIAL", "PENDING":
+				break
+			case "INPUT-PIN":
+				goto labpin
+
+			case "3DSECURE":
+				goto lab3ds
+
+			case "INPUT-PHONE", "INPUT-DOB", "INPUT-OPT":
+				//realized
+				return
+
+			case "SUCCESS", "FAIL", "CLOSE":
+				return
+			}
+		}
+		//time out
+		return
+	}
+
+labpin:
+	//input pin
+	{
+
+		reqPin := transaction.InputPinReq{Pin: "1106"}
+		reqPin.Reference = req.Reference
+		ret, err := transaction.ApiInputPinReq(reqPin)
+		if err != nil {
+			fmt.Println(ret, err)
+		}
+
+		if ret.Code != "00000" {
+			return
+		}
+
+		if ret.Data.Status == "PENDING" {
+			goto labstatus
+		}
+		goto labover
+	}
+
+lab3ds:
+	{
+		{
+			reqStatus := transaction.StatusReq{Reference: req.Reference}
+			ret, err := transaction.ApiStatusReq(reqStatus)
+			if err != nil {
+				//you can retry if occur  Network failure
+				fmt.Println(ret, err)
+				return
+			}
+			fmt.Println("please press enter...")
+			inputReader := bufio.NewReader(os.Stdin)
+			input, err := inputReader.ReadString('\n')
+			if err != nil{
+				fmt.Println(input, err)
+			}
+		}
+	}
+
+labover:
+	//query status, Security verification via authurl
+	{
+		reqStatus := transaction.StatusReq{Reference: req.Reference}
+		ret, err := transaction.ApiStatusReq(reqStatus)
+		if err != nil {
+			//you can retry if occur  Network failure
+			fmt.Println(ret, err)
+			return
+		}
+
+	}
+}
+
+func main() {
+	pin3ds()
 }
