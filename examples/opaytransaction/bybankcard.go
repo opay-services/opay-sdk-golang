@@ -2,8 +2,11 @@ package main
 
 import (
 	"bufio"
+	"encoding/json"
 	"fmt"
+	"github.com/gin-gonic/gin"
 	"github.com/opay-services/opay-sdk-golang/sdk/conf"
+	"github.com/opay-services/opay-sdk-golang/sdk/ips"
 	"github.com/opay-services/opay-sdk-golang/sdk/transaction"
 	"math/rand"
 	"os"
@@ -25,15 +28,51 @@ func init() {
 	rand.Seed(time.Now().Unix())
 }
 
+func web()  {
+	r := gin.Default()
+	r.GET("/dscallback", func(c *gin.Context) {
+		buf := make([]byte, 1024)
+
+		n, _ := c.Request.Body.Read(buf)
+
+		fmt.Println(string(buf[0:n]))
+	})
+
+	r.POST("/callback", func(c *gin.Context) {
+		buf := make([]byte, 1024)
+
+		n, _ := c.Request.Body.Read(buf)
+		fmt.Println(string(buf[0:n]))
+
+		notify := ips.Notify{}
+		err := json.Unmarshal(buf[:n], &notify)
+		if err != nil {
+			fmt.Println(err)
+		}else {
+			notify.VerfiySignature()
+		}
+	})
+	r.Run(":8080")
+}
+
 func pinopt()  {
 	/*bank card transaction with pin + opt
+	final status : close, fail, succee
+	input status : input-pin, input-phone, input-opt, input-dob, 3DSECURE
 	1. create an order
 	2. query order status, if order status is pending,
 	   You should keep querying the order status
 	   until the final status or the required
 	   input status (input-pin, input-opt, input-dob, input-phone)
-	3.if return input-status,
+	3.if return input-status, You should notify the user to enter the corresponding code
+	  eg. status is "INPUT_PIN", you receive input from your user input, then call ApiInputPin
+	  req, then query status, goto step 2
+
+	4.The asynchronous callback address after transaction successful, refer web()/callback
 	*/
+
+
+	//step1: create an order
 	req := transaction.ByBankCardReq{}
 	req.Amount = "100"
 	req.Reference = fmt.Sprintf("testlijian_%v", time.Now().UnixNano())
@@ -42,9 +81,9 @@ func pinopt()  {
 	req.BankCode = "033"
 	req.Reason = "test"
 	req.CustomerEmail = "xxx@163.com"
-	req.Return3dsUrl = "http://localhost:8080"
+	req.Return3dsUrl = "https://6f237770df1b.ngrok.io/dscallback"
 	req.ExpireAt = "10"
-	req.CallbackUrl = "http://localhost:8080"
+	req.CallbackUrl = "https://6f237770df1b.ngrok.io/callback"
 	req.FirstName = "li"
 	req.LastName = "jian"
 	req.CardCVC = "561"
@@ -58,7 +97,7 @@ func pinopt()  {
 	}
 
 labstatus:
-	//query status
+	//step2: query status util input status or final status
 	{
 		for i := 0; i < 10; i++ {
 			time.Sleep(2 * time.Second)
@@ -82,7 +121,7 @@ labstatus:
 			case "INPUT-OTP":
 				goto labopt
 			case "INPUT-PHONE", "INPUT-DOB", "3DSECURE":
-				//realized
+				//waiting realized
 				return
 
 			case "SUCCESS", "FAIL", "CLOSE":
@@ -94,9 +133,9 @@ labstatus:
 	}
 
 labpin:
-	//input pin
+	//input pin from user
 	{
-
+		fmt.Println("please input pin code from user")
 		reqPin := transaction.InputPinReq{Pin: "1105"}
 		reqPin.Reference = req.Reference
 		ret, err := transaction.ApiInputPinReq(reqPin)
@@ -116,6 +155,7 @@ labpin:
 
 labopt:
 	{
+		//input opt from user
 		reqOpt := transaction.InputOtpReq{}
 		reqOpt.Reference = req.Reference
 		reqOpt.Otp = "543210"
@@ -155,7 +195,11 @@ func pin3ds()  {
 	   You should keep querying the order status
 	   until the final status or the required
 	   input status (input-pin, input-opt, input-dob, input-phone)
-	3.if return input-status,
+	3.if return input-status, You should notify the user to enter the corresponding code
+	  eg. status is "INPUT_PIN", you receive input from your user input, then call ApiInputPin
+	  req, then query status, goto step 2
+
+	4.The asynchronous callback address after transaction successful, refer web()/callback
 	*/
 	req := transaction.ByBankCardReq{}
 	req.Amount = "100"
@@ -165,9 +209,9 @@ func pin3ds()  {
 	req.BankCode = "033"
 	req.Reason = "test"
 	req.CustomerEmail = "xxx@163.com"
-	req.Return3dsUrl = "http://localhost:8080"
+	req.Return3dsUrl = "https://6f237770df1b.ngrok.io/dscallback"
 	req.ExpireAt = "10"
-	req.CallbackUrl = "http://localhost:8080"
+	req.CallbackUrl = "https://6f237770df1b.ngrok.io/callback"
 	req.FirstName = "li"
 	req.LastName = "jian"
 	req.CardCVC = "562"
@@ -219,7 +263,7 @@ labstatus:
 	}
 
 labpin:
-	//input pin
+	//input pin from user
 	{
 
 		reqPin := transaction.InputPinReq{Pin: "1106"}
@@ -273,5 +317,10 @@ labover:
 }
 
 func main() {
+	go web()
+	time.Sleep(1*time.Second)
 	pin3ds()
+	fmt.Println("please press enter ...")
+	inputReader := bufio.NewReader(os.Stdin)
+	inputReader.ReadString('\n')
 }

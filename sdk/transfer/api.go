@@ -28,7 +28,7 @@ func ApiTransferToOWalletUser(req ToOWalletUserReq, opts ...util.HttpOption) (re
 		return
 	}
 
-	singStr := util.Signature([]byte(jsonReq))
+	singStr := util.SignatureSHA512([]byte(jsonReq))
 	request.Header.Add("MerchantId", conf.GetMerchantId())
 	request.Header.Add("Authorization", "Bearer "+singStr)
 	request.Header.Add("Content-Type", "application/json")
@@ -76,7 +76,7 @@ func ApiTransferToOWalletMerchant(req ToOWalletMerchantReq, opts ...util.HttpOpt
 		return
 	}
 
-	singStr := util.Signature([]byte(jsonReq))
+	singStr := util.SignatureSHA512([]byte(jsonReq))
 	request.Header.Add("MerchantId", conf.GetMerchantId())
 	request.Header.Add("Authorization", "Bearer "+singStr)
 	request.Header.Add("Content-Type", "application/json")
@@ -129,7 +129,7 @@ func ApiTransferToBank(req ToBankReq, opts ...util.HttpOption) (ret StatusToBank
 	if err != nil {
 		return
 	}
-	singStr := util.Signature([]byte(jsonReq))
+	singStr := util.SignatureSHA512([]byte(jsonReq))
 	request.Header.Add("MerchantId", conf.GetMerchantId())
 	request.Header.Add("Authorization", "Bearer " + singStr)
 	request.Header.Add("Content-Type", "application/json")
@@ -177,7 +177,7 @@ func ApiStatusToWalletReq(req StatusToWalletReq, opts ...util.HttpOption) (ret S
 		return
 	}
 
-	signStr := util.Signature([]byte(jsonReq))
+	signStr := util.SignatureSHA512([]byte(jsonReq))
 	request.Header.Add("MerchantId", conf.GetMerchantId())
 	request.Header.Add("Authorization", "Bearer " + signStr)
 	request.Header.Add("Content-Type", "application/json")
@@ -225,7 +225,7 @@ func ApiStatusToBankReq(req StatusToBankReq, opts ...util.HttpOption) (ret Statu
 		return
 	}
 
-	signStr := util.Signature([]byte(jsonReq))
+	signStr := util.SignatureSHA512([]byte(jsonReq))
 	request.Header.Add("MerchantId", conf.GetMerchantId())
 	request.Header.Add("Authorization", "Bearer " + signStr)
 	request.Header.Add("Content-Type", "application/json")

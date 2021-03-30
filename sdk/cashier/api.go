@@ -68,7 +68,7 @@ func ApiCashierStatusReq(req CashierStatusReq, opts ...util.HttpOption) (ret Cas
 		return
 	}
 
-	signStr := util.Signature(jsonReq)
+	signStr := util.SignatureSHA512(jsonReq)
 
 	request, err := http.NewRequest(
 		"POST",
@@ -116,7 +116,7 @@ func ApiCashierCloseReq(req CashierCloseReq, opts ...util.HttpOption) (ret Cashi
 		return
 	}
 
-	signStr := util.Signature([]byte(jsonReq))
+	signStr := util.SignatureSHA512([]byte(jsonReq))
 
 	request, err := http.NewRequest(
 		"POST",
@@ -166,7 +166,7 @@ func ApiCashierRefundByBankAccountReq(req CashierRefundByBankAccountReq,
 		return
 	}
 
-	signStr := util.Signature([]byte(jsonReq))
+	signStr := util.SignatureSHA512([]byte(jsonReq))
 
 	request, err := http.NewRequest(
 		"POST",
@@ -216,7 +216,7 @@ func ApiCashierRefundByOriginReq(req CashierRefundByOriginReq,
 		return
 	}
 
-	signStr := util.Signature([]byte(jsonReq))
+	signStr := util.SignatureSHA512([]byte(jsonReq))
 
 	request, err := http.NewRequest(
 		"POST",
@@ -266,7 +266,7 @@ func ApiCashierRefundByOpayMerchantAccountReq(req CashierRefundByOpayMerchantAcc
 		return
 	}
 
-	signStr := util.Signature([]byte(jsonReq))
+	signStr := util.SignatureSHA512([]byte(jsonReq))
 
 	request, err := http.NewRequest(
 		"POST",
@@ -316,7 +316,7 @@ func ApiCashierRefundByOpayUserAccountReq(req CashierRefundByOpayUserAccountReq,
 		return
 	}
 
-	signStr := util.Signature([]byte(jsonReq))
+	signStr := util.SignatureSHA512([]byte(jsonReq))
 
 	request, err := http.NewRequest(
 		"POST",
@@ -366,7 +366,7 @@ func ApiCashierRefundStatusReq(req CashierRefundStatusReq,
 		return
 	}
 
-	signStr := util.Signature([]byte(jsonReq))
+	signStr := util.SignatureSHA512([]byte(jsonReq))
 
 	request, err := http.NewRequest(
 		"POST",

@@ -322,7 +322,7 @@ func ApiStatusReq(req StatusReq, opts ...util.HttpOption)(ret StatusResp, err er
 		return
 	}
 
-	signStr := util.Signature(jsonReq)
+	signStr := util.SignatureSHA512(jsonReq)
 
 	request.Header.Add("MerchantId", conf.GetMerchantId())
 	request.Header.Add("Authorization", "Bearer " + signStr)
@@ -418,7 +418,7 @@ func ApiUssdCodeReq(req UssdCodeReq, opts ...util.HttpOption) (ret UssdCodeResp,
 		return
 	}
 
-	signStr := util.Signature(jsonReq)
+	signStr := util.SignatureSHA512(jsonReq)
 
 	request.Header.Add("MerchantId", conf.GetMerchantId())
 	request.Header.Add("Authorization", "Bearer " + signStr)
@@ -466,7 +466,7 @@ func ApiUssdOrderStatusReq(req UssdOrderStatusReq, opts ...util.HttpOption) (ret
 		return
 	}
 
-	signStr := util.Signature(jsonReq)
+	signStr := util.SignatureSHA512(jsonReq)
 
 	request.Header.Add("MerchantId", conf.GetMerchantId())
 	request.Header.Add("Authorization", "Bearer " + signStr)
@@ -516,7 +516,7 @@ func ApiBankTransferInitializeReq(req BankTransferInitializeReq, opts ...util.Ht
 		return
 	}
 
-	signStr := util.Signature(jsonReq)
+	signStr := util.SignatureSHA512(jsonReq)
 	request.Header.Add("MerchantId", conf.GetMerchantId())
 	request.Header.Add("Authorization", "Bearer " + signStr)
 	request.Header.Add("Content-Type", "application/json")
@@ -566,7 +566,7 @@ func ApiBankTransferStatusReq(req BankTransferStatusReq, opts ...util.HttpOption
 		return
 	}
 
-	signStr := util.Signature(jsonReq)
+	signStr := util.SignatureSHA512(jsonReq)
 
 	request.Header.Add("MerchantId", conf.GetMerchantId())
 	request.Header.Add("Authorization", "Bearer " + signStr)

@@ -50,7 +50,7 @@ func parseArray(value reflect.Value) string {
 	len := value.Len()
 	for i := 0; i < len; i++ {
 		v := value.Index(i)
-		paresArrayValue(v)
+		ret += paresArrayValue(v)
 		if i != len-1 {
 			ret += ","
 		}
