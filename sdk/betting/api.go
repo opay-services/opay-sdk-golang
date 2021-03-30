@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-func ApiBettingProviderReq(opts ...util.HttpOption) (ret BettingProviderResp, err error) {
+func ApiProviderReq(opts ...util.HttpOption) (ret ProviderResp, err error) {
 
 	logf := conf.GetLog()
 	httpClient := util.NewHttpClient(opts...)

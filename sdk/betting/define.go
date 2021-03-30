@@ -1,6 +1,6 @@
 package betting
 
-type BettingProviderInfo struct {
+type ProviderInfo struct {
 	/*Betting topup service provider*/
 	Provider string `json:"provider"`
 	/*Provider logo URL*/
@@ -11,10 +11,10 @@ type BettingProviderInfo struct {
 	MaxAmount string `json:"maxAmount"`
 }
 
-type BettingProviderResp struct {
-	Code    string                `json:"code"`
-	Data    []BettingProviderInfo `json:"data"`
-	Message string                `json:"message"`
+type ProviderResp struct {
+	Code    string         `json:"code"`
+	Data    []ProviderInfo `json:"data"`
+	Message string         `json:"message"`
 }
 
 type BillValidateReq struct {
