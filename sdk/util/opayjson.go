@@ -15,36 +15,42 @@ type strcutValueDesc struct {
 	fieldName string
 }
 
+func paresArrayValue(v reflect.Value) string {
+	var ret string
+	switch v.Kind() {
+	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+		ret += strconv.FormatInt(v.Int(), 10)
+	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64, reflect.Uintptr:
+		ret += strconv.FormatUint(v.Uint(), 10)
+	case reflect.Float32, reflect.Float64:
+		ret += fmt.Sprintf("%f", v.Float())
+	case reflect.Bool:
+		if v.Bool() {
+			ret += "true"
+		} else {
+			ret += "false"
+		}
+	case reflect.String:
+		ret += "\""
+		ret += v.String()
+		ret += "\""
+	case reflect.Struct:
+		ret += parseStruct(v.Interface())
+	case reflect.Array, reflect.Slice:
+		ret += parseArray(v)
+	case reflect.Interface:
+		return paresArrayValue(reflect.ValueOf(v))
+	}
+	return ret
+}
+
 func parseArray(value reflect.Value) string {
 	var ret string
 	ret += "["
 	len := value.Len()
 	for i := 0; i < len; i++ {
 		v := value.Index(i)
-		switch v.Kind() {
-		case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
-			ret += strconv.FormatInt(v.Int(), 10)
-		case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64, reflect.Uintptr:
-			ret += strconv.FormatUint(v.Uint(), 10)
-		case reflect.Float32, reflect.Float64:
-			ret += fmt.Sprintf("%f", v.Float())
-		case reflect.Bool:
-			if v.Bool() {
-				ret += "true"
-			} else {
-				ret += "false"
-			}
-		case reflect.String:
-			ret += "\""
-			ret += v.String()
-			ret += "\""
-		case reflect.Struct:
-			ret += parseStruct(v.Interface())
-		case reflect.Array:
-		case reflect.Slice:
-			ret += parseArray(v)
-		}
-
+		paresArrayValue(v)
 		if i != len-1 {
 			ret += ","
 		}
@@ -69,6 +75,11 @@ func parseStructValue(jsonValue strcutValueDesc) string {
 		} else {
 			jsonValue.value = jsonValue.value.Elem()
 		}
+	}
+
+	if (jsonValue.value.Kind() == reflect.Interface) {
+		jsonValue.value = reflect.ValueOf(jsonValue.value.Interface())
+		return parseStructValue(jsonValue)
 	}
 
 	value := jsonValue.value
@@ -116,7 +127,8 @@ func parseHashMap(hashMap interface{}) string {
 
 	ret += "{"
 	keys := m.Keys()
-	for i := 0; i < len(keys); i++ {
+	l := len(keys)
+	for i := 0; i < l; i++ {
 		ret += "\""
 		ret += keys[i].(string)
 		ret += "\""
@@ -147,7 +159,7 @@ func parseHashMap(hashMap interface{}) string {
 			ret += parseArray(value)
 		}
 
-		if (i != len(keys)-1) {
+		if i != l -1  {
 			ret += ","
 		}
 	}
@@ -201,12 +213,12 @@ func parseStruct(input interface{}) string {
 	return ret
 }
 
-func OpayJsonMarshal(s interface{})(str string, err error)  {
+func OpayJsonMarshal(s interface{}) (str string, err error) {
 	switch reflect.TypeOf(s).Kind() {
 	case reflect.Ptr:
-		if reflect.ValueOf(s).IsNil(){
-			 err = errors.New("ptr is nil")
-			 return
+		if reflect.ValueOf(s).IsNil() {
+			err = errors.New("ptr is nil")
+			return
 		}
 		switch reflect.TypeOf(s).Elem().Kind() {
 		case reflect.Struct:
@@ -226,7 +238,4 @@ func OpayJsonMarshal(s interface{})(str string, err error)  {
 		err = errors.New("input must struct or struct ptr or map")
 		return
 	}
-
-	return
 }
-

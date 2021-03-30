@@ -3,8 +3,8 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"github.com/opay-services/opay-sdk-golang/sdk/conf"
 	"github.com/opay-services/opay-sdk-golang/sdk/cashier"
+	"github.com/opay-services/opay-sdk-golang/sdk/conf"
 	"math/rand"
 	"os"
 	"time"
