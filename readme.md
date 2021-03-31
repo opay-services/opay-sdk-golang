@@ -18,14 +18,20 @@ cashier
 + examples/opaycashier
 + + checkout
   
-    Creating a cashier order will return to the h5 payment page. After the user pays the order, it will call back the specified callback and the web() function will process the verification signature
+    Creating a cashier order will return to the h5 payment page. After the user pays the order, it will call back the specified callback and the web() function will process the verification signature  
+    
+    https://github.com/opay-services/opay-sdk-golang/blob/master/examples/opaycashier/checkout.go
   + close
   
-    only init status order can close
+    only init status order can close  
+
+    https://github.com/opay-services/opay-sdk-golang/blob/master/examples/opaycashier/close.go
 
   + refund
     
-    only succeed order can refund。 The case contains the refund to the wallet, bank card, bank account
+    only succeed order can refund。 The case contains the refund to the wallet, bank card, bank account  
+    
+    https://github.com/opay-services/opay-sdk-golang/blob/master/examples/opaycashier/refund.go
 
 transfer
 ========
@@ -38,3 +44,5 @@ betting
 
 airtime
 =======
+
+
