@@ -1,9 +1,11 @@
-#Introduction
+Introduction
+============
 Golang sdk integrates cashier, transfer, transaction, betting, airtime module business, users can access opay more quickly
 
 Official document: https://documentation.opayweb.com
 
-#cashier
+cashier
+=======
 >**H5 Checkout (For Web based payments)**  
 
 
@@ -25,12 +27,14 @@ Official document: https://documentation.opayweb.com
     
     only succeed order can refund。 The case contains the refund to the wallet, bank card, bank account
 
-#transfer
+transfer
+========
 
-#transaction
+transaction
+===========
 
-#betting
+betting
+=======
 
-#airtime
-
-
+airtime
+=======
