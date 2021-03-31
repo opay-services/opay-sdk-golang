@@ -35,6 +35,30 @@ cashier
 
 transfer
 ========
+**transfer is merchant end to transfer money, to bank account, opay owallet。Currently, there is no callback for transfers, and developers can only keep track of the transfer progress through status inquiries**  
+-----------
+-----------  
+**It is recommended to use the wallet to transfer money, with fewer call chains and fast arrival speed, if you select to bank account , the transfer will be successful after a few minutes, depending on the processing time of the bank**
+----------
+----------
+
+>**sdk**
++ examples/opaytransfer  
+
++ + towallet (tow kinds of merchant and user)  
+  
+  + + to merchant  
+      https://github.com/opay-services/opay-sdk-golang/blob/master/examples/opaytransfer/toWalletMerchant.go  
+    + to user  
+        https://github.com/opay-services/opay-sdk-golang/blob/master/examples/opaytransfer/toWalletUser.go
+
+
++ + to bank only support bank account  
+  
+  + to bankaccount  
+    https://github.com/opay-services/opay-sdk-golang/blob/master/examples/opaytransfer/toWalletUser.go
+
+
 
 transaction
 ===========

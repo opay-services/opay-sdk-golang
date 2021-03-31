@@ -26,26 +26,39 @@ func init()  {
 
 func main()  {
 	//create a transfer
-	req := transfer.ToOWalletMerchantReq{}
+	req := transfer.ToOWalletUserReq{}
 	req.Amount = "100"
 	req.Reference = fmt.Sprintf("testlijian_%v",time.Now().UnixNano())
 	req.Currency = "NGN"
 	req.Reason = "test"
 	req.Country = "NG"
-	req.Receiver = transfer.OWalletReceiverMerchant{
-		MerchantId:"256620112018024",
-		Type:"MERCHANT",
+	req.Receiver = transfer.OWalletReceiverUser{
+		PhoneNumber:"+2348160564736",
+		Type:"USER",
 		Name:"Andy Lee",
 	}
-	rsp, err := transfer.ApiTransferToOWalletMerchant(req)
+	rsp, err := transfer.ApiTransferToOWalletUser(req)
 	if err != nil{
 		fmt.Println(err)
 		return
 	}
+
 	if rsp.Code != "00000"{
 		return
 	}
 
 	//query status
-	rsp, err = transfer.ApiStatusToWalletReq(transfer.StatusToWalletReq{Reference:req.Reference})
+	for i:=0; i<5; i++ {
+		rsp, err = transfer.ApiStatusToWalletReq(transfer.StatusToWalletReq{Reference: req.Reference})
+		if err != nil {
+			fmt.Println(err)
+			continue
+		}
+
+		if rsp.Code == "00000" && rsp.Data.Status == "SUCCESSFUL" {
+			break
+		}
+		time.Sleep(2*time.Second)
+	}
+
 }
