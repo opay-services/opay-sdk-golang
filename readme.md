@@ -13,7 +13,7 @@ cashier
 
 + The OPay Checkout API is the most popular way to integrate pay with OPay. It provides a pre-built UI solution for processing payments that handles checkout for you, if you don’t want to build a checkout page.
 
->**sdk**
+>**sdk** [here](https://github.com/opay-services/opay-sdk-golang/blob/master/sdk/cashier)
 
 + examples/opaycashier
 + + checkout [here](https://github.com/opay-services/opay-sdk-golang/blob/master/examples/opaycashier/checkout.go)
@@ -38,7 +38,7 @@ transfer
 ----------
 ----------
 
->**sdk**  
+>**sdk**  [here](https://github.com/opay-services/opay-sdk-golang/blob/master/sdk/transfer)
 
 + examples/opaytransfer  
 
@@ -60,26 +60,32 @@ transaction
 **also support merchant support a bank account, the user recharges to a given account through other channels  **  
 ----------  
 ----------
->**sdk** 
+>**sdk** [here](https://github.com/opay-services/opay-sdk-golang/blob/master/sdk/transaction)
 
 **any mode,  after success, you will receive callback by specify url ** 
 
 + examples/opaytransaction  
-* * user by bank account  [here](https://github.com/opay-services/opay-sdk-golang/examples/opaytransaction/bybankaccount.go) 
+* * user by bank account  [here](https://github.com/opay-services/opay-sdk-golang/blob/master/examples/opaytransaction/bybankaccount.go) 
 
-* * user by bank card [here](https://github.com/opay-services/opay-sdk-golang/examples/opaytransaction/bybankcard.go)  
+* * user by bank card [here](https://github.com/opay-services/opay-sdk-golang/blob/master/examples/opaytransaction/bybankcard.go)  
 
-* * ussd dail [here](https://github.com/opay-services/opay-sdk-golang/examples/opaytransaction/byussd.go)  
+* * ussd dail [here](https://github.com/opay-services/opay-sdk-golang/blob/master/examples/opaytransaction/byussd.go)  
 
-* * merchant support a bank account, the user recharges to a given account through other channels [here](https://github.com/opay-services/opay-sdk-golang/examples/opaytransaction/banktransfer.go)
+* * merchant support a bank account, the user recharges to a given account through other channels [here](https://github.com/opay-services/opay-sdk-golang/blob/master/examples/opaytransaction/banktransfer.go)
 
 
 
 betting
 =======
+>**sdk** [here](https://github.com/opay-services/opay-sdk-golang/blob/master/sdk/betting)
 
++ examples/betting [here](https://github.com/opay-services/opay-sdk-golang/blob/master/examples/betting/bet.go)
 
 airtime
 =======
+>**sdk** [here](https://github.com/opay-services/opay-sdk-golang/blob/master/sdk/airtime)  
+
++ examples/betting [here](https://github.com/opay-services/opay-sdk-golang/blob/master/examples/airtime/topup.go)
+
 
 
