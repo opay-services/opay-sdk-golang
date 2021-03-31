@@ -16,22 +16,18 @@ cashier
 >**sdk**
 
 + examples/opaycashier
-+ + checkout
++ + checkout [here](https://github.com/opay-services/opay-sdk-golang/blob/master/examples/opaycashier/checkout.go)
   
     Creating a cashier order will return to the h5 payment page. After the user pays the order, it will call back the specified callback and the web() function will process the verification signature  
     
-    https://github.com/opay-services/opay-sdk-golang/blob/master/examples/opaycashier/checkout.go
-  + close
+  + close [here](https://github.com/opay-services/opay-sdk-golang/blob/master/examples/opaycashier/close.go)
   
     only init status order can close  
 
-    https://github.com/opay-services/opay-sdk-golang/blob/master/examples/opaycashier/close.go
-
-  + refund
-    
+  + refund [here](https://github.com/opay-services/opay-sdk-golang/blob/master/examples/opaycashier/refund.go)  
+  
     only succeed order can refund。 The case contains the refund to the wallet, bank card, bank account  
     
-    https://github.com/opay-services/opay-sdk-golang/blob/master/examples/opaycashier/refund.go
 
 transfer
 ========
@@ -48,16 +44,11 @@ transfer
 
 + + towallet (tow kinds of merchant and user)  
   
-  + + to merchant  
-      https://github.com/opay-services/opay-sdk-golang/blob/master/examples/opaytransfer/toWalletMerchant.go  
-    + to user  
-        https://github.com/opay-services/opay-sdk-golang/blob/master/examples/opaytransfer/toWalletUser.go
+  + + to merchant [here](https://github.com/opay-services/opay-sdk-golang/blob/master/examples/opaytransfer/toWalletMerchant.go)  
+    + to user [here](https://github.com/opay-services/opay-sdk-golang/blob/master/examples/opaytransfer/toWalletUser.go)
 
 
-+ + to bank only support bank account  
-  
-  + to bankaccount  
-    https://github.com/opay-services/opay-sdk-golang/blob/master/examples/opaytransfer/toWalletUser.go
++ + to bank only support bank account   [here](https://github.com/opay-services/opay-sdk-golang/blob/master/examples/opaytransfer/toWalletUser.go)
 
 
 
@@ -74,17 +65,13 @@ transaction
 **any mode,  after success, you will receive callback by specify url ** 
 
 + examples/opaytransaction  
-+ + user by bank account  
-    https://github.com/opay-services/opay-sdk-golang/examples/opaytransaction/bybankaccount.go  
+* * user by bank account  [here](https://github.com/opay-services/opay-sdk-golang/examples/opaytransaction/bybankaccount.go) 
 
-+ + user by bank card  
-    https://github.com/opay-services/opay-sdk-golang/examples/opaytransaction/bybankcard.go  
+* * user by bank card [here](https://github.com/opay-services/opay-sdk-golang/examples/opaytransaction/bybankcard.go)  
 
-+ + ussd dail  
-    https://github.com/opay-services/opay-sdk-golang/examples/opaytransaction/byussd.go  
+* * ussd dail [here](https://github.com/opay-services/opay-sdk-golang/examples/opaytransaction/byussd.go)  
 
-+ + merchant support a bank account, the user recharges to a given account through other channels  
-    https://github.com/opay-services/opay-sdk-golang/examples/opaytransaction/banktransfer.go
+* * merchant support a bank account, the user recharges to a given account through other channels [here](https://github.com/opay-services/opay-sdk-golang/examples/opaytransaction/banktransfer.go)
 
 
 
