@@ -44,7 +44,7 @@ func web()  {
 		n, _ := c.Request.Body.Read(buf)
 		fmt.Println(string(buf[0:n]))
 
-		notify := ips.Notify{}
+		notify := ips.MerchantAcquiring{}
 		err := json.Unmarshal(buf[:n], &notify)
 		if err != nil {
 			fmt.Println(err)

@@ -5,7 +5,7 @@ import (
 	"github.com/opay-services/opay-sdk-golang/sdk/util"
 )
 
-type Notify struct {
+type MerchantAcquiring struct {
 	Payload MerchantAcquiringPayload `json:"payload"`
 	Sha512  string                   `json:"sha512"`
 	Type    string                   `json:"type"`
@@ -31,7 +31,7 @@ type MerchantAcquiringPayload struct {
 	Status           string `json:"status"`
 }
 
-func (msg *Notify) VerfiySignature() bool {
+func (msg *MerchantAcquiring) VerfiySignature() bool {
 	payload := msg.Payload
 
 	var flag string = "f"
@@ -50,5 +50,39 @@ func (msg *Notify) VerfiySignature() bool {
 	if signStr == msg.Sha512 {
 		return true
 	}
+	return false
+}
+
+type BettingAndAirTime struct {
+	Payload BettingPayload `json:"payload"`
+	Sha512  string         `json:"sha512"`
+	Type    string         `json:"type"`
+}
+
+type BettingPayload struct {
+	ServiceType     string `json:"serviceType"`
+	FeeAmount       int    `json:"feeAmount"`
+	OrderAmount     int    `json:"orderAmount"`
+	OrderNo         string `json:"orderNo"`
+	CreateTime      string `json:"createTime"`
+	MerchantId      string `json:"merchantId"`
+	OrderStatus     string `json:"orderStatus"`
+	Currency        string `json:"currency"`
+	PayChannel      string `json:"payChannel"`
+	MerchantOrderNo string `json:"merchantOrderNo"`
+	ErrorMsg        string `json:"errorMsg"`
+}
+
+func (msg *BettingAndAirTime) VerfiySignature() bool {
+	str := fmt.Sprintf("{orderNo:\"%s\",merchantOrderNo:\"%s\",merchantId:\"%s\"," +
+		"orderAmount:\"%d\",serviceType:\"%s\",orderStatus:\"%s\"}", msg.Payload.OrderNo,
+		msg.Payload.MerchantOrderNo, msg.Payload.MerchantId,
+		msg.Payload.OrderAmount, msg.Payload.ServiceType, msg.Payload.OrderStatus)
+
+	signStr := util.SignatureSHA3512([]byte(str))
+	if signStr == msg.Sha512 {
+		return true
+	}
+
 	return false
 }

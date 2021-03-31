@@ -1,4 +1,4 @@
-package betting
+package airtime
 
 import (
 	"fmt"
@@ -23,33 +23,14 @@ func init() {
 	rand.Seed(time.Now().Unix())
 }
 
-func TestApiProviderReq(t *testing.T) {
-	ret, err := ApiProviderReq()
-	if err != nil {
-		fmt.Println(ret, err)
-	}
-}
-
-func TestApiBillValidateReq(t *testing.T) {
-	req := BillValidateReq{}
-	req.Provider = "NAIRABET"
-	req.ServiceType = "betting"
-	req.CustomerId = "20019212912901281821982"
-
-	ret, err := ApiBillValidateReq(req)
-	if err != nil {
-		fmt.Println(ret, err)
-	}
-}
-
-func TestApiBettingBulkBillsReq(t *testing.T) {
+func TestApiAirtimeTopup(t *testing.T)  {
 	req := BulkBillsReq{}
-	req.ServiceType = "betting"
+	req.ServiceType = "airtime"
 	req.CallBackUrl = "http://localhost:8000"
 	req.BulkData = make([]BulkDataInfo, 2, 2)
 	for i := 0; i < 2; i++ {
 		req.BulkData[i].Reference = fmt.Sprintf("testlijian_%v", time.Now().UnixNano()+int64(i))
-		req.BulkData[i].Provider = "NAIRABET"
+		req.BulkData[i].Provider = "AIR"
 		req.BulkData[i].Amount = "50000"
 		req.BulkData[i].Country = "NG"
 		req.BulkData[i].Currency = "NGN"
@@ -64,11 +45,11 @@ func TestApiBettingBulkBillsReq(t *testing.T) {
 
 func TestApiBulkStatusReq(t *testing.T) {
 	req := OrderStatusReq{}
-	req.ServiceType = "betting"
+	req.ServiceType = "airtime"
 	req.BulkStatusRequest = make([]OrderStatusReqItem, 2, 2)
 
-	req.BulkStatusRequest[0].Reference = "testlijian_1617106425608068000"
-	req.BulkStatusRequest[1].Reference = "testlijian_1617106425608075001"
+	req.BulkStatusRequest[0].Reference = "testlijian_1617158042428946000"
+	req.BulkStatusRequest[1].Reference = "testlijian_1617158042428949001"
 
 	ret, err := ApiBulkStatusReq(req)
 	if err != nil {
