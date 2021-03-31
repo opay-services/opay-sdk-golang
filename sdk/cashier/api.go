@@ -9,12 +9,12 @@ import (
 	"strings"
 )
 
-func ApiCashierInitializeReq(req CashierInitializeReq, opts ...util.HttpOption) (ret CashierInitializeResp, err error) {
+func ApiCashierInitializeReq(req CashierInitializeReq, mConf *conf.OpayMerchantConf, opts ...util.HttpOption) (ret CashierInitializeResp, err error) {
 	if len(req.Currency) == 0 {
 		req.Currency = "NGN"
 	}
 
-	logf := conf.GetLog()
+	logf := mConf.GetLog()
 	httpClient := util.NewHttpClient(opts...)
 
 	jsonReq, err := util.OpayJsonMarshal(&req)
@@ -24,15 +24,15 @@ func ApiCashierInitializeReq(req CashierInitializeReq, opts ...util.HttpOption) 
 
 	request, err := http.NewRequest(
 		"POST",
-		conf.GetApiHost()+"/api/v3/cashier/initialize",
+		mConf.GetApiHost()+"/api/v3/cashier/initialize",
 		strings.NewReader(string(jsonReq)),
 	)
 
 	if err != nil {
 		return
 	}
-	request.Header.Add("MerchantId", conf.GetMerchantId())
-	request.Header.Add("Authorization", "Bearer "+conf.GetPublicKey())
+	request.Header.Add("MerchantId", mConf.GetMerchantId())
+	request.Header.Add("Authorization", "Bearer "+mConf.GetPublicKey())
 	request.Header.Add("Content-Type", "application/json")
 
 	if logf != nil {
@@ -59,28 +59,28 @@ func ApiCashierInitializeReq(req CashierInitializeReq, opts ...util.HttpOption) 
 	return
 }
 
-func ApiCashierStatusReq(req CashierStatusReq, opts ...util.HttpOption) (ret CashierStatusResp, err error) {
+func ApiCashierStatusReq(req CashierStatusReq, mConf *conf.OpayMerchantConf, opts ...util.HttpOption) (ret CashierStatusResp, err error) {
 
 	httpClient := util.NewHttpClient(opts...)
-	logf := conf.GetLog()
+	logf := mConf.GetLog()
 
 	jsonReq, err := json.Marshal(&req)
 	if err != nil {
 		return
 	}
 
-	signStr := util.SignatureSHA512(jsonReq)
+	signStr := util.SignatureSHA512(jsonReq, mConf.GetSecretKey())
 
 	request, err := http.NewRequest(
 		"POST",
-		conf.GetApiHost()+"/api/v3/cashier/status",
+		mConf.GetApiHost()+"/api/v3/cashier/status",
 		strings.NewReader(string(jsonReq)),
 	)
 
 	if err != nil {
 		return
 	}
-	request.Header.Add("MerchantId", conf.GetMerchantId())
+	request.Header.Add("MerchantId", mConf.GetMerchantId())
 	request.Header.Add("Authorization", "Bearer "+signStr)
 	request.Header.Add("Content-Type", "application/json")
 
@@ -108,27 +108,27 @@ func ApiCashierStatusReq(req CashierStatusReq, opts ...util.HttpOption) (ret Cas
 	return
 }
 
-func ApiCashierCloseReq(req CashierCloseReq, opts ...util.HttpOption) (ret CashierCloseResp, err error) {
+func ApiCashierCloseReq(req CashierCloseReq, mConf *conf.OpayMerchantConf, opts ...util.HttpOption) (ret CashierCloseResp, err error) {
 	httpClient := util.NewHttpClient(opts...)
-	logf := conf.GetLog()
+	logf := mConf.GetLog()
 
 	jsonReq, err := util.OpayJsonMarshal(&req)
 	if err != nil {
 		return
 	}
 
-	signStr := util.SignatureSHA512([]byte(jsonReq))
+	signStr := util.SignatureSHA512([]byte(jsonReq), mConf.GetSecretKey())
 
 	request, err := http.NewRequest(
 		"POST",
-		conf.GetApiHost()+"/api/v3/cashier/close",
+		mConf.GetApiHost()+"/api/v3/cashier/close",
 		strings.NewReader(string(jsonReq)),
 	)
 
 	if err != nil {
 		return
 	}
-	request.Header.Add("MerchantId", conf.GetMerchantId())
+	request.Header.Add("MerchantId", mConf.GetMerchantId())
 	request.Header.Add("Authorization", "Bearer "+signStr)
 	request.Header.Add("Content-Type", "application/json")
 
@@ -156,29 +156,29 @@ func ApiCashierCloseReq(req CashierCloseReq, opts ...util.HttpOption) (ret Cashi
 	return
 }
 
-func ApiCashierRefundByBankAccountReq(req CashierRefundByBankAccountReq,
+func ApiCashierRefundByBankAccountReq(req CashierRefundByBankAccountReq, mConf *conf.OpayMerchantConf,
 	opts ...util.HttpOption) (ret CashierRefundStatusResp, err error) {
 
 	httpClient := util.NewHttpClient(opts...)
-	logf := conf.GetLog()
+	logf := mConf.GetLog()
 
 	jsonReq, err := util.OpayJsonMarshal(&req)
 	if err != nil {
 		return
 	}
 
-	signStr := util.SignatureSHA512([]byte(jsonReq))
+	signStr := util.SignatureSHA512([]byte(jsonReq), mConf.GetSecretKey())
 
 	request, err := http.NewRequest(
 		"POST",
-		conf.GetApiHost()+"/api/v3/cashier/refund",
+		mConf.GetApiHost()+"/api/v3/cashier/refund",
 		strings.NewReader(string(jsonReq)),
 	)
 
 	if err != nil {
 		return
 	}
-	request.Header.Add("MerchantId", conf.GetMerchantId())
+	request.Header.Add("MerchantId", mConf.GetMerchantId())
 	request.Header.Add("Authorization", "Bearer "+signStr)
 	request.Header.Add("Content-Type", "application/json")
 
@@ -206,29 +206,29 @@ func ApiCashierRefundByBankAccountReq(req CashierRefundByBankAccountReq,
 	return
 }
 
-func ApiCashierRefundByOriginReq(req CashierRefundByOriginReq,
+func ApiCashierRefundByOriginReq(req CashierRefundByOriginReq, mConf *conf.OpayMerchantConf,
 	opts ...util.HttpOption) (ret CashierRefundStatusResp, err error) {
 
 	httpClient := util.NewHttpClient(opts...)
-	logf := conf.GetLog()
+	logf := mConf.GetLog()
 
 	jsonReq, err := util.OpayJsonMarshal(&req)
 	if err != nil {
 		return
 	}
 
-	signStr := util.SignatureSHA512([]byte(jsonReq))
+	signStr := util.SignatureSHA512([]byte(jsonReq), mConf.GetSecretKey())
 
 	request, err := http.NewRequest(
 		"POST",
-		conf.GetApiHost()+"/api/v3/cashier/refund",
+		mConf.GetApiHost()+"/api/v3/cashier/refund",
 		strings.NewReader(string(jsonReq)),
 	)
 
 	if err != nil {
 		return
 	}
-	request.Header.Add("MerchantId", conf.GetMerchantId())
+	request.Header.Add("MerchantId", mConf.GetMerchantId())
 	request.Header.Add("Authorization", "Bearer "+signStr)
 	request.Header.Add("Content-Type", "application/json")
 
@@ -256,29 +256,29 @@ func ApiCashierRefundByOriginReq(req CashierRefundByOriginReq,
 	return
 }
 
-func ApiCashierRefundByOpayMerchantAccountReq(req CashierRefundByOpayMerchantAccountReq,
+func ApiCashierRefundByOpayMerchantAccountReq(req CashierRefundByOpayMerchantAccountReq, mConf *conf.OpayMerchantConf,
 	opts ...util.HttpOption) (ret CashierRefundStatusResp, err error) {
 
 	httpClient := util.NewHttpClient(opts...)
-	logf := conf.GetLog()
+	logf := mConf.GetLog()
 
 	jsonReq, err := util.OpayJsonMarshal(&req)
 	if err != nil {
 		return
 	}
 
-	signStr := util.SignatureSHA512([]byte(jsonReq))
+	signStr := util.SignatureSHA512([]byte(jsonReq), mConf.GetSecretKey())
 
 	request, err := http.NewRequest(
 		"POST",
-		conf.GetApiHost()+"/api/v3/cashier/refund",
+		mConf.GetApiHost()+"/api/v3/cashier/refund",
 		strings.NewReader(string(jsonReq)),
 	)
 
 	if err != nil {
 		return
 	}
-	request.Header.Add("MerchantId", conf.GetMerchantId())
+	request.Header.Add("MerchantId", mConf.GetMerchantId())
 	request.Header.Add("Authorization", "Bearer "+signStr)
 	request.Header.Add("Content-Type", "application/json")
 
@@ -306,29 +306,29 @@ func ApiCashierRefundByOpayMerchantAccountReq(req CashierRefundByOpayMerchantAcc
 	return
 }
 
-func ApiCashierRefundByOpayUserAccountReq(req CashierRefundByOpayUserAccountReq,
+func ApiCashierRefundByOpayUserAccountReq(req CashierRefundByOpayUserAccountReq, mConf *conf.OpayMerchantConf,
 	opts ...util.HttpOption) (ret CashierRefundStatusResp, err error) {
 
 	httpClient := util.NewHttpClient(opts...)
-	logf := conf.GetLog()
+	logf := mConf.GetLog()
 
 	jsonReq, err := util.OpayJsonMarshal(&req)
 	if err != nil {
 		return
 	}
 
-	signStr := util.SignatureSHA512([]byte(jsonReq))
+	signStr := util.SignatureSHA512([]byte(jsonReq), mConf.GetSecretKey())
 
 	request, err := http.NewRequest(
 		"POST",
-		conf.GetApiHost()+"/api/v3/cashier/refund",
+		mConf.GetApiHost()+"/api/v3/cashier/refund",
 		strings.NewReader(string(jsonReq)),
 	)
 
 	if err != nil {
 		return
 	}
-	request.Header.Add("MerchantId", conf.GetMerchantId())
+	request.Header.Add("MerchantId", mConf.GetMerchantId())
 	request.Header.Add("Authorization", "Bearer "+signStr)
 	request.Header.Add("Content-Type", "application/json")
 
@@ -356,29 +356,29 @@ func ApiCashierRefundByOpayUserAccountReq(req CashierRefundByOpayUserAccountReq,
 	return
 }
 
-func ApiCashierRefundStatusReq(req CashierRefundStatusReq,
+func ApiCashierRefundStatusReq(req CashierRefundStatusReq, mConf *conf.OpayMerchantConf,
 	opts ...util.HttpOption) (ret CashierRefundStatusResp, err error) {
 
 	httpClient := util.NewHttpClient(opts...)
-	logf := conf.GetLog()
+	logf := mConf.GetLog()
 
 	jsonReq, err := util.OpayJsonMarshal(&req)
 	if err != nil {
 		return
 	}
 
-	signStr := util.SignatureSHA512([]byte(jsonReq))
+	signStr := util.SignatureSHA512([]byte(jsonReq), mConf.GetSecretKey())
 
 	request, err := http.NewRequest(
 		"POST",
-		conf.GetApiHost()+"/api/v3/cashier/refund/status",
+		mConf.GetApiHost()+"/api/v3/cashier/refund/status",
 		strings.NewReader(string(jsonReq)),
 	)
 
 	if err != nil {
 		return
 	}
-	request.Header.Add("MerchantId", conf.GetMerchantId())
+	request.Header.Add("MerchantId", mConf.GetMerchantId())
 	request.Header.Add("Authorization", "Bearer "+signStr)
 	request.Header.Add("Content-Type", "application/json")
 

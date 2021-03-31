@@ -54,9 +54,9 @@ type StatusToOWalletData struct {
 }
 
 type StatusToOWalletResp struct {
-	Code string `json:"code"`
-	Data StatusToOWalletData `json:"data"`
-	Message string `json:"message"`
+	Code    string              `json:"code"`
+	Data    StatusToOWalletData `json:"data"`
+	Message string              `json:"message"`
 }
 
 type BankReceiver struct {
@@ -98,9 +98,9 @@ type StatusToBankData struct {
 }
 
 type StatusToBankResp struct {
-	Code string `json:"code"`
-	Data StatusToBankData `json:"data"`
-	Message string `json:"message"`
+	Code    string           `json:"code"`
+	Data    StatusToBankData `json:"data"`
+	Message string           `json:"message"`
 }
 
 type StatusToWalletReq struct {

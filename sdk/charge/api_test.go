@@ -2,23 +2,24 @@ package charge
 
 import (
 	"fmt"
-	"github.com/opay-services/opay-sdk-golang/sdk/conf"
+	conf "github.com/opay-services/opay-sdk-golang/sdk/conf"
 	"math/rand"
 	"testing"
 	"time"
 )
 
-func init()  {
-	conf.InitEnv(
+var mConf *conf.OpayMerchantConf
+func init() {
+	mConf = conf.InitEnv(
 		"OPAYPUB16058646510220.420473668870203",
 		"OPAYPRV16058646510230.34019403186305675",
 		"SrnIchuukX33koDt",
 		"256620112018025",
 		"sandbox",
+		"NGN",
 	)
 
-
-	conf.SetLog(func(a ...interface{}) {
+	mConf.SetLog(func(a ...interface{}) {
 		fmt.Println(a...)
 	})
 	rand.Seed(time.Now().Unix())
@@ -36,7 +37,7 @@ func TestApiInitializeReq(t *testing.T) {
 	req.ChargerType = "USER"
 	req.ChargerId = "156619102400201625"
 
-	resp, err := ApiInitializeReq(req)
+	resp, err := ApiInitializeReq(req, mConf)
 	fmt.Println(resp, err)
 }
 
@@ -44,6 +45,6 @@ func TestApiStatusReq(t *testing.T) {
 	req := StatusReq{}
 	req.OrderNo = new(string)
 	*req.OrderNo = "210331280540251542"
-	resp, err := ApiStatusReq(req)
+	resp, err := ApiStatusReq(req, mConf)
 	fmt.Println(resp, err)
 }

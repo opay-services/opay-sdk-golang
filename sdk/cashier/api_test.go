@@ -2,23 +2,24 @@ package cashier
 
 import (
 	"fmt"
-	"github.com/opay-services/opay-sdk-golang/sdk/conf"
+	conf "github.com/opay-services/opay-sdk-golang/sdk/conf"
 	"math/rand"
 	"testing"
 	"time"
 )
 
-func init()  {
-	conf.InitEnv(
+var mConf *conf.OpayMerchantConf
+func init() {
+	mConf = conf.InitEnv(
 		"OPAYPUB16058646510220.420473668870203",
 		"OPAYPRV16058646510230.34019403186305675",
 		"SrnIchuukX33koDt",
 		"256620112018025",
 		"sandbox",
+		"NGN",
 	)
 
-
-	conf.SetLog(func(a ...interface{}) {
+	mConf.SetLog(func(a ...interface{}) {
 		fmt.Println(a...)
 	})
 	rand.Seed(time.Now().Unix())
@@ -39,19 +40,19 @@ func TestApiCashierInitialize(t *testing.T) {
 	req.ExpireAt = "10"
 	req.CallbackUrl = "http://localhost:8080"
 	req.ReturnUrl = "http://localhost:8080"
-	ApiCashierInitializeReq(req)
+	ApiCashierInitializeReq(req, mConf)
 	//fmt.Println(fmt.Sprintf("%+v and err :%+v", resp, err))
 }
 
 func TestApiCashierStatusReq(t *testing.T) {
 	req := CashierStatusReq{Reference:"testlijian_1616638639862310000"}
-	ApiCashierStatusReq(req)
+	ApiCashierStatusReq(req, mConf)
 }
 
 func TestApiCashierCloseReq(t *testing.T) {
 	//only init status order can be closed
 	req := CashierCloseReq{Reference:"testlijian_1616589761615889000"}
-	ApiCashierCloseReq(req)
+	ApiCashierCloseReq(req, mConf)
 }
 
 func TestApiCashierRefundByBankAccountReq(t *testing.T) {
@@ -66,7 +67,7 @@ func TestApiCashierRefundByBankAccountReq(t *testing.T) {
 	req.Country = "NG"
 	req.BankAccountNumber = "2070043686"
 
-	ApiCashierRefundByBankAccountReq(req)
+	ApiCashierRefundByBankAccountReq(req, mConf)
 }
 
 func TestApiCashierRefundByOpayMerchantAccountReq(t *testing.T) {
@@ -82,7 +83,7 @@ func TestApiCashierRefundByOpayMerchantAccountReq(t *testing.T) {
 		MerchantId:"256620112018024",
 		Type:"MERCHANT",
 	}
-	ApiCashierRefundByOpayMerchantAccountReq(req)
+	ApiCashierRefundByOpayMerchantAccountReq(req, mConf)
 }
 
 func TestApiCashierRefundByOpayUserAccountReq(t *testing.T) {
@@ -99,7 +100,7 @@ func TestApiCashierRefundByOpayUserAccountReq(t *testing.T) {
 		Type:"USER",
 	}
 
-	ApiCashierRefundByOpayUserAccountReq(req)
+	ApiCashierRefundByOpayUserAccountReq(req, mConf)
 }
 
 func TestApiCashierRefundByOriginReq(t *testing.T) {
@@ -112,10 +113,10 @@ func TestApiCashierRefundByOriginReq(t *testing.T) {
 	req.Reason = "test"
 	req.Country = "NG"
 
-	ApiCashierRefundByOriginReq(req)
+	ApiCashierRefundByOriginReq(req, mConf)
 }
 
 func TestApiCashierRefundStatusReq(t *testing.T) {
 	req := CashierRefundStatusReq{OrderNo:"210324250539103459"}
-	ApiCashierRefundStatusReq(req)
+	ApiCashierRefundStatusReq(req, mConf)
 }

@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/opay-services/opay-sdk-golang/sdk/conf"
+	conf "github.com/opay-services/opay-sdk-golang/sdk/conf"
 	"github.com/opay-services/opay-sdk-golang/sdk/ips"
 	"github.com/opay-services/opay-sdk-golang/sdk/transaction"
 	"math/rand"
@@ -13,16 +13,19 @@ import (
 	"time"
 )
 
+var mConf *conf.OpayMerchantConf
+
 func init() {
-	conf.InitEnv(
+	mConf = conf.InitEnv(
 		"OPAYPUB16058646510220.420473668870203",
 		"OPAYPRV16058646510230.34019403186305675",
 		"SrnIchuukX33koDt",
 		"256620112018025",
 		"sandbox",
+		"NGN",
 	)
 
-	conf.SetLog(func(a ...interface{}) {
+	mConf.SetLog(func(a ...interface{}) {
 		fmt.Println(a...)
 	})
 	rand.Seed(time.Now().Unix())
@@ -49,7 +52,7 @@ func web()  {
 		if err != nil {
 			fmt.Println(err)
 		}else {
-			notify.VerfiySignature()
+			notify.VerfiySignature(mConf)
 		}
 	})
 	r.Run(":8080")
@@ -91,7 +94,7 @@ func pinopt()  {
 	req.CardDateMonth = "12"
 	req.CardNumber = "5061460410121111105"
 
-	ret, err := transaction.ApiByBankCardReq(req)
+	ret, err := transaction.ApiByBankCardReq(req, mConf)
 	if err != nil {
 		fmt.Println(ret, err)
 	}
@@ -102,7 +105,7 @@ labstatus:
 		for i := 0; i < 10; i++ {
 			time.Sleep(2 * time.Second)
 			reqStatus := transaction.StatusReq{Reference: req.Reference}
-			ret, err := transaction.ApiStatusReq(reqStatus)
+			ret, err := transaction.ApiStatusReq(reqStatus, mConf)
 			if err != nil {
 				//you can retry if occur  Network failure
 				fmt.Println(ret, err)
@@ -138,7 +141,7 @@ labpin:
 		fmt.Println("please input pin code from user")
 		reqPin := transaction.InputPinReq{Pin: "1105"}
 		reqPin.Reference = req.Reference
-		ret, err := transaction.ApiInputPinReq(reqPin)
+		ret, err := transaction.ApiInputPinReq(reqPin, mConf)
 		if err != nil {
 			fmt.Println(ret, err)
 		}
@@ -159,7 +162,7 @@ labopt:
 		reqOpt := transaction.InputOtpReq{}
 		reqOpt.Reference = req.Reference
 		reqOpt.Otp = "543210"
-		ret, err := transaction.ApiInputOtpReq(reqOpt)
+		ret, err := transaction.ApiInputOtpReq(reqOpt, mConf)
 		if err != nil {
 			fmt.Println(ret, err)
 		}
@@ -178,7 +181,7 @@ labover:
 	//query status, if order status is "SUCCESS" you will get token, you can transaction by token
 	{
 		reqStatus := transaction.StatusReq{Reference: req.Reference}
-		ret, err := transaction.ApiStatusReq(reqStatus)
+		ret, err := transaction.ApiStatusReq(reqStatus, mConf)
 		if err != nil {
 			//you can retry if occur  Network failure
 			fmt.Println(ret, err)
@@ -219,7 +222,7 @@ func pin3ds()  {
 	req.CardDateMonth = "12"
 	req.CardNumber = "5061460410121111106"
 
-	ret, err := transaction.ApiByBankCardReq(req)
+	ret, err := transaction.ApiByBankCardReq(req, mConf)
 	if err != nil {
 		fmt.Println(ret, err)
 	}
@@ -230,7 +233,7 @@ labstatus:
 		for i := 0; i < 10; i++ {
 			time.Sleep(2 * time.Second)
 			reqStatus := transaction.StatusReq{Reference: req.Reference}
-			ret, err := transaction.ApiStatusReq(reqStatus)
+			ret, err := transaction.ApiStatusReq(reqStatus, mConf)
 			if err != nil {
 				//you can retry if occur  Network failure
 				fmt.Println(ret, err)
@@ -268,7 +271,7 @@ labpin:
 
 		reqPin := transaction.InputPinReq{Pin: "1106"}
 		reqPin.Reference = req.Reference
-		ret, err := transaction.ApiInputPinReq(reqPin)
+		ret, err := transaction.ApiInputPinReq(reqPin, mConf)
 		if err != nil {
 			fmt.Println(ret, err)
 		}
@@ -287,7 +290,7 @@ lab3ds:
 	{
 		{
 			reqStatus := transaction.StatusReq{Reference: req.Reference}
-			ret, err := transaction.ApiStatusReq(reqStatus)
+			ret, err := transaction.ApiStatusReq(reqStatus, mConf)
 			if err != nil {
 				//you can retry if occur  Network failure
 				fmt.Println(ret, err)
@@ -306,7 +309,7 @@ labover:
 	//query status, Security verification via authurl
 	{
 		reqStatus := transaction.StatusReq{Reference: req.Reference}
-		ret, err := transaction.ApiStatusReq(reqStatus)
+		ret, err := transaction.ApiStatusReq(reqStatus, mConf)
 		if err != nil {
 			//you can retry if occur  Network failure
 			fmt.Println(ret, err)
@@ -319,7 +322,7 @@ labover:
 func main() {
 	go web()
 	time.Sleep(1*time.Second)
-	pin3ds()
+	pinopt()
 	fmt.Println("please press enter ...")
 	inputReader := bufio.NewReader(os.Stdin)
 	inputReader.ReadString('\n')

@@ -2,23 +2,24 @@ package transfer
 
 import (
 	"fmt"
-	"github.com/opay-services/opay-sdk-golang/sdk/conf"
+	conf "github.com/opay-services/opay-sdk-golang/sdk/conf"
 	"math/rand"
 	"testing"
 	"time"
 )
 
+var mConf *conf.OpayMerchantConf
 func init()  {
-	conf.InitEnv(
+	mConf = conf.InitEnv(
 		"OPAYPUB16058646510220.420473668870203",
 		"OPAYPRV16058646510230.34019403186305675",
 		"SrnIchuukX33koDt",
 		"256620112018025",
 		"sandbox",
+		"NGN",
 	)
 
-
-	conf.SetLog(func(a ...interface{}) {
+	mConf.SetLog(func(a ...interface{}) {
 		fmt.Println(a...)
 	})
 	rand.Seed(time.Now().Unix())
@@ -36,7 +37,7 @@ func TestApiTransferToOWalletUser(t *testing.T) {
 		Type:"USER",
 		Name:"Andy Lee",
 	}
-	ApiTransferToOWalletUser(req)
+	ApiTransferToOWalletUser(req, mConf)
 }
 
 func TestApiTransferToOWalletMerchant(t *testing.T) {
@@ -51,7 +52,7 @@ func TestApiTransferToOWalletMerchant(t *testing.T) {
 		Type:"MERCHANT",
 		Name:"Andy Lee",
 	}
-	ApiTransferToOWalletMerchant(req)
+	ApiTransferToOWalletMerchant(req, mConf)
 }
 
 func TestApiTransferToBank(t *testing.T) {
@@ -68,16 +69,16 @@ func TestApiTransferToBank(t *testing.T) {
 		Name:"test",
 	}
 
-	rsp, _ := ApiTransferToBank(req)
+	rsp, _ := ApiTransferToBank(req, mConf)
 	fmt.Println(rsp)
 }
 
 func TestApiStatusToWalletReq(t *testing.T) {
 	req := StatusToWalletReq{Reference:"testlijian_1616665358658881000"}
-	ApiStatusToWalletReq(req)
+	ApiStatusToWalletReq(req, mConf)
 }
 
 func TestApiStatusToBankReq(t *testing.T) {
 	req := StatusToBankReq{Reference:"testlijian_1616665147758091000"}
-	ApiStatusToBankReq(req)
+	ApiStatusToBankReq(req, mConf)
 }

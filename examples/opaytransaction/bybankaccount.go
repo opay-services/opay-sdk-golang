@@ -2,23 +2,25 @@ package main
 
 import (
 	"fmt"
-	"github.com/opay-services/opay-sdk-golang/sdk/conf"
+	conf "github.com/opay-services/opay-sdk-golang/sdk/conf"
 	"github.com/opay-services/opay-sdk-golang/sdk/transaction"
 	"math/rand"
 	"time"
 )
 
-func init()  {
-	conf.InitEnv(
+var mConf *conf.OpayMerchantConf
+
+func init() {
+	mConf = conf.InitEnv(
 		"OPAYPUB16058646510220.420473668870203",
 		"OPAYPRV16058646510230.34019403186305675",
 		"SrnIchuukX33koDt",
 		"256620112018025",
 		"sandbox",
+		"NGN",
 	)
 
-
-	conf.SetLog(func(a ...interface{}) {
+	mConf.SetLog(func(a ...interface{}) {
 		fmt.Println(a...)
 	})
 	rand.Seed(time.Now().Unix())
@@ -44,7 +46,7 @@ func main(){
 	req.DobMonth = "10"
 	req.DobDay = "30"
 
-	ret, err := transaction.ApiByBankAccountReq(req)
+	ret, err := transaction.ApiByBankAccountReq(req, mConf)
 	if err != nil{
 		fmt.Println(ret, err)
 	}
@@ -52,7 +54,7 @@ func main(){
 	//query status
 	{
 		reqStatus := transaction.StatusReq{Reference:req.Reference}
-		ret, err := transaction.ApiStatusReq(reqStatus)
+		ret, err := transaction.ApiStatusReq(reqStatus, mConf)
 		if err != nil{
 			fmt.Println(ret, err)
 		}

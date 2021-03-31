@@ -8,14 +8,14 @@ import (
 	"net/http"
 )
 
-func ApiGetContriesSupport(opts ...util.HttpOption) (ret CountriesSupportResp, err error) {
+func ApiGetContriesSupport(mConf *conf.OpayMerchantConf, opts ...util.HttpOption) (ret CountriesSupportResp, err error) {
 	httpClient := util.NewHttpClient(opts...)
-	request, err := http.NewRequest("POST", conf.GetApiHost()+"/api/v3/countries",  nil)
-	if err != nil{
+	request, err := http.NewRequest("POST", mConf.GetApiHost()+"/api/v3/countries", nil)
+	if err != nil {
 		return
 	}
-	request.Header.Add("MerchantId", conf.GetMerchantId())
-	request.Header.Add("Authorization", "Bearer "+conf.GetPublicKey())
+	request.Header.Add("MerchantId", mConf.GetMerchantId())
+	request.Header.Add("Authorization", "Bearer "+ mConf.GetPublicKey())
 	request.Header.Add("Content-Type", "application/json")
 	resp, err := httpClient.Do(request)
 	if err != nil {
@@ -32,4 +32,3 @@ func ApiGetContriesSupport(opts ...util.HttpOption) (ret CountriesSupportResp, e
 	err = json.Unmarshal(body, &ret)
 	return
 }
-

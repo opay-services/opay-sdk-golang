@@ -2,16 +2,16 @@ package user
 
 import (
 	"encoding/json"
-	"github.com/opay-services/opay-sdk-golang/sdk/conf"
+	conf "github.com/opay-services/opay-sdk-golang/sdk/conf"
 	"github.com/opay-services/opay-sdk-golang/sdk/util"
 	"io/ioutil"
 	"net/http"
 	"strings"
 )
 
-func ApiUserInfoReq(req InfoUserReq, opts ...util.HttpOption) (ret InfoUserResp, err error) {
+func ApiUserInfoReq(req InfoUserReq, mConf *conf.OpayMerchantConf, opts ...util.HttpOption) (ret InfoUserResp, err error) {
 
-	logf := conf.GetLog()
+	logf := mConf.GetLog()
 	httpClient := util.NewHttpClient(opts...)
 
 	jsonReq, err := util.OpayJsonMarshal(&req)
@@ -21,15 +21,15 @@ func ApiUserInfoReq(req InfoUserReq, opts ...util.HttpOption) (ret InfoUserResp,
 
 	request, err := http.NewRequest(
 		"POST",
-		conf.GetApiHost()+"/api/v3/info/user",
+		mConf.GetApiHost()+"/api/v3/info/user",
 		strings.NewReader(string(jsonReq)),
 	)
 
 	if err != nil {
 		return
 	}
-	request.Header.Add("MerchantId", conf.GetMerchantId())
-	request.Header.Add("Authorization", "Bearer "+conf.GetPublicKey())
+	request.Header.Add("MerchantId", mConf.GetMerchantId())
+	request.Header.Add("Authorization", "Bearer "+mConf.GetPublicKey())
 	request.Header.Add("Content-Type", "application/json")
 
 	if logf != nil {
@@ -56,9 +56,9 @@ func ApiUserInfoReq(req InfoUserReq, opts ...util.HttpOption) (ret InfoUserResp,
 	return
 }
 
-func ApiUserCreateReq(req UserCreateReq, opts ...util.HttpOption) (ret InfoUserResp, err error) {
+func ApiUserCreateReq(req UserCreateReq, mConf *conf.OpayMerchantConf, opts ...util.HttpOption) (ret InfoUserResp, err error) {
 
-	logf := conf.GetLog()
+	logf := mConf.GetLog()
 	httpClient := util.NewHttpClient(opts...)
 
 	jsonReq, err := util.OpayJsonMarshal(&req)
@@ -68,15 +68,15 @@ func ApiUserCreateReq(req UserCreateReq, opts ...util.HttpOption) (ret InfoUserR
 
 	request, err := http.NewRequest(
 		"POST",
-		conf.GetApiHost()+"/api/v3/info/user/create",
+		mConf.GetApiHost()+"/api/v3/info/user/create",
 		strings.NewReader(string(jsonReq)),
 	)
 
 	if err != nil {
 		return
 	}
-	request.Header.Add("MerchantId", conf.GetMerchantId())
-	request.Header.Add("Authorization", "Bearer "+conf.GetPublicKey())
+	request.Header.Add("MerchantId", mConf.GetMerchantId())
+	request.Header.Add("Authorization", "Bearer "+mConf.GetPublicKey())
 	request.Header.Add("Content-Type", "application/json")
 
 	if logf != nil {
@@ -103,9 +103,9 @@ func ApiUserCreateReq(req UserCreateReq, opts ...util.HttpOption) (ret InfoUserR
 	return
 }
 
-func ApiSendOpt(req SendOptReq, opts ...util.HttpOption) (ret SendOptResp, err error) {
+func ApiSendOpt(req SendOptReq, mConf *conf.OpayMerchantConf, opts ...util.HttpOption) (ret SendOptResp, err error) {
 
-	logf := conf.GetLog()
+	logf := mConf.GetLog()
 	httpClient := util.NewHttpClient(opts...)
 
 	jsonReq, err := util.OpayJsonMarshal(&req)
@@ -115,15 +115,15 @@ func ApiSendOpt(req SendOptReq, opts ...util.HttpOption) (ret SendOptResp, err e
 
 	request, err := http.NewRequest(
 		"POST",
-		conf.GetApiHost()+"/api/v3/info/user/sendOTP",
+		mConf.GetApiHost()+"/api/v3/info/user/sendOTP",
 		strings.NewReader(string(jsonReq)),
 	)
 
 	if err != nil {
 		return
 	}
-	request.Header.Add("MerchantId", conf.GetMerchantId())
-	request.Header.Add("Authorization", "Bearer "+ util.SignatureSHA512([]byte(jsonReq)))
+	request.Header.Add("MerchantId", mConf.GetMerchantId())
+	request.Header.Add("Authorization", "Bearer "+ util.SignatureSHA512([]byte(jsonReq), mConf.GetSecretKey()))
 	request.Header.Add("Content-Type", "application/json")
 
 	if logf != nil {
@@ -150,9 +150,9 @@ func ApiSendOpt(req SendOptReq, opts ...util.HttpOption) (ret SendOptResp, err e
 	return
 }
 
-func ApiUserUpdateReq(req UserUpdateReq, opts ...util.HttpOption) (ret InfoUserResp, err error) {
+func ApiUserUpdateReq(req UserUpdateReq, mConf *conf.OpayMerchantConf, opts ...util.HttpOption) (ret InfoUserResp, err error) {
 
-	logf := conf.GetLog()
+	logf := mConf.GetLog()
 	httpClient := util.NewHttpClient(opts...)
 
 	jsonReq, err := util.OpayJsonMarshal(&req)
@@ -162,15 +162,15 @@ func ApiUserUpdateReq(req UserUpdateReq, opts ...util.HttpOption) (ret InfoUserR
 
 	request, err := http.NewRequest(
 		"POST",
-		conf.GetApiHost()+"/api/v3/info/user/update",
+		mConf.GetApiHost()+"/api/v3/info/user/update",
 		strings.NewReader(string(jsonReq)),
 	)
 
 	if err != nil {
 		return
 	}
-	request.Header.Add("MerchantId", conf.GetMerchantId())
-	request.Header.Add("Authorization", "Bearer "+ util.SignatureSHA512([]byte(jsonReq)))
+	request.Header.Add("MerchantId", mConf.GetMerchantId())
+	request.Header.Add("Authorization", "Bearer "+ util.SignatureSHA512([]byte(jsonReq), mConf.GetSecretKey()))
 	request.Header.Add("Content-Type", "application/json")
 
 	if logf != nil {

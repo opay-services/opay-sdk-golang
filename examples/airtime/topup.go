@@ -6,24 +6,26 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/opay-services/opay-sdk-golang/sdk/airtime"
-	"github.com/opay-services/opay-sdk-golang/sdk/conf"
+	conf "github.com/opay-services/opay-sdk-golang/sdk/conf"
 	"github.com/opay-services/opay-sdk-golang/sdk/ips"
 	"math/rand"
 	"os"
 	"time"
 )
 
-func init()  {
-	conf.InitEnv(
+var mConf *conf.OpayMerchantConf
+
+func init() {
+	mConf = conf.InitEnv(
 		"OPAYPUB16058646510220.420473668870203",
 		"OPAYPRV16058646510230.34019403186305675",
 		"SrnIchuukX33koDt",
 		"256620112018025",
 		"sandbox",
+		"NGN",
 	)
 
-
-	conf.SetLog(func(a ...interface{}) {
+	mConf.SetLog(func(a ...interface{}) {
 		fmt.Println(a...)
 	})
 	rand.Seed(time.Now().Unix())
@@ -43,7 +45,7 @@ func web()  {
 		if err != nil {
 			fmt.Println(err)
 		}else {
-			if notify.VerfiySignature(){
+			if notify.VerfiySignature(mConf){
 				//TODO
 			}
 		}
@@ -72,7 +74,7 @@ func main()  {
 		req.BulkData[i].CustomerId = "20019212912901281821982" + fmt.Sprintf("%v", i)
 	}
 
-	ret, err := airtime.ApiBulkBillsReq(req)
+	ret, err := airtime.ApiBulkBillsReq(req, mConf)
 	if err != nil {
 		fmt.Println(ret, err)
 	}
@@ -85,7 +87,7 @@ func main()  {
 	}
 
 	{
-		ret, err := airtime.ApiBulkStatusReq(reqStatus)
+		ret, err := airtime.ApiBulkStatusReq(reqStatus, mConf)
 		if err != nil {
 			fmt.Println(ret, err)
 		}

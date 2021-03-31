@@ -2,23 +2,25 @@ package main
 
 import (
 	"fmt"
-	"github.com/opay-services/opay-sdk-golang/sdk/conf"
+	conf "github.com/opay-services/opay-sdk-golang/sdk/conf"
 	"github.com/opay-services/opay-sdk-golang/sdk/transaction"
 	"math/rand"
 	"time"
 )
 
-func init()  {
-	conf.InitEnv(
+var mConf *conf.OpayMerchantConf
+
+func init() {
+	mConf = conf.InitEnv(
 		"OPAYPUB16058646510220.420473668870203",
 		"OPAYPRV16058646510230.34019403186305675",
 		"SrnIchuukX33koDt",
 		"256620112018025",
 		"sandbox",
+		"NGN",
 	)
 
-
-	conf.SetLog(func(a ...interface{}) {
+	mConf.SetLog(func(a ...interface{}) {
 		fmt.Println(a...)
 	})
 	rand.Seed(time.Now().Unix())
@@ -43,7 +45,7 @@ func main()  {
 	req.CallbackUrl = "localhost://localhost:8080"
 	req.UserPhone = "+2348160564736"
 
-	ret, err := transaction.ApiUssdCodeReq(req)
+	ret, err := transaction.ApiUssdCodeReq(req, mConf)
 	if err != nil{
 		fmt.Println(ret, err)
 	}
@@ -54,7 +56,7 @@ func main()  {
 
 	{
 		reqStatus := transaction.UssdOrderStatusReq{Reference:req.Reference}
-		ret, err := transaction.ApiUssdOrderStatusReq(reqStatus)
+		ret, err := transaction.ApiUssdOrderStatusReq(reqStatus, mConf)
 		if err != nil{
 			fmt.Println(ret, err)
 		}

@@ -2,19 +2,19 @@ package charge
 
 import (
 	"encoding/json"
-	"github.com/opay-services/opay-sdk-golang/sdk/conf"
+	conf "github.com/opay-services/opay-sdk-golang/sdk/conf"
 	"github.com/opay-services/opay-sdk-golang/sdk/util"
 	"io/ioutil"
 	"net/http"
 	"strings"
 )
 
-func ApiInitializeReq(req InitializeReq, opts ...util.HttpOption) (ret InitializeResp, err error) {
+func ApiInitializeReq(req InitializeReq, mConf *conf.OpayMerchantConf, opts ...util.HttpOption) (ret InitializeResp, err error) {
 	if len(req.Currency) == 0 {
 		req.Currency = "NGN"
 	}
 
-	logf := conf.GetLog()
+	logf := mConf.GetLog()
 	httpClient := util.NewHttpClient(opts...)
 
 	jsonReq, err := util.OpayJsonMarshal(&req)
@@ -24,15 +24,15 @@ func ApiInitializeReq(req InitializeReq, opts ...util.HttpOption) (ret Initializ
 
 	request, err := http.NewRequest(
 		"POST",
-		conf.GetApiHost()+"/api/v3/charge/initialize",
+		mConf.GetApiHost()+"/api/v3/charge/initialize",
 		strings.NewReader(string(jsonReq)),
 	)
 
 	if err != nil {
 		return
 	}
-	request.Header.Add("MerchantId", conf.GetMerchantId())
-	request.Header.Add("Authorization", "Bearer "+conf.GetPublicKey())
+	request.Header.Add("MerchantId", mConf.GetMerchantId())
+	request.Header.Add("Authorization", "Bearer "+mConf.GetPublicKey())
 	request.Header.Add("Content-Type", "application/json")
 
 	if logf != nil {
@@ -59,28 +59,28 @@ func ApiInitializeReq(req InitializeReq, opts ...util.HttpOption) (ret Initializ
 	return
 }
 
-func ApiStatusReq(req StatusReq, opts ...util.HttpOption) (ret StatusResp, err error) {
+func ApiStatusReq(req StatusReq, mConf *conf.OpayMerchantConf, opts ...util.HttpOption) (ret StatusResp, err error) {
 
 	httpClient := util.NewHttpClient(opts...)
-	logf := conf.GetLog()
+	logf := mConf.GetLog()
 
 	jsonReq, err := json.Marshal(&req)
 	if err != nil {
 		return
 	}
 
-	signStr := util.SignatureSHA512(jsonReq)
+	signStr := util.SignatureSHA512(jsonReq, mConf.GetSecretKey())
 
 	request, err := http.NewRequest(
 		"POST",
-		conf.GetApiHost()+"/api/v3/charge/status",
+		mConf.GetApiHost()+"/api/v3/charge/status",
 		strings.NewReader(string(jsonReq)),
 	)
 
 	if err != nil {
 		return
 	}
-	request.Header.Add("MerchantId", conf.GetMerchantId())
+	request.Header.Add("MerchantId", mConf.GetMerchantId())
 	request.Header.Add("Authorization", "Bearer "+signStr)
 	request.Header.Add("Content-Type", "application/json")
 

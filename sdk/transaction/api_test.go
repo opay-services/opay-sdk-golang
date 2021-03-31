@@ -2,30 +2,31 @@ package transaction
 
 import (
 	"fmt"
-	"github.com/opay-services/opay-sdk-golang/sdk/conf"
+	conf "github.com/opay-services/opay-sdk-golang/sdk/conf"
 	"math/rand"
 	"testing"
 	"time"
 )
 
+var mConf *conf.OpayMerchantConf
 func init()  {
-	conf.InitEnv(
+	mConf = conf.InitEnv(
 		"OPAYPUB16058646510220.420473668870203",
 		"OPAYPRV16058646510230.34019403186305675",
 		"SrnIchuukX33koDt",
 		"256620112018025",
 		"sandbox",
+		"NGN",
 	)
 
-
-	conf.SetLog(func(a ...interface{}) {
+	mConf.SetLog(func(a ...interface{}) {
 		fmt.Println(a...)
 	})
 	rand.Seed(time.Now().Unix())
 }
 
 func TestApiSupportBanksReq(t *testing.T) {
-	ret, err := ApiSupportBanksReq(SupportBanksReq{Country:"NG"})
+	ret, err := ApiSupportBanksReq(SupportBanksReq{Country: "NG"}, mConf)
 	if err != nil{
 		fmt.Println(ret, err)
 	}
@@ -50,7 +51,7 @@ func TestApiByBankCardReq(t *testing.T) {
 	req.CardDateMonth = "12"
 	req.CardNumber = "5061460410121111105"
 
-	ret, err := ApiByBankCardReq(req)
+	ret, err := ApiByBankCardReq(req, mConf)
 	if err != nil{
 		fmt.Println(ret, err)
 	}
@@ -74,15 +75,15 @@ func TestApiByBankAccountReq(t *testing.T) {
 	req.DobMonth = "10"
 	req.DobDay = "30"
 
-	ret, err := ApiByBankAccountReq(req)
+	ret, err := ApiByBankAccountReq(req, mConf)
 	if err != nil{
 		fmt.Println(ret, err)
 	}
 }
 
 func TestApiStatusReq(t *testing.T) {
-	req := StatusReq{Reference:"testlijian_1616747803824832000"}
-	ret, err := ApiStatusReq(req)
+	req := StatusReq{Reference: "testlijian_1616747803824832000"}
+	ret, err := ApiStatusReq(req, mConf)
 	if err != nil{
 		fmt.Println(ret, err)
 	}
@@ -100,15 +101,15 @@ func TestApiUssdCodeReq(t *testing.T) {
 	req.CallbackUrl = "localhost://localhost:8080"
 	req.UserPhone = "+2348160564736"
 
-	ret, err := ApiUssdCodeReq(req)
+	ret, err := ApiUssdCodeReq(req, mConf)
 	if err != nil{
 		fmt.Println(ret, err)
 	}
 }
 
 func TestApiUssdOrderStatusReq(t *testing.T) {
-	req := UssdOrderStatusReq{Reference:"testlijian_1616753993664468000"}
-	ret, err := ApiUssdOrderStatusReq(req)
+	req := UssdOrderStatusReq{Reference: "testlijian_1616753993664468000"}
+	ret, err := ApiUssdOrderStatusReq(req, mConf)
 	if err != nil{
 		fmt.Println(ret, err)
 	}
@@ -125,15 +126,15 @@ func TestApiBankTransferInitializeReq(t *testing.T) {
 	req.ExpireAt = "10"
 	req.UserPhone = "+2348160564736"
 
-	ret, err := ApiBankTransferInitializeReq(req)
+	ret, err := ApiBankTransferInitializeReq(req, mConf)
 	if err != nil{
 		fmt.Println(ret, err)
 	}
 }
 
 func TestApiBankTransferStatusReq(t *testing.T) {
-	req := BankTransferStatusReq{Reference:"testlijian_1616751184699154000"}
-	ret, err := ApiBankTransferStatusReq(req)
+	req := BankTransferStatusReq{Reference: "testlijian_1616751184699154000"}
+	ret, err := ApiBankTransferStatusReq(req, mConf)
 	if err != nil{
 		fmt.Println(ret, err)
 	}
@@ -147,25 +148,25 @@ func TestApiInputOtpReq(t *testing.T) {
 	req := InputOtpReq{}
 	req.Reference = "testlijian_1616743592134162000"
 	req.Otp = "543210"
-	ret, err := ApiInputOtpReq(req)
+	ret, err := ApiInputOtpReq(req, mConf)
 	if err != nil{
 		fmt.Println(ret, err)
 	}
 }
 
 func TestApiInputPinReq(t *testing.T) {
-	req := InputPinReq{Pin:"1105"}
+	req := InputPinReq{Pin: "1105"}
 	req.Reference = "testlijian_1616746186822213000"
-	ret, err := ApiInputPinReq(req)
+	ret, err := ApiInputPinReq(req, mConf)
 	if err != nil {
 		fmt.Println(ret, err)
 	}
 }
 
 func TestApiInputPhoneReq(t *testing.T) {
-	req := InputPhoneReq{Phone:"+2348160564736"}
+	req := InputPhoneReq{Phone: "+2348160564736"}
 	req.Reference = "testlijian_1616746356023949000"
-	ret, err := ApiInputPhoneReq(req)
+	ret, err := ApiInputPhoneReq(req, mConf)
 	if err != nil {
 		fmt.Println(ret, err)
 	}

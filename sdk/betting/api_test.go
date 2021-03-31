@@ -8,23 +8,26 @@ import (
 	"time"
 )
 
+var mConf *conf.OpayMerchantConf
+
 func init() {
-	conf.InitEnv(
+	mConf = conf.InitEnv(
 		"OPAYPUB16058646510220.420473668870203",
 		"OPAYPRV16058646510230.34019403186305675",
 		"SrnIchuukX33koDt",
 		"256620112018025",
 		"sandbox",
+		"NGN",
 	)
 
-	conf.SetLog(func(a ...interface{}) {
+	mConf.SetLog(func(a ...interface{}) {
 		fmt.Println(a...)
 	})
 	rand.Seed(time.Now().Unix())
 }
 
 func TestApiProviderReq(t *testing.T) {
-	ret, err := ApiProviderReq()
+	ret, err := ApiProviderReq(mConf)
 	if err != nil {
 		fmt.Println(ret, err)
 	}
@@ -36,7 +39,7 @@ func TestApiBillValidateReq(t *testing.T) {
 	req.ServiceType = "betting"
 	req.CustomerId = "20019212912901281821982"
 
-	ret, err := ApiBillValidateReq(req)
+	ret, err := ApiBillValidateReq(req, mConf)
 	if err != nil {
 		fmt.Println(ret, err)
 	}
@@ -56,7 +59,7 @@ func TestApiBettingBulkBillsReq(t *testing.T) {
 		req.BulkData[i].CustomerId = "20019212912901281821982" + fmt.Sprintf("%v", i)
 	}
 
-	ret, err := ApiBulkBillsReq(req)
+	ret, err := ApiBulkBillsReq(req, mConf)
 	if err != nil {
 		fmt.Println(ret, err)
 	}
@@ -70,7 +73,7 @@ func TestApiBulkStatusReq(t *testing.T) {
 	req.BulkStatusRequest[0].Reference = "testlijian_1617106425608068000"
 	req.BulkStatusRequest[1].Reference = "testlijian_1617106425608075001"
 
-	ret, err := ApiBulkStatusReq(req)
+	ret, err := ApiBulkStatusReq(req, mConf)
 	if err != nil {
 		fmt.Println(ret, err)
 	}

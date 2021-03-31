@@ -2,6 +2,7 @@ package ips
 
 import (
 	"fmt"
+	"github.com/opay-services/opay-sdk-golang/sdk/conf"
 	"github.com/opay-services/opay-sdk-golang/sdk/util"
 )
 
@@ -31,7 +32,7 @@ type MerchantAcquiringPayload struct {
 	Status           string `json:"status"`
 }
 
-func (msg *MerchantAcquiring) VerfiySignature() bool {
+func (msg *MerchantAcquiring) VerfiySignature(mConf *conf.OpayMerchantConf) bool {
 	payload := msg.Payload
 
 	var flag string = "f"
@@ -45,7 +46,7 @@ func (msg *MerchantAcquiring) VerfiySignature() bool {
 		payload.Status, payload.Timestamp,
 		payload.Token, payload.TransactionId)
 
-	signStr := util.SignatureSHA3512([]byte(str))
+	signStr := util.SignatureSHA3512([]byte(str), mConf.GetSecretKey())
 
 	if signStr == msg.Sha512 {
 		return true
@@ -73,13 +74,13 @@ type BettingPayload struct {
 	ErrorMsg        string `json:"errorMsg"`
 }
 
-func (msg *BettingAndAirTime) VerfiySignature() bool {
+func (msg *BettingAndAirTime) VerfiySignature(mConf *conf.OpayMerchantConf) bool {
 	str := fmt.Sprintf("{orderNo:\"%s\",merchantOrderNo:\"%s\",merchantId:\"%s\"," +
 		"orderAmount:\"%d\",serviceType:\"%s\",orderStatus:\"%s\"}", msg.Payload.OrderNo,
 		msg.Payload.MerchantOrderNo, msg.Payload.MerchantId,
 		msg.Payload.OrderAmount, msg.Payload.ServiceType, msg.Payload.OrderStatus)
 
-	signStr := util.SignatureSHA3512([]byte(str))
+	signStr := util.SignatureSHA3512([]byte(str), mConf.GetSecretKey())
 	if signStr == msg.Sha512 {
 		return true
 	}

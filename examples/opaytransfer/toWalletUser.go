@@ -2,23 +2,25 @@ package main
 
 import (
 	"fmt"
-	"github.com/opay-services/opay-sdk-golang/sdk/conf"
+	conf "github.com/opay-services/opay-sdk-golang/sdk/conf"
 	"github.com/opay-services/opay-sdk-golang/sdk/transfer"
 	"math/rand"
 	"time"
 )
 
-func init()  {
-	conf.InitEnv(
+var mConf *conf.OpayMerchantConf
+
+func init() {
+	mConf = conf.InitEnv(
 		"OPAYPUB16058646510220.420473668870203",
 		"OPAYPRV16058646510230.34019403186305675",
 		"SrnIchuukX33koDt",
 		"256620112018025",
 		"sandbox",
+		"NGN",
 	)
 
-
-	conf.SetLog(func(a ...interface{}) {
+	mConf.SetLog(func(a ...interface{}) {
 		fmt.Println(a...)
 	})
 	rand.Seed(time.Now().Unix())
@@ -37,7 +39,7 @@ func main()  {
 		Type:"USER",
 		Name:"Andy Lee",
 	}
-	rsp, err := transfer.ApiTransferToOWalletUser(req)
+	rsp, err := transfer.ApiTransferToOWalletUser(req, mConf)
 	if err != nil{
 		fmt.Println(err)
 		return
@@ -49,7 +51,7 @@ func main()  {
 
 	//query status
 	for i:=0; i<5; i++ {
-		rsp, err = transfer.ApiStatusToWalletReq(transfer.StatusToWalletReq{Reference: req.Reference})
+		rsp, err = transfer.ApiStatusToWalletReq(transfer.StatusToWalletReq{Reference: req.Reference}, mConf)
 		if err != nil {
 			fmt.Println(err)
 			continue

@@ -9,10 +9,10 @@ import (
 	"strings"
 )
 
-func ApiByBankCardReq(req ByBankCardReq, opts ...util.HttpOption) (ret TranscationChecktoutResp, err error) {
+func ApiByBankCardReq(req ByBankCardReq, mConf *conf.OpayMerchantConf, opts ...util.HttpOption) (ret TranscationChecktoutResp, err error) {
 
 	httpClient := util.NewHttpClient(opts...)
-	if req.PayType != "bankcard"{
+	if req.PayType != "bankcard" {
 		req.PayType = "bankcard"
 	}
 
@@ -23,7 +23,7 @@ func ApiByBankCardReq(req ByBankCardReq, opts ...util.HttpOption) (ret Transcati
 
 	request, err := http.NewRequest(
 		"POST",
-		conf.GetApiHost()+"/api/v3/transaction/initialize",
+		mConf.GetApiHost()+"/api/v3/transaction/initialize",
 		strings.NewReader(string(jsonReq)),
 	)
 
@@ -31,11 +31,11 @@ func ApiByBankCardReq(req ByBankCardReq, opts ...util.HttpOption) (ret Transcati
 		return
 	}
 
-	request.Header.Add("MerchantId", conf.GetMerchantId())
-	request.Header.Add("Authorization", "Bearer " + conf.GetPublicKey())
+	request.Header.Add("MerchantId", mConf.GetMerchantId())
+	request.Header.Add("Authorization", "Bearer "+mConf.GetPublicKey())
 	request.Header.Add("Content-Type", "application/json")
 
-	logf := conf.GetLog()
+	logf := mConf.GetLog()
 	if logf != nil {
 		logf("req", request)
 		logf("req json:", string(jsonReq))
@@ -60,11 +60,10 @@ func ApiByBankCardReq(req ByBankCardReq, opts ...util.HttpOption) (ret Transcati
 	return
 }
 
-
-func ApiByBankAccountReq(req ByBankAccountReq, opts ...util.HttpOption)(ret TranscationChecktoutResp, err error)  {
+func ApiByBankAccountReq(req ByBankAccountReq, mConf *conf.OpayMerchantConf, opts ...util.HttpOption) (ret TranscationChecktoutResp, err error) {
 
 	httpClient := util.NewHttpClient(opts...)
-	if req.PayType != "bankaccount"{
+	if req.PayType != "bankaccount" {
 		req.PayType = "bankaccount"
 	}
 
@@ -75,7 +74,7 @@ func ApiByBankAccountReq(req ByBankAccountReq, opts ...util.HttpOption)(ret Tran
 
 	request, err := http.NewRequest(
 		"POST",
-		conf.GetApiHost()+"/api/v3/transaction/initialize",
+		mConf.GetApiHost()+"/api/v3/transaction/initialize",
 		strings.NewReader(string(jsonReq)),
 	)
 
@@ -83,11 +82,11 @@ func ApiByBankAccountReq(req ByBankAccountReq, opts ...util.HttpOption)(ret Tran
 		return
 	}
 
-	request.Header.Add("MerchantId", conf.GetMerchantId())
-	request.Header.Add("Authorization", "Bearer " + conf.GetPublicKey())
+	request.Header.Add("MerchantId", mConf.GetMerchantId())
+	request.Header.Add("Authorization", "Bearer "+mConf.GetPublicKey())
 	request.Header.Add("Content-Type", "application/json")
 
-	logf := conf.GetLog()
+	logf := mConf.GetLog()
 	if logf != nil {
 		logf("req", request)
 		logf("req json:", string(jsonReq))
@@ -112,7 +111,7 @@ func ApiByBankAccountReq(req ByBankAccountReq, opts ...util.HttpOption)(ret Tran
 	return
 }
 
-func ApiInputOtpReq(req InputOtpReq, opts ...util.HttpOption) (ret InputOptResp, err error){
+func ApiInputOtpReq(req InputOtpReq, mConf *conf.OpayMerchantConf, opts ...util.HttpOption) (ret InputOptResp, err error) {
 
 	httpClient := util.NewHttpClient(opts...)
 	jsonReq, err := json.Marshal(&req)
@@ -122,7 +121,7 @@ func ApiInputOtpReq(req InputOtpReq, opts ...util.HttpOption) (ret InputOptResp,
 
 	request, err := http.NewRequest(
 		"POST",
-		conf.GetApiHost()+"/api/v3/transaction/input-otp",
+		mConf.GetApiHost()+"/api/v3/transaction/input-otp",
 		strings.NewReader(string(jsonReq)),
 	)
 
@@ -130,11 +129,11 @@ func ApiInputOtpReq(req InputOtpReq, opts ...util.HttpOption) (ret InputOptResp,
 		return
 	}
 
-	request.Header.Add("MerchantId", conf.GetMerchantId())
-	request.Header.Add("Authorization", "Bearer " + conf.GetPublicKey())
+	request.Header.Add("MerchantId", mConf.GetMerchantId())
+	request.Header.Add("Authorization", "Bearer "+mConf.GetPublicKey())
 	request.Header.Add("Content-Type", "application/json")
 
-	logf := conf.GetLog()
+	logf := mConf.GetLog()
 	if logf != nil {
 		logf("req", request)
 		logf("req json:", string(jsonReq))
@@ -159,55 +158,7 @@ func ApiInputOtpReq(req InputOtpReq, opts ...util.HttpOption) (ret InputOptResp,
 	return
 }
 
-func ApiInputPhoneReq(req InputPhoneReq, opts ...util.HttpOption) (ret InputPhoneResp, err error) {
-
-	httpClient := util.NewHttpClient(opts...)
-
-	jsonReq, err := json.Marshal(&req)
-	if err != nil {
-		return
-	}
-
-	request, err := http.NewRequest(
-		"POST",
-		conf.GetApiHost()+"/api/v3/transaction/input-phone",
-		strings.NewReader(string(jsonReq)),
-	)
-
-	if err != nil {
-		return
-	}
-
-	request.Header.Add("MerchantId", conf.GetMerchantId())
-	request.Header.Add("Authorization", "Bearer " + conf.GetPublicKey())
-	request.Header.Add("Content-Type", "application/json")
-
-	logf := conf.GetLog()
-	if logf != nil {
-		logf("req", request)
-		logf("req json:", string(jsonReq))
-	}
-
-	resp, err := httpClient.Do(request)
-	if err != nil {
-		return
-	}
-
-	defer resp.Body.Close()
-
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return
-	}
-
-	if logf != nil {
-		logf(string(body))
-	}
-	err = json.Unmarshal(body, &ret)
-	return
-}
-
-func ApiInputPinReq(req InputPinReq, opts ...util.HttpOption) (ret InputPinResp, err error) {
+func ApiInputPhoneReq(req InputPhoneReq, mConf *conf.OpayMerchantConf, opts ...util.HttpOption) (ret InputPhoneResp, err error) {
 
 	httpClient := util.NewHttpClient(opts...)
 
@@ -218,7 +169,7 @@ func ApiInputPinReq(req InputPinReq, opts ...util.HttpOption) (ret InputPinResp,
 
 	request, err := http.NewRequest(
 		"POST",
-		conf.GetApiHost()+"/api/v3/transaction/input-pin",
+		mConf.GetApiHost()+"/api/v3/transaction/input-phone",
 		strings.NewReader(string(jsonReq)),
 	)
 
@@ -226,11 +177,11 @@ func ApiInputPinReq(req InputPinReq, opts ...util.HttpOption) (ret InputPinResp,
 		return
 	}
 
-	request.Header.Add("MerchantId", conf.GetMerchantId())
-	request.Header.Add("Authorization", "Bearer " + conf.GetPublicKey())
+	request.Header.Add("MerchantId", mConf.GetMerchantId())
+	request.Header.Add("Authorization", "Bearer "+mConf.GetPublicKey())
 	request.Header.Add("Content-Type", "application/json")
 
-	logf := conf.GetLog()
+	logf := mConf.GetLog()
 	if logf != nil {
 		logf("req", request)
 		logf("req json:", string(jsonReq))
@@ -255,7 +206,7 @@ func ApiInputPinReq(req InputPinReq, opts ...util.HttpOption) (ret InputPinResp,
 	return
 }
 
-func ApiInputDobReq(req InputDobReq, opts ...util.HttpOption) (ret InputDobResp, err error) {
+func ApiInputPinReq(req InputPinReq, mConf *conf.OpayMerchantConf, opts ...util.HttpOption) (ret InputPinResp, err error) {
 
 	httpClient := util.NewHttpClient(opts...)
 
@@ -266,7 +217,7 @@ func ApiInputDobReq(req InputDobReq, opts ...util.HttpOption) (ret InputDobResp,
 
 	request, err := http.NewRequest(
 		"POST",
-		conf.GetApiHost()+"/api/v3/transaction/input-dob",
+		mConf.GetApiHost()+"/api/v3/transaction/input-pin",
 		strings.NewReader(string(jsonReq)),
 	)
 
@@ -274,11 +225,11 @@ func ApiInputDobReq(req InputDobReq, opts ...util.HttpOption) (ret InputDobResp,
 		return
 	}
 
-	request.Header.Add("MerchantId", conf.GetMerchantId())
-	request.Header.Add("Authorization", "Bearer " + conf.GetPublicKey())
+	request.Header.Add("MerchantId", mConf.GetMerchantId())
+	request.Header.Add("Authorization", "Bearer "+mConf.GetPublicKey())
 	request.Header.Add("Content-Type", "application/json")
 
-	logf := conf.GetLog()
+	logf := mConf.GetLog()
 	if logf != nil {
 		logf("req", request)
 		logf("req json:", string(jsonReq))
@@ -303,7 +254,7 @@ func ApiInputDobReq(req InputDobReq, opts ...util.HttpOption) (ret InputDobResp,
 	return
 }
 
-func ApiStatusReq(req StatusReq, opts ...util.HttpOption)(ret StatusResp, err error)  {
+func ApiInputDobReq(req InputDobReq, mConf *conf.OpayMerchantConf, opts ...util.HttpOption) (ret InputDobResp, err error) {
 
 	httpClient := util.NewHttpClient(opts...)
 
@@ -314,7 +265,7 @@ func ApiStatusReq(req StatusReq, opts ...util.HttpOption)(ret StatusResp, err er
 
 	request, err := http.NewRequest(
 		"POST",
-		conf.GetApiHost()+"/api/v3/transaction/status",
+		mConf.GetApiHost()+"/api/v3/transaction/input-dob",
 		strings.NewReader(string(jsonReq)),
 	)
 
@@ -322,13 +273,11 @@ func ApiStatusReq(req StatusReq, opts ...util.HttpOption)(ret StatusResp, err er
 		return
 	}
 
-	signStr := util.SignatureSHA512(jsonReq)
-
-	request.Header.Add("MerchantId", conf.GetMerchantId())
-	request.Header.Add("Authorization", "Bearer " + signStr)
+	request.Header.Add("MerchantId", mConf.GetMerchantId())
+	request.Header.Add("Authorization", "Bearer "+mConf.GetPublicKey())
 	request.Header.Add("Content-Type", "application/json")
 
-	logf := conf.GetLog()
+	logf := mConf.GetLog()
 	if logf != nil {
 		logf("req", request)
 		logf("req json:", string(jsonReq))
@@ -353,7 +302,57 @@ func ApiStatusReq(req StatusReq, opts ...util.HttpOption)(ret StatusResp, err er
 	return
 }
 
-func ApiSupportBanksReq(req SupportBanksReq, opts ...util.HttpOption) (ret SupportBankResp, err error) {
+func ApiStatusReq(req StatusReq, mConf *conf.OpayMerchantConf, opts ...util.HttpOption) (ret StatusResp, err error) {
+
+	httpClient := util.NewHttpClient(opts...)
+
+	jsonReq, err := json.Marshal(&req)
+	if err != nil {
+		return
+	}
+
+	request, err := http.NewRequest(
+		"POST",
+		mConf.GetApiHost()+"/api/v3/transaction/status",
+		strings.NewReader(string(jsonReq)),
+	)
+
+	if err != nil {
+		return
+	}
+
+	signStr := util.SignatureSHA512(jsonReq, mConf.GetSecretKey())
+
+	request.Header.Add("MerchantId", mConf.GetMerchantId())
+	request.Header.Add("Authorization", "Bearer "+signStr)
+	request.Header.Add("Content-Type", "application/json")
+
+	logf := mConf.GetLog()
+	if logf != nil {
+		logf("req", request)
+		logf("req json:", string(jsonReq))
+	}
+
+	resp, err := httpClient.Do(request)
+	if err != nil {
+		return
+	}
+
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return
+	}
+
+	if logf != nil {
+		logf(string(body))
+	}
+	err = json.Unmarshal(body, &ret)
+	return
+}
+
+func ApiSupportBanksReq(req SupportBanksReq, mConf *conf.OpayMerchantConf, opts ...util.HttpOption) (ret SupportBankResp, err error) {
 
 	httpClient := util.NewHttpClient(opts...)
 	jsonReq, err := json.Marshal(&req)
@@ -363,7 +362,7 @@ func ApiSupportBanksReq(req SupportBanksReq, opts ...util.HttpOption) (ret Suppo
 
 	request, err := http.NewRequest(
 		"POST",
-		conf.GetApiHost()+"/api/v3/transaction/banks",
+		mConf.GetApiHost()+"/api/v3/transaction/banks",
 		strings.NewReader(string(jsonReq)),
 	)
 
@@ -371,11 +370,11 @@ func ApiSupportBanksReq(req SupportBanksReq, opts ...util.HttpOption) (ret Suppo
 		return
 	}
 
-	request.Header.Add("MerchantId", conf.GetMerchantId())
-	request.Header.Add("Authorization", "Bearer " + conf.GetPublicKey())
+	request.Header.Add("MerchantId", mConf.GetMerchantId())
+	request.Header.Add("Authorization", "Bearer "+mConf.GetPublicKey())
 	request.Header.Add("Content-Type", "application/json")
 
-	logf := conf.GetLog()
+	logf := mConf.GetLog()
 	if logf != nil {
 		logf("req", request)
 		logf("req json:", string(jsonReq))
@@ -400,7 +399,7 @@ func ApiSupportBanksReq(req SupportBanksReq, opts ...util.HttpOption) (ret Suppo
 	return
 }
 
-func ApiUssdCodeReq(req UssdCodeReq, opts ...util.HttpOption) (ret UssdCodeResp, err error) {
+func ApiUssdCodeReq(req UssdCodeReq, mConf *conf.OpayMerchantConf, opts ...util.HttpOption) (ret UssdCodeResp, err error) {
 
 	httpClient := util.NewHttpClient(opts...)
 	jsonReq, err := json.Marshal(&req)
@@ -410,7 +409,7 @@ func ApiUssdCodeReq(req UssdCodeReq, opts ...util.HttpOption) (ret UssdCodeResp,
 
 	request, err := http.NewRequest(
 		"POST",
-		conf.GetApiHost()+"/api/v3/transaction/ussd/initialize",
+		mConf.GetApiHost()+"/api/v3/transaction/ussd/initialize",
 		strings.NewReader(string(jsonReq)),
 	)
 
@@ -418,13 +417,13 @@ func ApiUssdCodeReq(req UssdCodeReq, opts ...util.HttpOption) (ret UssdCodeResp,
 		return
 	}
 
-	signStr := util.SignatureSHA512(jsonReq)
+	signStr := util.SignatureSHA512(jsonReq, mConf.GetSecretKey())
 
-	request.Header.Add("MerchantId", conf.GetMerchantId())
-	request.Header.Add("Authorization", "Bearer " + signStr)
+	request.Header.Add("MerchantId", mConf.GetMerchantId())
+	request.Header.Add("Authorization", "Bearer "+signStr)
 	request.Header.Add("Content-Type", "application/json")
 
-	logf := conf.GetLog()
+	logf := mConf.GetLog()
 	if logf != nil {
 		logf("req", request)
 		logf("req json:", string(jsonReq))
@@ -449,7 +448,7 @@ func ApiUssdCodeReq(req UssdCodeReq, opts ...util.HttpOption) (ret UssdCodeResp,
 	return
 }
 
-func ApiUssdOrderStatusReq(req UssdOrderStatusReq, opts ...util.HttpOption) (ret UssdCodeResp, err error) {
+func ApiUssdOrderStatusReq(req UssdOrderStatusReq, mConf *conf.OpayMerchantConf, opts ...util.HttpOption) (ret UssdCodeResp, err error) {
 	httpClient := util.NewHttpClient(opts...)
 	jsonReq, err := json.Marshal(&req)
 	if err != nil {
@@ -458,7 +457,7 @@ func ApiUssdOrderStatusReq(req UssdOrderStatusReq, opts ...util.HttpOption) (ret
 
 	request, err := http.NewRequest(
 		"POST",
-		conf.GetApiHost()+"/api/v3/transaction/ussd/status",
+		mConf.GetApiHost()+"/api/v3/transaction/ussd/status",
 		strings.NewReader(string(jsonReq)),
 	)
 
@@ -466,13 +465,13 @@ func ApiUssdOrderStatusReq(req UssdOrderStatusReq, opts ...util.HttpOption) (ret
 		return
 	}
 
-	signStr := util.SignatureSHA512(jsonReq)
+	signStr := util.SignatureSHA512(jsonReq, mConf.GetSecretKey())
 
-	request.Header.Add("MerchantId", conf.GetMerchantId())
-	request.Header.Add("Authorization", "Bearer " + signStr)
+	request.Header.Add("MerchantId", mConf.GetMerchantId())
+	request.Header.Add("Authorization", "Bearer "+signStr)
 	request.Header.Add("Content-Type", "application/json")
 
-	logf := conf.GetLog()
+	logf := mConf.GetLog()
 	if logf != nil {
 		logf("req", request)
 		logf("req json:", string(jsonReq))
@@ -497,7 +496,7 @@ func ApiUssdOrderStatusReq(req UssdOrderStatusReq, opts ...util.HttpOption) (ret
 	return
 }
 
-func ApiBankTransferInitializeReq(req BankTransferInitializeReq, opts ...util.HttpOption) (
+func ApiBankTransferInitializeReq(req BankTransferInitializeReq, mConf *conf.OpayMerchantConf, opts ...util.HttpOption) (
 	ret BankTransferInitializeResp, err error) {
 
 	httpClient := util.NewHttpClient(opts...)
@@ -508,7 +507,7 @@ func ApiBankTransferInitializeReq(req BankTransferInitializeReq, opts ...util.Ht
 
 	request, err := http.NewRequest(
 		"POST",
-		conf.GetApiHost()+"/api/v3/transaction/bankTransfer/initialize",
+		mConf.GetApiHost()+"/api/v3/transaction/bankTransfer/initialize",
 		strings.NewReader(string(jsonReq)),
 	)
 
@@ -516,12 +515,12 @@ func ApiBankTransferInitializeReq(req BankTransferInitializeReq, opts ...util.Ht
 		return
 	}
 
-	signStr := util.SignatureSHA512(jsonReq)
-	request.Header.Add("MerchantId", conf.GetMerchantId())
-	request.Header.Add("Authorization", "Bearer " + signStr)
+	signStr := util.SignatureSHA512(jsonReq, mConf.GetSecretKey())
+	request.Header.Add("MerchantId", mConf.GetMerchantId())
+	request.Header.Add("Authorization", "Bearer "+signStr)
 	request.Header.Add("Content-Type", "application/json")
 
-	logf := conf.GetLog()
+	logf := mConf.GetLog()
 	if logf != nil {
 		logf("req", request)
 		logf("req json:", string(jsonReq))
@@ -546,9 +545,8 @@ func ApiBankTransferInitializeReq(req BankTransferInitializeReq, opts ...util.Ht
 	return
 }
 
-func ApiBankTransferStatusReq(req BankTransferStatusReq, opts ...util.HttpOption) (
+func ApiBankTransferStatusReq(req BankTransferStatusReq, mConf *conf.OpayMerchantConf, opts ...util.HttpOption) (
 	ret BankTransferStatusResp, err error) {
-
 
 	httpClient := util.NewHttpClient(opts...)
 	jsonReq, err := json.Marshal(&req)
@@ -558,7 +556,7 @@ func ApiBankTransferStatusReq(req BankTransferStatusReq, opts ...util.HttpOption
 
 	request, err := http.NewRequest(
 		"POST",
-		conf.GetApiHost()+"/api/v3/transaction/bankTransfer/status",
+		mConf.GetApiHost()+"/api/v3/transaction/bankTransfer/status",
 		strings.NewReader(string(jsonReq)),
 	)
 
@@ -566,13 +564,13 @@ func ApiBankTransferStatusReq(req BankTransferStatusReq, opts ...util.HttpOption
 		return
 	}
 
-	signStr := util.SignatureSHA512(jsonReq)
+	signStr := util.SignatureSHA512(jsonReq, mConf.GetSecretKey())
 
-	request.Header.Add("MerchantId", conf.GetMerchantId())
-	request.Header.Add("Authorization", "Bearer " + signStr)
+	request.Header.Add("MerchantId", mConf.GetMerchantId())
+	request.Header.Add("Authorization", "Bearer "+signStr)
 	request.Header.Add("Content-Type", "application/json")
 
-	logf := conf.GetLog()
+	logf := mConf.GetLog()
 	if logf != nil {
 		logf("req", request)
 		logf("req json:", string(jsonReq))

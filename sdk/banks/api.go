@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-func ApiGetBankList(countryCode string, opts ...util.HttpOption) (ret BankSupportResp, err error){
+func ApiGetBankList(countryCode string, mconf *conf.OpayMerchantConf, opts ...util.HttpOption) (ret BankSupportResp, err error){
 	httpClient := util.NewHttpClient(opts...)
 
 	req := BankSupportReq{CountryCode:countryCode}
@@ -20,14 +20,14 @@ func ApiGetBankList(countryCode string, opts ...util.HttpOption) (ret BankSuppor
 	}
 
 	request, err := http.NewRequest("POST",
-		conf.GetApiHost()+"/api/v3/banks",
+		mconf.GetApiHost()+"/api/v3/banks",
 		strings.NewReader(string(jsonReq)))
 
 	if err != nil{
 		return
 	}
-	request.Header.Add("MerchantId", conf.GetMerchantId())
-	request.Header.Add("Authorization", "Bearer "+conf.GetPublicKey())
+	request.Header.Add("MerchantId", mconf.GetMerchantId())
+	request.Header.Add("Authorization", "Bearer "+mconf.GetPublicKey())
 	request.Header.Add("Content-Type", "application/json")
 	resp, err := httpClient.Do(request)
 	if err != nil {
