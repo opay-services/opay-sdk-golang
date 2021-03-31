@@ -1,5 +1,9 @@
 package util
 
+/*
+*auth by lijian
+ */
+
 import (
 	"errors"
 	"fmt"
