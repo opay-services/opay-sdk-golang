@@ -42,7 +42,8 @@ transfer
 ----------
 ----------
 
->**sdk**
+>**sdk**  
+
 + examples/opaytransfer  
 
 + + towallet (tow kinds of merchant and user)  
@@ -62,9 +63,34 @@ transfer
 
 transaction
 ===========
+**transaction user-to-merchant transfer, user can user bank card, bank account to pay。we support ussd dail mode。**  
+----------
+---------
+**also support merchant support a bank account, the user recharges to a given account through other channels  **  
+----------  
+----------
+>**sdk** 
+
+**any mode,  after success, you will receive callback by specify url ** 
+
++ examples/opaytransaction  
++ + user by bank account  
+    https://github.com/opay-services/opay-sdk-golang/examples/opaytransaction/bybankaccount.go  
+
++ + user by bank card  
+    https://github.com/opay-services/opay-sdk-golang/examples/opaytransaction/bybankcard.go  
+
++ + ussd dail  
+    https://github.com/opay-services/opay-sdk-golang/examples/opaytransaction/byussd.go  
+
++ + merchant support a bank account, the user recharges to a given account through other channels  
+    https://github.com/opay-services/opay-sdk-golang/examples/opaytransaction/banktransfer.go
+
+
 
 betting
 =======
+
 
 airtime
 =======
