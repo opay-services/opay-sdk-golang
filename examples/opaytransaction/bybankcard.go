@@ -81,7 +81,6 @@ func pinopt()  {
 	req.Reference = fmt.Sprintf("testlijian_%v", time.Now().UnixNano())
 	req.Currency = "NGN"
 	req.Country = "NG"
-	req.BankCode = "033"
 	req.Reason = "test"
 	req.CustomerEmail = "xxx@163.com"
 	req.Return3dsUrl = "https://6f237770df1b.ngrok.io/dscallback"
@@ -209,7 +208,6 @@ func pin3ds()  {
 	req.Reference = fmt.Sprintf("testlijian_%v", time.Now().UnixNano())
 	req.Currency = "NGN"
 	req.Country = "NG"
-	req.BankCode = "033"
 	req.Reason = "test"
 	req.CustomerEmail = "xxx@163.com"
 	req.Return3dsUrl = "https://6f237770df1b.ngrok.io/dscallback"

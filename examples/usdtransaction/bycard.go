@@ -21,7 +21,7 @@ func init() {
 		"qqVzWbylxkjJORvF",
 		"256621033118750",
 		"sandbox",
-		"US",
+		"USD",
 	)
 
 	mConf.SetLog(func(a ...interface{}) {
@@ -31,13 +31,6 @@ func init() {
 
 func web() {
 	r := gin.Default()
-	r.GET("/dscallback", func(c *gin.Context) {
-		buf := make([]byte, 1024)
-
-		n, _ := c.Request.Body.Read(buf)
-
-		fmt.Println(string(buf[0:n]))
-	})
 
 	r.POST("/callback", func(c *gin.Context) {
 		buf := make([]byte, 1024)
@@ -77,8 +70,7 @@ func pinopt() {
 	req.Amount = "100"
 	req.Reference = fmt.Sprintf("testlijian_%v", time.Now().UnixNano())
 	req.Currency = "USD"
-	req.Country = "USA"
-	req.BankCode = "033"
+	req.Country = "NG"
 	req.Reason = "test"
 	req.CustomerEmail = "xxx@163.com"
 	req.Return3dsUrl = "https://6f237770df1b.ngrok.io/dscallback"
@@ -90,6 +82,11 @@ func pinopt() {
 	req.CardDateYear = "22"
 	req.CardDateMonth = "12"
 	req.CardNumber = "5061460410121111105"
+	req.BillingAddress = "1111"
+	req.BillingCity = "121"
+	req.BillingCountry = "NG"
+	req.BillingState = "11"
+	req.BillingZip = "0101"
 
 	ret, err := transaction.ApiByBankCardReq(req, mConf)
 	if err != nil {
@@ -204,9 +201,8 @@ func pin3ds() {
 	req := transaction.ByBankCardReq{}
 	req.Amount = "100"
 	req.Reference = fmt.Sprintf("testlijian_%v", time.Now().UnixNano())
-	req.Currency = "NGN"
+	req.Currency = "USD"
 	req.Country = "NG"
-	req.BankCode = "033"
 	req.Reason = "test"
 	req.CustomerEmail = "xxx@163.com"
 	req.Return3dsUrl = "https://6f237770df1b.ngrok.io/dscallback"
@@ -218,6 +214,11 @@ func pin3ds() {
 	req.CardDateYear = "22"
 	req.CardDateMonth = "12"
 	req.CardNumber = "5061460410121111106"
+	req.BillingAddress = "1111"
+	req.BillingCity = "121"
+	req.BillingCountry = "NG"
+	req.BillingState = "11"
+	req.BillingZip = "0101"
 
 	ret, err := transaction.ApiByBankCardReq(req, mConf)
 	if err != nil {
@@ -319,7 +320,7 @@ labover:
 func main() {
 	go web()
 	time.Sleep(1 * time.Second)
-	pinopt()
+	pin3ds()
 	fmt.Println("please press enter ...")
 	inputReader := bufio.NewReader(os.Stdin)
 	inputReader.ReadString('\n')
