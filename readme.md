@@ -61,7 +61,8 @@ transaction
 ===========
 **transaction user-to-merchant transfer, user can user bank card, bank account to pay。we support ussd dail mode。**  
 ----------
----------
+----------  
+
 **also support merchant support a bank account, the user recharges to a given account through other channels  **  
 ----------  
 ----------
