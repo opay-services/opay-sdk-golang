@@ -2,7 +2,12 @@ Introduction
 ============
 Golang sdk integrates cashier, transfer, transaction, betting, airtime module business, users can access opay more quickly
 
-Official document: https://documentation.opayweb.com
+Official document: https://documentation.opayweb.com  
+
+sdk merchant config [here](https://github.com/opay-services/opay-sdk-golang/blob/master/examples/multimerchant/cashier.go)
+===================
+>**support multi merchant config, conf.InitEnv can call multitimes, but one merchant id only init once. **. 
+
 
 cashier
 =======
