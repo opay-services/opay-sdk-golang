@@ -65,19 +65,20 @@ transaction
 
 **also support merchant support a bank account, the user recharges to a given account through other channels  **  
 ----------  
-----------
+----------  
+
 >**sdk** [here](https://github.com/opay-services/opay-sdk-golang/blob/master/sdk/transaction)
 
 **any mode,  after success, you will receive callback by specify url ** 
 
 + examples/opaytransaction  
-* * user by bank account  [here](https://github.com/opay-services/opay-sdk-golang/blob/master/examples/opaytransaction/bybankaccount.go) 
+* * **user by bank account**  [here](https://github.com/opay-services/opay-sdk-golang/blob/master/examples/opaytransaction/bybankaccount.go) 
 
-* * user by bank card [here](https://github.com/opay-services/opay-sdk-golang/blob/master/examples/opaytransaction/bybankcard.go)  
+* * **user by bank card** [here](https://github.com/opay-services/opay-sdk-golang/blob/master/examples/opaytransaction/bybankcard.go)  
 
-* * ussd dail [here](https://github.com/opay-services/opay-sdk-golang/blob/master/examples/opaytransaction/byussd.go)  
+* * **ussd dail** [here](https://github.com/opay-services/opay-sdk-golang/blob/master/examples/opaytransaction/byussd.go)  
 
-* * merchant support a bank account, the user recharges to a given account through other channels [here](https://github.com/opay-services/opay-sdk-golang/blob/master/examples/opaytransaction/banktransfer.go)
+* * **merchant support a bank account, the user recharges to a given account through other channels** [here](https://github.com/opay-services/opay-sdk-golang/blob/master/examples/opaytransaction/banktransfer.go)
 
 + **usd transaction only support bank card** [here](https://github.com/opay-services/opay-sdk-golang/blob/master/examples/usdtransaction/bycard.go)  
 
@@ -93,6 +94,7 @@ airtime
 >**sdk** [here](https://github.com/opay-services/opay-sdk-golang/blob/master/sdk/airtime)  
 
 + examples/betting [here](https://github.com/opay-services/opay-sdk-golang/blob/master/examples/airtime/topup.go)
+
 
 
 
