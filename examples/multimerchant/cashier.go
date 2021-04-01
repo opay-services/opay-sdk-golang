@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -8,6 +9,7 @@ import (
 	"github.com/opay-services/opay-sdk-golang/sdk/conf"
 	"github.com/opay-services/opay-sdk-golang/sdk/ips"
 	"math/rand"
+	"os"
 	"time"
 )
 
@@ -36,7 +38,7 @@ func init() {
 		"qqVzWbylxkjJORvF",
 		"256621033118750",
 		"sandbox",
-		"US",
+		"USD",
 	)
 
 	m2.SetLog(func(a ...interface{}) {
@@ -90,6 +92,7 @@ func web()  {
 }
 
 func main() {
+	go web()
 	m1 := conf.GetMerchantConfigByMerchantId("256620112018025")
 	m2 := conf.GetMerchantConfigByMerchantId("256621033118750")
 	goto lab2
@@ -137,12 +140,12 @@ func main() {
 			req.ProductDesc = "test goods"
 			req.UserPhone = "+2349876543210"
 			req.UserRequestIp = "123.123.123.123"
-			req.Amount = "100"
+			req.Amount = "8"
 			req.Currency = "USD"
 			req.PayTypes = []string{"BalancePayment", "BonusPayment", "OWealth"}
 			req.PayMethods = []string{"account", "qrcode", "bankCard", "bankAccount"}
 			req.ExpireAt = "10"
-			req.CallbackUrl = "http://localhost:8080"
+			req.CallbackUrl = "https://6f237770df1b.ngrok.io/callback"
 			req.ReturnUrl = "http://localhost:8080"
 			rsp, err := cashier.ApiCashierInitializeReq(req, m2)
 			if err != nil {
@@ -158,6 +161,10 @@ func main() {
 			if ret.Code != "00000" {
 
 			}
+
+			fmt.Println("please press enter ...")
+			inputReader := bufio.NewReader(os.Stdin)
+			inputReader.ReadString('\n')
 		}
 	}
 }
