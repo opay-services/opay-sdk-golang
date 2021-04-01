@@ -18,6 +18,7 @@ type OpayMerchantConf struct {
 }
 
 var merchantIdConfMap = map[string]*OpayMerchantConf{}
+var currencyConfMap = map[string]*OpayMerchantConf{}
 
 var mutex = sync.Mutex{}
 
@@ -47,15 +48,22 @@ func InitEnv(publicKey, secretKey, aesKey, merchantId, env, currency string) *Op
 			c.host = "https://cashierapi.opayweb.com"
 		}
 		merchantIdConfMap[merchantId] = &c
-		return &c
+		m = &c
 	} else {
 		fmt.Sprintf("merchant id:%s exsit", merchantId)
 	}
+
+	currencyConfMap[currency] = m
 	return m
 }
 
-func GetMerchantConfig(merchantId string) *OpayMerchantConf {
+func GetMerchantConfigByMerchantId(merchantId string) *OpayMerchantConf {
 	m, _ := merchantIdConfMap[merchantId]
+	return m
+}
+
+func GetMerchantConfigByCurrency(currency string) *OpayMerchantConf  {
+	m, _ := currencyConfMap[strings.ToUpper(currency)]
 	return m
 }
 
