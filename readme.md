@@ -78,6 +78,7 @@ transaction
 
 * * merchant support a bank account, the user recharges to a given account through other channels [here](https://github.com/opay-services/opay-sdk-golang/blob/master/examples/opaytransaction/banktransfer.go)
 
++ usd transaction only support bank card [here](https://github.com/opay-services/opay-sdk-golang/blob/master/examples/usdtransaction/bycard.go)  
 
 
 betting
