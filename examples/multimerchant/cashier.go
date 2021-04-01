@@ -67,13 +67,23 @@ func web()  {
 			fmt.Println(err)
 		}else {
 			/*
-			 if you support multi currency and any currency merchant config only one,
-			   you can call conf.GetMerchantConfigByCurrency, others, you should
-				call conf.GetMerchantConfigByMerchantId。this means, you must know
-				Corresponding merchant id
-			 */
-			mConf := conf.GetMerchantConfigByCurrency(notify.Payload.Currency)
-			notify.VerfiySignature(mConf)
+				 if you support multi currency and any currency merchant config only one,
+				   you can call conf.GetMerchantConfigByCurrency, others, you should
+					call conf.GetMerchantConfigByMerchantId。this means, you must know
+					Corresponding merchant id
+			*/
+
+			//if same currency only one
+			{
+				mConf := conf.GetMerchantConfigByCurrency(notify.Payload.Currency)
+				notify.VerfiySignature(mConf)
+			} //else{
+				/*
+					//get merchant id by reference, you self define fn
+					mConf := conf.GetMerchantConfigByMerchantId()
+					notify.VerfiySignature(mConf)
+				 */
+			//}
 		}
 	})
 	r.Run(":8080")
