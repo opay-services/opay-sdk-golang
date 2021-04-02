@@ -2,14 +2,15 @@ package transaction
 
 import (
 	"fmt"
-	conf "github.com/opay-services/opay-sdk-golang/sdk/conf"
+	"github.com/opay-services/opay-sdk-golang/sdk/conf"
 	"math/rand"
 	"testing"
 	"time"
 )
 
 var mConf *conf.OpayMerchantConf
-func init()  {
+
+func init() {
 	mConf = conf.InitEnv(
 		"OPAYPUB16058646510220.420473668870203",
 		"OPAYPRV16058646510230.34019403186305675",
@@ -27,7 +28,7 @@ func init()  {
 
 func TestApiSupportBanksReq(t *testing.T) {
 	ret, err := ApiSupportBanksReq(SupportBanksReq{Country: "NG"}, mConf)
-	if err != nil{
+	if err != nil {
 		fmt.Println(ret, err)
 	}
 }
@@ -35,7 +36,7 @@ func TestApiSupportBanksReq(t *testing.T) {
 func TestApiByBankCardReq(t *testing.T) {
 	req := ByBankCardReq{}
 	req.Amount = "100"
-	req.Reference = fmt.Sprintf("testlijian_%v",time.Now().UnixNano())
+	req.Reference = fmt.Sprintf("testlijian_%v", time.Now().UnixNano())
 	req.Currency = "NGN"
 	req.Country = "NG"
 	req.BankCode = "103"
@@ -52,15 +53,14 @@ func TestApiByBankCardReq(t *testing.T) {
 	req.CardNumber = "5061460410121111105"
 
 	ret, err := ApiByBankCardReq(req, mConf)
-	if err != nil{
-		fmt.Println(ret, err)
-	}
+	fmt.Println(ret, err)
+
 }
 
 func TestApiByBankAccountReq(t *testing.T) {
 	req := ByBankAccountReq{}
 	req.Amount = "100"
-	req.Reference = fmt.Sprintf("testlijian_%v",time.Now().UnixNano())
+	req.Reference = fmt.Sprintf("testlijian_%v", time.Now().UnixNano())
 	req.Currency = "NGN"
 	req.Country = "NG"
 	req.BankAccountNumber = "2070043686"
@@ -76,23 +76,21 @@ func TestApiByBankAccountReq(t *testing.T) {
 	req.DobDay = "30"
 
 	ret, err := ApiByBankAccountReq(req, mConf)
-	if err != nil{
-		fmt.Println(ret, err)
-	}
+	fmt.Println(ret, err)
+
 }
 
 func TestApiStatusReq(t *testing.T) {
 	req := StatusReq{Reference: "testlijian_1616747803824832000"}
 	ret, err := ApiStatusReq(req, mConf)
-	if err != nil{
-		fmt.Println(ret, err)
-	}
+	fmt.Println(ret, err)
+
 }
 
 func TestApiUssdCodeReq(t *testing.T) {
 	req := UssdCodeReq{}
 	req.Amount = "100"
-	req.Reference = fmt.Sprintf("testlijian_%v",time.Now().UnixNano())
+	req.Reference = fmt.Sprintf("testlijian_%v", time.Now().UnixNano())
 	req.Currency = "NGN"
 	req.BankCode = "033"
 	req.UserRequestIp = "123.123.123.122"
@@ -102,7 +100,7 @@ func TestApiUssdCodeReq(t *testing.T) {
 	req.UserPhone = "+2348160564736"
 
 	ret, err := ApiUssdCodeReq(req, mConf)
-	if err != nil{
+	if err != nil {
 		fmt.Println(ret, err)
 	}
 }
@@ -110,7 +108,7 @@ func TestApiUssdCodeReq(t *testing.T) {
 func TestApiUssdOrderStatusReq(t *testing.T) {
 	req := UssdOrderStatusReq{Reference: "testlijian_1616753993664468000"}
 	ret, err := ApiUssdOrderStatusReq(req, mConf)
-	if err != nil{
+	if err != nil {
 		fmt.Println(ret, err)
 	}
 }
@@ -118,7 +116,7 @@ func TestApiUssdOrderStatusReq(t *testing.T) {
 func TestApiBankTransferInitializeReq(t *testing.T) {
 	req := BankTransferInitializeReq{}
 	req.Amount = "100"
-	req.Reference = fmt.Sprintf("testlijian_%v",time.Now().UnixNano())
+	req.Reference = fmt.Sprintf("testlijian_%v", time.Now().UnixNano())
 	req.Currency = "NGN"
 	req.UserRequestIp = "123.123.123.12"
 	req.ProductDesc = "test"
@@ -127,7 +125,7 @@ func TestApiBankTransferInitializeReq(t *testing.T) {
 	req.UserPhone = "+2348160564736"
 
 	ret, err := ApiBankTransferInitializeReq(req, mConf)
-	if err != nil{
+	if err != nil {
 		fmt.Println(ret, err)
 	}
 }
@@ -135,7 +133,7 @@ func TestApiBankTransferInitializeReq(t *testing.T) {
 func TestApiBankTransferStatusReq(t *testing.T) {
 	req := BankTransferStatusReq{Reference: "testlijian_1616751184699154000"}
 	ret, err := ApiBankTransferStatusReq(req, mConf)
-	if err != nil{
+	if err != nil {
 		fmt.Println(ret, err)
 	}
 }
@@ -149,7 +147,7 @@ func TestApiInputOtpReq(t *testing.T) {
 	req.Reference = "testlijian_1616743592134162000"
 	req.Otp = "543210"
 	ret, err := ApiInputOtpReq(req, mConf)
-	if err != nil{
+	if err != nil {
 		fmt.Println(ret, err)
 	}
 }
@@ -171,4 +169,3 @@ func TestApiInputPhoneReq(t *testing.T) {
 		fmt.Println(ret, err)
 	}
 }
-

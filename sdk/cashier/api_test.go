@@ -40,19 +40,24 @@ func TestApiCashierInitialize(t *testing.T) {
 	req.ExpireAt = "10"
 	req.CallbackUrl = "http://localhost:8080"
 	req.ReturnUrl = "http://localhost:8080"
-	ApiCashierInitializeReq(req, mConf)
+	rsp, err := ApiCashierInitializeReq(req, mConf)
+	fmt.Println(rsp, err)
 	//fmt.Println(fmt.Sprintf("%+v and err :%+v", resp, err))
 }
 
 func TestApiCashierStatusReq(t *testing.T) {
 	req := CashierStatusReq{Reference:"testlijian_1616638639862310000"}
-	ApiCashierStatusReq(req, mConf)
+	rsp, err :=ApiCashierStatusReq(req, mConf)
+	fmt.Println(rsp, err)
+
 }
 
 func TestApiCashierCloseReq(t *testing.T) {
 	//only init status order can be closed
 	req := CashierCloseReq{Reference:"testlijian_1616589761615889000"}
-	ApiCashierCloseReq(req, mConf)
+	rsp, err :=ApiCashierCloseReq(req, mConf)
+	fmt.Println(rsp, err)
+
 }
 
 func TestApiCashierRefundByBankAccountReq(t *testing.T) {
@@ -67,7 +72,8 @@ func TestApiCashierRefundByBankAccountReq(t *testing.T) {
 	req.Country = "NG"
 	req.BankAccountNumber = "2070043686"
 
-	ApiCashierRefundByBankAccountReq(req, mConf)
+	rsp, err :=ApiCashierRefundByBankAccountReq(req, mConf)
+	fmt.Println(rsp, err)
 }
 
 func TestApiCashierRefundByOpayMerchantAccountReq(t *testing.T) {
@@ -83,7 +89,8 @@ func TestApiCashierRefundByOpayMerchantAccountReq(t *testing.T) {
 		MerchantId:"256620112018024",
 		Type:"MERCHANT",
 	}
-	ApiCashierRefundByOpayMerchantAccountReq(req, mConf)
+	rsp, err :=ApiCashierRefundByOpayMerchantAccountReq(req, mConf)
+	fmt.Println(rsp, err)
 }
 
 func TestApiCashierRefundByOpayUserAccountReq(t *testing.T) {
@@ -100,7 +107,8 @@ func TestApiCashierRefundByOpayUserAccountReq(t *testing.T) {
 		Type:"USER",
 	}
 
-	ApiCashierRefundByOpayUserAccountReq(req, mConf)
+	rsp, err :=ApiCashierRefundByOpayUserAccountReq(req, mConf)
+	fmt.Println(rsp, err)
 }
 
 func TestApiCashierRefundByOriginReq(t *testing.T) {
@@ -113,10 +121,12 @@ func TestApiCashierRefundByOriginReq(t *testing.T) {
 	req.Reason = "test"
 	req.Country = "NG"
 
-	ApiCashierRefundByOriginReq(req, mConf)
+	rsp, err :=ApiCashierRefundByOriginReq(req, mConf)
+	fmt.Println(rsp, err)
 }
 
 func TestApiCashierRefundStatusReq(t *testing.T) {
 	req := CashierRefundStatusReq{OrderNo:"210324250539103459"}
-	ApiCashierRefundStatusReq(req, mConf)
+	rsp, err :=ApiCashierRefundStatusReq(req, mConf)
+	fmt.Println(rsp, err)
 }

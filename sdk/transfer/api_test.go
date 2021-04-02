@@ -80,5 +80,6 @@ func TestApiStatusToWalletReq(t *testing.T) {
 
 func TestApiStatusToBankReq(t *testing.T) {
 	req := StatusToBankReq{Reference:"testlijian_1616665147758091000"}
-	ApiStatusToBankReq(req, mConf)
+	rsp, _:= ApiStatusToBankReq(req, mConf)
+	fmt.Println(rsp)
 }
