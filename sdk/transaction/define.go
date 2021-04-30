@@ -26,6 +26,7 @@ type ByBankCardReq struct {
 	Country       string `json:"country"`
 	Currency      string `json:"currency"`
 	CustomerEmail string `json:"customerEmail,omitempty"`
+	CustomerPhone string `json:"customerPhone,omitempty"`
 	ExpireAt      string `json:"expireAt"`
 	PayType       string `json:"payType"`
 	Reason        string `json:"reason"`
