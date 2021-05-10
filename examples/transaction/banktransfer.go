@@ -14,7 +14,7 @@ var mConf *conf.OpayMerchantConf
 func init() {
 	mConf = conf.InitEnv(
 		"OPAYPUB16058646510220.420473668870203",
-		"OPAYPRV16203782051490.4979885960943037",
+		"OPAYPRV16058646510230.34019403186305675",
 		"SrnIchuukX33koDt",
 		"256620112018025",
 		"sandbox",
@@ -35,7 +35,6 @@ func main()  {
 	 */
 
 	{
-		ma := MerchantAcquiring{}
 		payload := ips.MerchantAcquiringPayload{}
 		payload.Amount = "100"
 		payload.Currency = "EGP"
@@ -46,7 +45,6 @@ func main()  {
 		payload.Refunded = false
 		payload.Token = "1111"
 		payload.Timestamp = "Mon May 10 22:11:49 CST 2021"
-
 
 	}
 	req := transaction.BankTransferInitializeReq{}
