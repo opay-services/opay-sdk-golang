@@ -42,7 +42,7 @@ func main()  {
 	req.ExpireAt = "10"
 	req.CallbackUrl = "http://localhost:8080"
 	req.ReturnUrl = "http://localhost:8080"
-	rsp, err := cashier.ApiCashierInitializeReq(req, mConf)
+	rsp, err := cashier.ApiCashierInitializeReq(&req, mConf)
 	if err != nil{
 		fmt.Println(err)
 		return
@@ -53,13 +53,13 @@ func main()  {
 
 
 	//query order status
-	ret, err := cashier.ApiCashierStatusReq(cashier.CashierStatusReq{Reference:req.Reference}, mConf)
+	ret, err := cashier.ApiCashierStatusReq(&cashier.CashierStatusReq{Reference:req.Reference}, mConf)
 	if ret.Code != "00000"{
 
 	}
 	//close order
 	//only init status can close
-	c, err := cashier.ApiCashierCloseReq(cashier.CashierCloseReq{Reference:req.Reference}, mConf)
+	c, err := cashier.ApiCashierCloseReq(&cashier.CashierCloseReq{Reference:req.Reference}, mConf)
 	if c.Code != "00000"{
 
 	}

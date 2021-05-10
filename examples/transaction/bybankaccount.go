@@ -46,7 +46,7 @@ func main(){
 	req.DobMonth = "10"
 	req.DobDay = "30"
 
-	ret, err := transaction.ApiByBankAccountReq(req, mConf)
+	ret, err := transaction.ApiByBankAccountReq(&req, mConf)
 	if err != nil{
 		fmt.Println(ret, err)
 	}
@@ -54,7 +54,7 @@ func main(){
 	//query status
 	{
 		reqStatus := transaction.StatusReq{Reference:req.Reference}
-		ret, err := transaction.ApiStatusReq(reqStatus, mConf)
+		ret, err := transaction.ApiStatusReq(&reqStatus, mConf)
 		if err != nil{
 			fmt.Println(ret, err)
 		}

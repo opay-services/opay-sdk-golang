@@ -6,26 +6,27 @@ import (
 	"github.com/opay-services/opay-sdk-golang/sdk/util"
 )
 
-func ApiUserInfoReq(req InfoUserReq, mConf *conf.OpayMerchantConf, opts ...util.HttpOption) (ret InfoUserResp, err error) {
+func ApiUserInfoReq(req *InfoUserReq, mConf *conf.OpayMerchantConf, opts ...util.HttpOption) (ret InfoUserResp, err error) {
 
-	err = common.PostCallOpayGateWay(&req, &ret, mConf, "/api/v3/info/user", opts...)
+	err = common.PostCallOpayGateWay(req, &ret, mConf, "/api/v3/info/user", opts...)
 	return
 }
 
-func ApiUserCreateReq(req UserCreateReq, mConf *conf.OpayMerchantConf, opts ...util.HttpOption) (ret InfoUserResp, err error) {
+func ApiUserCreateReq(req *UserCreateReq, mConf *conf.OpayMerchantConf, opts ...util.HttpOption) (ret InfoUserResp, err error) {
 
-	err = common.PostCallOpayGateWay(&req, &ret, mConf, "/api/v3/info/user/create", opts...)
+	err = common.PostCallOpayGateWay(req, &ret, mConf, "/api/v3/info/user/create", opts...)
 	return
 }
 
-func ApiSendOpt(req SendOptReq, mConf *conf.OpayMerchantConf, opts ...util.HttpOption) (ret SendOptResp, err error) {
+func ApiSendOpt(req *SendOptReq, mConf *conf.OpayMerchantConf, opts ...util.HttpOption) (ret SendOptResp, err error) {
 
-	err = common.PostSignCallOpayGateWay(&req, &ret, mConf, "/api/v3/info/user/sendOTP", opts...)
+
+	err = common.PostSignCallOpayGateWay(req, &ret, mConf, "/api/v3/info/user/sendOTP", opts...)
 	return
 }
 
-func ApiUserUpdateReq(req UserUpdateReq, mConf *conf.OpayMerchantConf, opts ...util.HttpOption) (ret InfoUserResp, err error) {
+func ApiUserUpdateReq(req *UserUpdateReq, mConf *conf.OpayMerchantConf, opts ...util.HttpOption) (ret InfoUserResp, err error) {
 
-	err = common.PostSignCallOpayGateWay(&req, &ret, mConf, "/api/v3/info/user/update", opts...)
+	err = common.PostSignCallOpayGateWay(req, &ret, mConf, "/api/v3/info/user/update", opts...)
 	return
 }

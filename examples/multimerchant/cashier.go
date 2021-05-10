@@ -9,6 +9,7 @@ import (
 	"github.com/opay-services/opay-sdk-golang/sdk/conf"
 	"github.com/opay-services/opay-sdk-golang/sdk/ips"
 	"math/rand"
+	"net/http"
 	"os"
 	"time"
 )
@@ -78,7 +79,9 @@ func web()  {
 			//if same currency only one
 			{
 				mConf := conf.GetMerchantConfigByCurrency(notify.Payload.Currency)
-				notify.VerfiySignature(mConf)
+				if mConf != nil {
+					notify.VerfiySignature(mConf)
+				}
 			} //else{
 				/*
 					//get merchant id by reference, you self define fn
@@ -87,12 +90,14 @@ func web()  {
 				 */
 			//}
 		}
+		c.String(http.StatusOK, "ok")
 	})
 	r.Run(":8080")
 }
 
 func main() {
 	go web()
+	time.Sleep(10000*time.Second)
 	m1 := conf.GetMerchantConfigByMerchantId("256620112018025")
 	m2 := conf.GetMerchantConfigByMerchantId("256621033118750")
 	goto lab2
@@ -113,7 +118,7 @@ func main() {
 		req.ExpireAt = "10"
 		req.CallbackUrl = "http://localhost:8080"
 		req.ReturnUrl = "http://localhost:8080"
-		rsp, err := cashier.ApiCashierInitializeReq(req, m1)
+		rsp, err := cashier.ApiCashierInitializeReq(&req, m1)
 		if err != nil {
 			fmt.Println(err)
 			return
@@ -123,7 +128,7 @@ func main() {
 		}
 
 		//query order status
-		ret, err := cashier.ApiCashierStatusReq(cashier.CashierStatusReq{Reference: req.Reference}, m1)
+		ret, err := cashier.ApiCashierStatusReq(&cashier.CashierStatusReq{Reference: req.Reference}, m1)
 		if ret.Code != "00000" {
 
 		}
@@ -147,7 +152,7 @@ func main() {
 			req.ExpireAt = "10"
 			req.CallbackUrl = "https://6f237770df1b.ngrok.io/callback"
 			req.ReturnUrl = "http://localhost:8080"
-			rsp, err := cashier.ApiCashierInitializeReq(req, m2)
+			rsp, err := cashier.ApiCashierInitializeReq(&req, m2)
 			if err != nil {
 				fmt.Println(err)
 				return
@@ -157,7 +162,7 @@ func main() {
 			}
 
 			//query order status
-			ret, err := cashier.ApiCashierStatusReq(cashier.CashierStatusReq{Reference: req.Reference}, m2)
+			ret, err := cashier.ApiCashierStatusReq(&cashier.CashierStatusReq{Reference: req.Reference}, m2)
 			if ret.Code != "00000" {
 
 			}

@@ -39,7 +39,7 @@ func TestApiBillValidateReq(t *testing.T) {
 	req.ServiceType = "betting"
 	req.CustomerId = "20019212912901281821982"
 
-	ret, err := ApiBillValidateReq(req, mConf)
+	ret, err := ApiBillValidateReq(&req, mConf)
 	if err != nil {
 		fmt.Println(ret, err)
 	}
@@ -59,7 +59,7 @@ func TestApiBettingBulkBillsReq(t *testing.T) {
 		req.BulkData[i].CustomerId = "20019212912901281821982" + fmt.Sprintf("%v", i)
 	}
 
-	ret, err := ApiBulkBillsReq(req, mConf)
+	ret, err := ApiBulkBillsReq(&req, mConf)
 	if err != nil {
 		fmt.Println(ret, err)
 	}
@@ -73,7 +73,7 @@ func TestApiBulkStatusReq(t *testing.T) {
 	req.BulkStatusRequest[0].Reference = "testlijian_1617106425608068000"
 	req.BulkStatusRequest[1].Reference = "testlijian_1617106425608075001"
 
-	ret, err := ApiBulkStatusReq(req, mConf)
+	ret, err := ApiBulkStatusReq(&req, mConf)
 	if err != nil {
 		fmt.Println(ret, err)
 	}

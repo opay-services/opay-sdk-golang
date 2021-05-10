@@ -367,3 +367,42 @@ type BankTransferStatusResp struct {
 	Data    *BankTransferOrderStatusInfo `json:"data,omitempty"`
 	Message string                       `json:"message"`
 }
+
+type EgyptAmountStruct struct {
+	Currency string `json:"currency"`
+	Total    uint   `json:"total"`
+}
+
+type EgyptProductStruct struct {
+	Name        string `json:"name,omitempty"`
+	Description string `json:"description,omitempty"`
+}
+
+type EgyptTransactionCreateReq struct {
+	ReturnUrl    string              `json:"returnUrl,omitempty"`
+	CallbackUrl  string              `json:"callbackUrl,omitempty"`
+	Amount       *EgyptAmountStruct  `json:"amount"`
+	Product      *EgyptProductStruct `json:"product,omitempty"`
+	Remark       *string             `json:"remark,omitempty"`
+	UserClientIP *string             `json:"userClientIP,omitempty"`
+	Reference    string              `json:"reference"`
+}
+
+type EgyptOrderStatusReq struct {
+	Reference string `json:"reference"`
+	OrderNo   string `json:"orderNo"`
+}
+
+type EgyptOrderStatusInfo struct {
+	MerchantId string `json:"merchantId"`
+	Reference  string `json:"reference"`
+	OrderNo    string `json:"orderNo"`
+	Status     string `json:"status"`
+	AuthUrl    string `json:"authUrl"`
+}
+
+type EgtypOrderStatusResp struct {
+	Code    string                `json:"code"`
+	Message string                `json:"message"`
+	Data    *EgyptOrderStatusInfo `json:"data,omitempty"`
+}

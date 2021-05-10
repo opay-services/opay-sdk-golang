@@ -41,7 +41,7 @@ func main()  {
 		Name:"test",
 	}
 
-	rsp, err := transfer.ApiTransferToBank(req, mConf)
+	rsp, err := transfer.ApiTransferToBank(&req, mConf)
 	if err != nil{
 		fmt.Println(err)
 		return
@@ -53,7 +53,7 @@ func main()  {
 	//query status
 	//The transfer will be successful after a few minutes, depending on the processing time of the bank
 	for i:=0; i<10; i++ {
-		rsp, err = transfer.ApiStatusToBankReq(transfer.StatusToBankReq{Reference: req.Reference}, mConf)
+		rsp, err = transfer.ApiStatusToBankReq(&transfer.StatusToBankReq{Reference: req.Reference}, mConf)
 		if err != nil{
 			continue
 		}

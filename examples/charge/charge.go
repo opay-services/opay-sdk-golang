@@ -67,7 +67,7 @@ func main()  {
 	req.ChargerType = "USER"
 	req.ChargerId = "156619102400201625"
 
-	ret, err := charge.ApiInitializeReq(req, mConf)
+	ret, err := charge.ApiInitializeReq(&req, mConf)
 
 	if err != nil {
 		fmt.Println(ret, err)
@@ -87,7 +87,7 @@ func main()  {
 	{
 		reqStatus := charge.StatusReq{}
 		reqStatus.Reference = &req.Reference
-		resp, err := charge.ApiStatusReq(reqStatus, mConf)
+		resp, err := charge.ApiStatusReq(&reqStatus, mConf)
 		if err != nil{
 			fmt.Println(err)
 			return

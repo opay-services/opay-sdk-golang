@@ -37,7 +37,7 @@ func TestApiInitializeReq(t *testing.T) {
 	req.ChargerType = "USER"
 	req.ChargerId = "156619102400201625"
 
-	resp, err := ApiInitializeReq(req, mConf)
+	resp, err := ApiInitializeReq(&req, mConf)
 	fmt.Println(resp, err)
 }
 
@@ -45,6 +45,6 @@ func TestApiStatusReq(t *testing.T) {
 	req := StatusReq{}
 	req.OrderNo = new(string)
 	*req.OrderNo = "210331280540251542"
-	resp, err := ApiStatusReq(req, mConf)
+	resp, err := ApiStatusReq(&req, mConf)
 	fmt.Println(resp, err)
 }

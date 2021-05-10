@@ -74,7 +74,7 @@ func main()  {
 	req.ExpireAt = "1000"
 	req.CallbackUrl = "https://6f237770df1b.ngrok.io/callback"
 	req.ReturnUrl = "http://localhost:8080"
-	rsp, err := cashier.ApiCashierInitializeReq(req,mConf)
+	rsp, err := cashier.ApiCashierInitializeReq(&req,mConf)
 	if err != nil{
 		fmt.Println(err)
 		return
@@ -96,7 +96,7 @@ func main()  {
 
 	//query order status
 	statusReq := cashier.CashierStatusReq{Reference:req.Reference}
-	ret, err := cashier.ApiCashierStatusReq(statusReq, mConf)
+	ret, err := cashier.ApiCashierStatusReq(&statusReq, mConf)
 	if err != nil{
 		fmt.Println(err)
 		return

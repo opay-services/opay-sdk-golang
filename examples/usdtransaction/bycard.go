@@ -89,7 +89,7 @@ func pinopt() {
 	req.BillingState = "11"
 	req.BillingZip = "0101"
 
-	ret, err := transaction.ApiByBankCardReq(req, mConf)
+	ret, err := transaction.ApiByBankCardReq(&req, mConf)
 	if err != nil {
 		fmt.Println(ret, err)
 	}
@@ -100,7 +100,7 @@ labstatus:
 		for i := 0; i < 10; i++ {
 			time.Sleep(2 * time.Second)
 			reqStatus := transaction.StatusReq{Reference: req.Reference}
-			ret, err := transaction.ApiStatusReq(reqStatus, mConf)
+			ret, err := transaction.ApiStatusReq(&reqStatus, mConf)
 			if err != nil {
 				//you can retry if occur  Network failure
 				fmt.Println(ret, err)
@@ -136,7 +136,7 @@ labpin:
 		fmt.Println("please input pin code from user")
 		reqPin := transaction.InputPinReq{Pin: "1105"}
 		reqPin.Reference = req.Reference
-		ret, err := transaction.ApiInputPinReq(reqPin, mConf)
+		ret, err := transaction.ApiInputPinReq(&reqPin, mConf)
 		if err != nil {
 			fmt.Println(ret, err)
 		}
@@ -157,7 +157,7 @@ labopt:
 		reqOpt := transaction.InputOtpReq{}
 		reqOpt.Reference = req.Reference
 		reqOpt.Otp = "543210"
-		ret, err := transaction.ApiInputOtpReq(reqOpt, mConf)
+		ret, err := transaction.ApiInputOtpReq(&reqOpt, mConf)
 		if err != nil {
 			fmt.Println(ret, err)
 		}
@@ -176,7 +176,7 @@ labover:
 	//query status, if order status is "SUCCESS" you will get token, you can transaction by token
 	{
 		reqStatus := transaction.StatusReq{Reference: req.Reference}
-		ret, err := transaction.ApiStatusReq(reqStatus, mConf)
+		ret, err := transaction.ApiStatusReq(&reqStatus, mConf)
 		if err != nil {
 			//you can retry if occur  Network failure
 			fmt.Println(ret, err)
@@ -222,7 +222,7 @@ func pin3ds() {
 	req.BillingState = "11"
 	req.BillingZip = "0101"
 
-	ret, err := transaction.ApiByBankCardReq(req, mConf)
+	ret, err := transaction.ApiByBankCardReq(&req, mConf)
 	if err != nil {
 		fmt.Println(ret, err)
 	}
@@ -233,7 +233,7 @@ labstatus:
 		for i := 0; i < 10; i++ {
 			time.Sleep(2 * time.Second)
 			reqStatus := transaction.StatusReq{Reference: req.Reference}
-			ret, err := transaction.ApiStatusReq(reqStatus, mConf)
+			ret, err := transaction.ApiStatusReq(&reqStatus, mConf)
 			if err != nil {
 				//you can retry if occur  Network failure
 				fmt.Println(ret, err)
@@ -271,7 +271,7 @@ labpin:
 
 		reqPin := transaction.InputPinReq{Pin: "1106"}
 		reqPin.Reference = req.Reference
-		ret, err := transaction.ApiInputPinReq(reqPin, mConf)
+		ret, err := transaction.ApiInputPinReq(&reqPin, mConf)
 		if err != nil {
 			fmt.Println(ret, err)
 		}
@@ -290,7 +290,7 @@ lab3ds:
 	{
 		{
 			reqStatus := transaction.StatusReq{Reference: req.Reference}
-			ret, err := transaction.ApiStatusReq(reqStatus, mConf)
+			ret, err := transaction.ApiStatusReq(&reqStatus, mConf)
 			if err != nil {
 				//you can retry if occur  Network failure
 				fmt.Println(ret, err)
@@ -309,7 +309,7 @@ labover:
 	//query status, Security verification via authurl
 	{
 		reqStatus := transaction.StatusReq{Reference: req.Reference}
-		ret, err := transaction.ApiStatusReq(reqStatus, mConf)
+		ret, err := transaction.ApiStatusReq(&reqStatus, mConf)
 		if err != nil {
 			//you can retry if occur  Network failure
 			fmt.Println(ret, err)

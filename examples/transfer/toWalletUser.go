@@ -39,7 +39,7 @@ func main()  {
 		Type:"USER",
 		Name:"Andy Lee",
 	}
-	rsp, err := transfer.ApiTransferToOWalletUser(req, mConf)
+	rsp, err := transfer.ApiTransferToOWalletUser(&req, mConf)
 	if err != nil{
 		fmt.Println(err)
 		return
@@ -51,7 +51,7 @@ func main()  {
 
 	//query status
 	for i:=0; i<5; i++ {
-		rsp, err = transfer.ApiStatusToWalletReq(transfer.StatusToWalletReq{Reference: req.Reference}, mConf)
+		rsp, err = transfer.ApiStatusToWalletReq(&transfer.StatusToWalletReq{Reference: req.Reference}, mConf)
 		if err != nil {
 			fmt.Println(err)
 			continue

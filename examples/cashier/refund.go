@@ -68,7 +68,7 @@ func main()  {
 	req.ExpireAt = "10"
 	req.CallbackUrl = "https://6f237770df1b.ngrok.io/callback"
 	req.ReturnUrl = "http://localhost:8080"
-	rsp, err := cashier.ApiCashierInitializeReq(req, mConf)
+	rsp, err := cashier.ApiCashierInitializeReq(&req, mConf)
 	if err != nil{
 		fmt.Println(err)
 		return
@@ -92,7 +92,7 @@ func main()  {
 
 	//query order status
 	statusReq := cashier.CashierStatusReq{Reference:req.Reference}
-	ret, err := cashier.ApiCashierStatusReq(statusReq, mConf)
+	ret, err := cashier.ApiCashierStatusReq(&statusReq, mConf)
 
 
 	if (ret.Code != "00000"){
@@ -117,7 +117,7 @@ func main()  {
 		req.Country = "NG"
 		req.BankAccountNumber = "2070043686"
 
-		rsp, err :=cashier.ApiCashierRefundByBankAccountReq(req, mConf)
+		rsp, err :=cashier.ApiCashierRefundByBankAccountReq(&req, mConf)
 		fmt.Println(fmt.Sprintf("rsp:%+v, err:+%v", rsp, err))
 	}
 
@@ -135,7 +135,7 @@ func main()  {
 			MerchantId:"256620112018024",
 			Type:"MERCHANT",
 		}
-		rsp, err :=cashier.ApiCashierRefundByOpayMerchantAccountReq(req, mConf)
+		rsp, err :=cashier.ApiCashierRefundByOpayMerchantAccountReq(&req, mConf)
 		fmt.Println(fmt.Sprintf("rsp:%+v, err:+%v", rsp, err))
 	}
 
@@ -154,7 +154,7 @@ func main()  {
 			Type:"USER",
 		}
 
-		rsp, err :=cashier.ApiCashierRefundByOpayUserAccountReq(req, mConf)
+		rsp, err :=cashier.ApiCashierRefundByOpayUserAccountReq(&req, mConf)
 		fmt.Println(fmt.Sprintf("rsp:%+v, err:+%v", rsp, err))
 	}
 
@@ -169,7 +169,7 @@ func main()  {
 		req.Reason = "test"
 		req.Country = "NG"
 
-		rsp, err := cashier.ApiCashierRefundByOriginReq(req, mConf)
+		rsp, err := cashier.ApiCashierRefundByOriginReq(&req, mConf)
 		fmt.Println(fmt.Sprintf("rsp:%+v, err:+%v", rsp, err))
 	}
 }

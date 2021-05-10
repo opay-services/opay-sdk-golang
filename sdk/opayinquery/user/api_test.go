@@ -28,7 +28,7 @@ func init()  {
 func TestApiUserInfoReq(t *testing.T) {
 	req := InfoUserReq{}
 	req.PhoneNumber = "+2349876543210"
-	resp, err := ApiUserInfoReq(req, mConf)
+	resp, err := ApiUserInfoReq(&req, mConf)
 	fmt.Println(resp, err)
 
 	if err != nil {
@@ -44,7 +44,7 @@ func TestApiSendOpt(t *testing.T) {
 	req := SendOptReq{}
 	req.PhoneNumber = "+2349876543210"
 
-	resp, err := ApiSendOpt(req, mConf)
+	resp, err := ApiSendOpt(&req, mConf)
 	fmt.Println(resp, err)
 }
 
@@ -57,7 +57,7 @@ func TestApiUserCreateReq(t *testing.T) {
 	req.Email = "lijian2233@163.com"
 	req.Address = "xxx"
 	req.Password = "123456"
-	resp, err := ApiUserCreateReq(req, mConf)
+	resp, err := ApiUserCreateReq(&req, mConf)
 	fmt.Println(resp, err)
 }
 
@@ -68,7 +68,7 @@ func TestApiUserUpdateReq(t *testing.T) {
 	req.LastName = "jian"
 	req.Email = "lijian2233@163.com"
 	req.Address = "xxx"
-	resp, err := ApiUserUpdateReq(req, mConf)
+	resp, err := ApiUserUpdateReq(&req, mConf)
 	fmt.Println(resp, err)
 
 }

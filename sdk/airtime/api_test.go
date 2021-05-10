@@ -40,7 +40,7 @@ func TestApiAirtimeTopup(t *testing.T) {
 		req.BulkData[i].CustomerId = "20019212912901281821982" + fmt.Sprintf("%v", i)
 	}
 
-	ret, err := ApiBulkBillsReq(req, mConf)
+	ret, err := ApiBulkBillsReq(&req, mConf)
 	if err != nil {
 		fmt.Println(ret, err)
 	}
@@ -54,7 +54,7 @@ func TestApiBulkStatusReq(t *testing.T) {
 	req.BulkStatusRequest[0].Reference = "testlijian_1617158042428946000"
 	req.BulkStatusRequest[1].Reference = "testlijian_1617158042428949001"
 
-	ret, err := ApiBulkStatusReq(req, mConf)
+	ret, err := ApiBulkStatusReq(&req, mConf)
 	if err != nil {
 		fmt.Println(ret, err)
 	}

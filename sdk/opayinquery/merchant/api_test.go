@@ -27,6 +27,6 @@ func init()  {
 
 func TestApiInfoMerchantReq(t *testing.T) {
 	req := InfoMerchantReq{Email:"lijian2233@163.com"}
-	resp, err := ApiInfoMerchantReq(req, mConf)
+	resp, err := ApiInfoMerchantReq(&req, mConf)
 	fmt.Println(resp, err)
 }

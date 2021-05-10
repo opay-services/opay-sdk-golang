@@ -27,7 +27,7 @@ func init() {
 }
 
 func main()  {
-	ret, err := transaction.ApiSupportBanksReq(transaction.SupportBanksReq{Country: "NG"}, mConf)
+	ret, err := transaction.ApiSupportBanksReq(&transaction.SupportBanksReq{Country: "NG"}, mConf)
 	if err != nil{
 		fmt.Println(ret, err)
 	}

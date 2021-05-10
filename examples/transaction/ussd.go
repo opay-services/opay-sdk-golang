@@ -45,7 +45,7 @@ func main()  {
 	req.CallbackUrl = "localhost://localhost:8080"
 	req.UserPhone = "+2348160564736"
 
-	ret, err := transaction.ApiUssdCodeReq(req, mConf)
+	ret, err := transaction.ApiUssdCodeReq(&req, mConf)
 	if err != nil{
 		fmt.Println(ret, err)
 	}
@@ -56,7 +56,7 @@ func main()  {
 
 	{
 		reqStatus := transaction.UssdOrderStatusReq{Reference:req.Reference}
-		ret, err := transaction.ApiUssdOrderStatusReq(reqStatus, mConf)
+		ret, err := transaction.ApiUssdOrderStatusReq(&reqStatus, mConf)
 		if err != nil{
 			fmt.Println(ret, err)
 		}

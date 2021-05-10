@@ -41,7 +41,9 @@ func InitEnv(publicKey, secretKey, aesKey, merchantId, env, currency string) *Op
 	defer mutex.Unlock()
 	m, ok := merchantIdConfMap[merchantId]
 	if !ok {
-		c := OpayMerchantConf{publicKey: publicKey, secretKey: secretKey, merchantId: merchantId, aesKey: aesKey, currency: currency}
+		c := OpayMerchantConf{publicKey: publicKey, secretKey: secretKey, merchantId: merchantId,
+			aesKey: aesKey, currency: currency}
+
 		if env != "live" {
 			c.host = "http://sandbox-cashierapi.opayweb.com"
 		} else {

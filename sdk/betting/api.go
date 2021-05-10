@@ -12,19 +12,19 @@ func ApiProviderReq(mConf *conf.OpayMerchantConf, opts ...util.HttpOption) (ret 
 	return
 }
 
-func ApiBillValidateReq(req BillValidateReq, mConf *conf.OpayMerchantConf, opts ...util.HttpOption) (ret BillVaildateResp, err error) {
+func ApiBillValidateReq(req *BillValidateReq, mConf *conf.OpayMerchantConf, opts ...util.HttpOption) (ret BillVaildateResp, err error) {
 
-	err = common.PostCallOpayGateWay(&req, &ret, mConf, "/api/v3/bills/validate", opts...)
+	err = common.PostCallOpayGateWay(req, &ret, mConf, "/api/v3/bills/validate", opts...)
 	return
 }
 
-func ApiBulkBillsReq(req BulkBillsReq, mConf *conf.OpayMerchantConf, opts ...util.HttpOption) (ret BulkStatusResp, err error) {
+func ApiBulkBillsReq(req *BulkBillsReq, mConf *conf.OpayMerchantConf, opts ...util.HttpOption) (ret BulkStatusResp, err error) {
 
-	err = common.PostSignCallOpayGateWay(&req, &ret, mConf, "/api/v3/bills/bulk-bills", opts...)
+	err = common.PostSignCallOpayGateWay(req, &ret, mConf, "/api/v3/bills/bulk-bills", opts...)
 	return
 }
 
-func ApiBulkStatusReq(req OrderStatusReq, mConf *conf.OpayMerchantConf, opts ...util.HttpOption) (ret BulkStatusResp, err error) {
-	err = common.PostCallOpayGateWay(&req, &ret, mConf, "/api/v3/bills/bulk-status", opts...)
+func ApiBulkStatusReq(req *OrderStatusReq, mConf *conf.OpayMerchantConf, opts ...util.HttpOption) (ret BulkStatusResp, err error) {
+	err = common.PostCallOpayGateWay(req, &ret, mConf, "/api/v3/bills/bulk-status", opts...)
 	return
 }

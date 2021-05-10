@@ -37,7 +37,7 @@ func TestApiTransferToOWalletUser(t *testing.T) {
 		Type:"USER",
 		Name:"Andy Lee",
 	}
-	ApiTransferToOWalletUser(req, mConf)
+	ApiTransferToOWalletUser(&req, mConf)
 }
 
 func TestApiTransferToOWalletMerchant(t *testing.T) {
@@ -52,7 +52,7 @@ func TestApiTransferToOWalletMerchant(t *testing.T) {
 		Type:"MERCHANT",
 		Name:"Andy Lee",
 	}
-	ApiTransferToOWalletMerchant(req, mConf)
+	ApiTransferToOWalletMerchant(&req, mConf)
 }
 
 func TestApiTransferToBank(t *testing.T) {
@@ -69,17 +69,17 @@ func TestApiTransferToBank(t *testing.T) {
 		Name:"test",
 	}
 
-	rsp, _ := ApiTransferToBank(req, mConf)
+	rsp, _ := ApiTransferToBank(&req, mConf)
 	fmt.Println(rsp)
 }
 
 func TestApiStatusToWalletReq(t *testing.T) {
 	req := StatusToWalletReq{Reference:"testlijian_1616665358658881000"}
-	ApiStatusToWalletReq(req, mConf)
+	ApiStatusToWalletReq(&req, mConf)
 }
 
 func TestApiStatusToBankReq(t *testing.T) {
 	req := StatusToBankReq{Reference:"testlijian_1616665147758091000"}
-	rsp, _:= ApiStatusToBankReq(req, mConf)
+	rsp, _:= ApiStatusToBankReq(&req, mConf)
 	fmt.Println(rsp)
 }

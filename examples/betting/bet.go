@@ -74,7 +74,7 @@ func main()  {
 		req.BulkData[i].CustomerId = "20019212912901281821982" + fmt.Sprintf("%v", i)
 	}
 
-	ret, err := betting.ApiBulkBillsReq(req, mConf)
+	ret, err := betting.ApiBulkBillsReq(&req, mConf)
 	if err != nil {
 		fmt.Println(ret, err)
 	}
@@ -91,7 +91,7 @@ func main()  {
 	}
 
 	{
-		ret, err := betting.ApiBulkStatusReq(reqStatus, mConf)
+		ret, err := betting.ApiBulkStatusReq(&reqStatus, mConf)
 		if err != nil {
 			fmt.Println(ret, err)
 		}

@@ -74,7 +74,7 @@ func main()  {
 		req.BulkData[i].CustomerId = "20019212912901281821982" + fmt.Sprintf("%v", i)
 	}
 
-	ret, err := airtime.ApiBulkBillsReq(req, mConf)
+	ret, err := airtime.ApiBulkBillsReq(&req, mConf)
 	if err != nil {
 		fmt.Println(ret, err)
 	}
@@ -87,7 +87,7 @@ func main()  {
 	}
 
 	{
-		ret, err := airtime.ApiBulkStatusReq(reqStatus, mConf)
+		ret, err := airtime.ApiBulkStatusReq(&reqStatus, mConf)
 		if err != nil {
 			fmt.Println(ret, err)
 		}
