@@ -3,6 +3,7 @@ package transaction
 import (
 	"fmt"
 	"github.com/opay-services/opay-sdk-golang/sdk/conf"
+	"github.com/opay-services/opay-sdk-golang/sdk/egypt"
 	"github.com/opay-services/opay-sdk-golang/sdk/util"
 	"math/rand"
 	"testing"
@@ -187,7 +188,7 @@ func TestApiInputPhoneReq(t *testing.T) {
 
 func TestApiEgypTtransactionCreateReq(t *testing.T) {
 	req := EgyptTransactionCreateReq{
-		Amount:&EgyptAmountStruct{
+		Amount:&egypt.EgyptAmountStruct{
 			Total:100,
 			Currency:"EGP",
 		},
@@ -203,7 +204,7 @@ func TestApiEgypTtransactionCreateReq(t *testing.T) {
 
 func TestApiEgyptTransactionStatusReq(t *testing.T) {
 	reference := "testlijian_1620642656481610000"
-	req := EgyptOrderStatusReq{Reference:reference}
+	req := egypt.EgyptOrderStatusReq{Reference:reference}
 	ret, err := ApiEgyptTransactionStatusReq(&req, egyptMConf)
 	fmt.Println(ret, err)
 }

@@ -3,6 +3,7 @@ package transaction
 import (
 	"github.com/opay-services/opay-sdk-golang/sdk/common"
 	"github.com/opay-services/opay-sdk-golang/sdk/conf"
+	"github.com/opay-services/opay-sdk-golang/sdk/egypt"
 	"github.com/opay-services/opay-sdk-golang/sdk/util"
 )
 
@@ -97,15 +98,16 @@ func ApiBankTransferStatusReq(req *BankTransferStatusReq, mConf *conf.OpayMercha
 }
 
 func ApiEgypTtransactionCreateReq(req *EgyptTransactionCreateReq, mConf *conf.OpayMerchantConf, opts ...util.HttpOption)(
-	ret EgtypOrderStatusResp, err error)  {
+	ret egypt.EgtypOrderStatusResp, err error)  {
 
 	err = common.PostSignCallOpayGateWay(req, &ret, mConf, "/api/v1/egypt/transaction/create", opts...)
 	return
 }
 
-func ApiEgyptTransactionStatusReq(req *EgyptOrderStatusReq, mConf *conf.OpayMerchantConf, opts ...util.HttpOption)(
-	ret EgtypOrderStatusResp, err error)  {
+func ApiEgyptTransactionStatusReq(req *egypt.EgyptOrderStatusReq, mConf *conf.OpayMerchantConf, opts ...util.HttpOption)(
+	ret egypt.EgtypOrderStatusResp, err error)  {
 
 	err = common.PostCallOpayGateWay(req, &ret, mConf, "/api/v1/egypt/transaction/status", opts...)
 	return
 }
+

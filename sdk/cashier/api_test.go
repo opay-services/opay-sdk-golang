@@ -3,21 +3,37 @@ package cashier
 import (
 	"fmt"
 	conf "github.com/opay-services/opay-sdk-golang/sdk/conf"
+	"github.com/opay-services/opay-sdk-golang/sdk/egypt"
 	"math/rand"
 	"testing"
 	"time"
 )
 
 var mConf *conf.OpayMerchantConf
+var egyptConf *conf.OpayMerchantConf
+
 func init() {
 	mConf = conf.InitEnv(
 		"OPAYPUB16058646510220.420473668870203",
 		"OPAYPRV16058646510230.34019403186305675",
 		"SrnIchuukX33koDt",
 		"256620112018025",
-		"sandbox",
+		"snadbox",
 		"NGN",
 	)
+
+	egyptConf = conf.InitEnv(
+		"OPAYPUB16206349006090.2855988430704055",
+		"OPAYPRV16206349006090.0851529056626581",
+		"xxdfdfsd",
+		"257621051021174",
+		"snadbox",
+		"EGP",
+	)
+
+	egyptConf.SetLog(func(a ...interface{}) {
+		fmt.Println(a...)
+	})
 
 	mConf.SetLog(func(a ...interface{}) {
 		fmt.Println(a...)
@@ -128,5 +144,36 @@ func TestApiCashierRefundByOriginReq(t *testing.T) {
 func TestApiCashierRefundStatusReq(t *testing.T) {
 	req := CashierRefundStatusReq{OrderNo:"210324250539103459"}
 	rsp, err :=ApiCashierRefundStatusReq(&req, mConf)
+	fmt.Println(rsp, err)
+}
+
+func TestApiEgyptCashierInitializeReq(t *testing.T) {
+	req := EgyptCashierCreateReq{}
+	req.Amount = egypt.EgyptAmountStruct{
+		Total:100,
+		Currency:"EGP",
+	}
+	req.Product = EgyptCashierProductInfo{
+		Name:"iphone",
+		Code:"12334",
+		Price:100,
+		Quantity:1,
+
+	}
+	req.ExpireAt = 30
+	req.Reference = fmt.Sprintf("testlijian_%v",time.Now().UnixNano())
+	req.ReturnUrl = "https://127.0.0.1"
+	req.CallbackUrl = "https://127.0.0.1"
+	rsp, err := ApiEgyptCashierCreateReq(&req, egyptConf)
+	fmt.Println(rsp, err)
+
+}
+
+func TestApiEgyptCashierStatusReq(t *testing.T) {
+	req := egypt.EgyptOrderStatusReq{}
+	reference := "testlijian_1620824184033181000"
+	req.Reference = &reference
+
+	rsp, err := ApiEgyptCashierStatusReq(&req, egyptConf)
 	fmt.Println(rsp, err)
 }

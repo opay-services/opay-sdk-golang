@@ -1,5 +1,9 @@
 package cashier
 
+import (
+	"github.com/opay-services/opay-sdk-golang/sdk/egypt"
+)
+
 /*do not modity field order, json marshal struct by field order*/
 type CashierInitializeReq struct {
 	/*Amount in kobo*/
@@ -206,7 +210,7 @@ type CashierRefundStatusRespDetail struct {
 
 type CashierRefundStatusResp struct {
 	Code    string                         `json:"code"`
-	Data    *CashierRefundStatusRespDetail `json:"data"`
+	Data    *CashierRefundStatusRespDetail `json:"data,omitempty"`
 	Message string                         `json:"message"`
 }
 
@@ -215,4 +219,35 @@ type CashierRefundStatusReq struct {
 	OrderNo string `json:"orderNo,omitempty"`
 	/*Order number of merchant (unique order number from merchant platform)*/
 	Reference string `json:"reference,omitempty"`
+}
+
+type EgyptCashierProductInfo struct {
+	Code        string  `json:"code"`
+	Name        string  `json:"name"`
+	Price       uint64  `json:"price"`
+	Quantity    uint64  `json:"quantity"`
+	Description *string `json:"description,omitempty"`
+}
+
+type EgyptCashierCreateReq struct {
+	Reference    string                  `json:"reference"`
+	Amount       egypt.EgyptAmountStruct `json:"amount"`
+	Product      EgyptCashierProductInfo `json:"product"`
+	Remark       *string                 `json:"remark,omitempty"`
+	ExpireAt     uint                    `json:"expireAt"`
+	ReturnUrl    string                  `json:"returnUrl"`
+	CallbackUrl  string                  `json:"callbackUrl,omitempty"`
+	UserClientIP *string                 `json:"userClientIP,omitempty"`
+}
+
+type EgyptCashierCreateRespData struct {
+	Reference  string `json:"reference"`
+	OrderNo    string `json:"orderNo"`
+	CashierUrl string `json:"cashierUrl"`
+}
+
+type EgyptCashierCreateResp struct {
+	Code    string                      `json:"code"`
+	Data    *EgyptCashierCreateRespData `json:"data,omitempty"`
+	Message string                      `json:"message"`
 }

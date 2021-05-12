@@ -3,6 +3,7 @@ package cashier
 import (
 	"github.com/opay-services/opay-sdk-golang/sdk/common"
 	"github.com/opay-services/opay-sdk-golang/sdk/conf"
+	"github.com/opay-services/opay-sdk-golang/sdk/egypt"
 	"github.com/opay-services/opay-sdk-golang/sdk/util"
 )
 
@@ -12,7 +13,6 @@ func ApiCashierInitializeReq(req *CashierInitializeReq, mConf *conf.OpayMerchant
 	err = common.PostCallOpayGateWay(req, &ret, mConf, "/api/v3/cashier/initialize")
 	return
 }
-
 
 func ApiCashierStatusReq(req *CashierStatusReq, mConf *conf.OpayMerchantConf, opts ...util.HttpOption) (
 	ret CashierStatusResp, err error) {
@@ -60,5 +60,18 @@ func ApiCashierRefundStatusReq(req *CashierRefundStatusReq, mConf *conf.OpayMerc
 	opts ...util.HttpOption) (ret CashierRefundStatusResp, err error) {
 
 	err = common.PostSignCallOpayGateWay(req, &ret, mConf, "/api/v3/cashier/refund/status", opts...)
+	return
+}
+
+func ApiEgyptCashierCreateReq(req *EgyptCashierCreateReq, mConf *conf.OpayMerchantConf,
+	opts ...util.HttpOption) (ret EgyptCashierCreateResp, err error) {
+
+	err = common.PostSignCallOpayGateWay(req, &ret, mConf, "/api/v1/egypt/cashier/create", opts...)
+	return
+}
+
+func ApiEgyptCashierStatusReq(req *egypt.EgyptOrderStatusReq, mConf *conf.OpayMerchantConf,
+	opts ...util.HttpOption) (ret egypt.EgtypOrderStatusResp, err error) {
+	err = common.PostCallOpayGateWay(req, &ret, mConf, "/api/v1/egypt/cashier/status", opts...)
 	return
 }
