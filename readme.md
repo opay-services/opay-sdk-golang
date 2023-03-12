@@ -72,8 +72,11 @@ transaction
 + examples/opaytransaction  
 * * **user by bank account**  [here](https://github.com/opay-services/opay-sdk-golang/blob/master/examples/opaytransaction/bybankaccount.go) 
 
-* * **user by bank card** [here](https://github.com/opay-services/opay-sdk-golang/blob/master/examples/opaytransaction/bybankcard.go)  
-
+* * **user by bank card** => card no 5531 8866 5214 2950
+=> cvc 564
+=> MM/YYYY 09/2032
+=> pin 3310
+=> otp 12345
 * * **ussd dail** [here](https://github.com/opay-services/opay-sdk-golang/blob/master/examples/opaytransaction/byussd.go)  
 
 * * **merchant support a bank account, the user recharges to a given account through other channels** [here](https://github.com/opay-services/opay-sdk-golang/blob/master/examples/opaytransaction/banktransfer.go)
